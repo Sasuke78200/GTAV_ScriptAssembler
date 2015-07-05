@@ -18,6 +18,8 @@ unsigned char* InstructioniPush::getByteCode()
 
 bool InstructioniPush::Process(std::string a_szAssemblyLine)
 {	
+	if(a_szAssemblyLine.length() == 0) return 0;
+
 	int l_iValue;
 
 	if(a_szAssemblyLine[0] == '0' && a_szAssemblyLine[1] == 'x') // we're playing with an hexadecimal value
@@ -41,6 +43,12 @@ bool InstructioniPush::Process(std::string a_szAssemblyLine)
 		*(short*)&m_aByteCode[1] = (l_iValue & 0xFFFF);
 		setOpcode(67);
 		setLength(3);
+	}
+	else if((l_iValue & 0xFFFFFF) == l_iValue) // 24 bits, so we're using opcode 97
+	{
+		*(int*)&m_aByteCode[1] = (l_iValue & 0xFFFFFF);
+		setOpcode(97);
+		setLength(4);
 	}
 	else if((l_iValue & 0xFFFFFFFF) == l_iValue) // 32 bits, so we're using opcode 40
 	{

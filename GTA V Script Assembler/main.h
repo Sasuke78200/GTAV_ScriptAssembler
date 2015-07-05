@@ -11,17 +11,28 @@
 #include <vector>
 #include <map>
 
-
 #include "utils.h"
 
+// collectors
+#include "label_collector.h"
+#include "native_collector.h"
+//#include "string_collector.h"
+
 // all the instruction
-// each instruction has his own class
 #include "Instructions/instruction.h"
 #include "Instructions/instruction_basic.h" // on byte instruction, like add, mul, comparisons, etc ...
 #include "Instructions/instruction_ipush.h"
 #include "Instructions/instruction_fpush.h"
+#include "Instructions/instruction_native.h"
+#include "Instructions/instruction_enter.h"
+#include "Instructions/instruction_ret.h"
 
+#include "ysc_header.h"
 
 #include "assembler.h"
+
+
+#define ASSEMBLY_SPACE		" \t"
+
 
 #endif

@@ -48,3 +48,19 @@ bool isInsideAString(std::string a_szString, int a_iPos)
 	}
 	return l_bString;
 }
+
+// https://en.wikipedia.org/wiki/Jenkins_hash_function
+unsigned int jooat(char *key, size_t len)
+{
+    unsigned int hash, i;
+    for(hash = i = 0; i < len; ++i)
+    {
+        hash += key[i];
+        hash += (hash << 10);
+        hash ^= (hash >> 6);
+    }
+    hash += (hash << 3);
+    hash ^= (hash >> 11);
+    hash += (hash << 15);
+    return hash;
+}

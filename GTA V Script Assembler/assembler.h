@@ -14,6 +14,7 @@ private:
 	void CollectCode();
 	void CleanCode();
 	bool ParseCode();
+	void ConstructBinary(std::ofstream*	a_pBinaryStream);
 
 
 
@@ -21,6 +22,9 @@ private:
 	std::map<unsigned int, std::string>		m_AssemblyLines;
 	std::map<unsigned int, Instruction*>	m_ByteCode;
 
+
+	NativeCollector							m_NativeCollector;
+	LabelCollector							m_LabelCollector;
 };
 
 

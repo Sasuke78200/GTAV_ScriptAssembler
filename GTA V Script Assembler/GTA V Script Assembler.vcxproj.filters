@@ -16,6 +16,18 @@
     <ClCompile Include="Instructions\instruction_ipush.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
+    <ClCompile Include="native_collector.cpp" />
+    <ClCompile Include="Instructions\instruction_native.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="label_collector.cpp" />
+    <ClCompile Include="Instructions\instruction_enter.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructions\instruction_ret.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="ysc_header.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -33,6 +45,18 @@
     <ClInclude Include="Instructions\instruction_ipush.h">
       <Filter>Instructions</Filter>
     </ClInclude>
+    <ClInclude Include="native_collector.h" />
+    <ClInclude Include="Instructions\instruction_native.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="label_collector.h" />
+    <ClInclude Include="Instructions\instruction_enter.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_ret.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="ysc_header.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Instructions">

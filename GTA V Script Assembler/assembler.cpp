@@ -17,23 +17,72 @@ Assembler::~Assembler()
 
 bool Assembler::AssembleFile(char* a_szAssemblyPath, char* a_szOuputScriptPath)
 {
+	std::ofstream l_BinaryFile(a_szOuputScriptPath, std::ofstream::binary | std::ofstream::out);
 	m_pAssemblyFile = new std::ifstream(a_szAssemblyPath, std::ifstream::in);
 
 
 	CollectCode();
 	CleanCode();
+
 	if(ParseCode())
 	{
+
+
+
+		ConstructBinary(&l_BinaryFile);
 	}
 
-
+	
 	m_AssemblyLines.clear();
 	m_pAssemblyFile->close();
+	l_BinaryFile.close();
 
 	delete m_pAssemblyFile;
 	return false;
 }
 
+void Assembler::ConstructBinary(std::ofstream* a_pBinaryStream)
+{
+	YscHeader			l_yscHeader;
+	unsigned int		l_uiByteCodeLength;
+	unsigned char**		l_pByteCode;
+	int					l_iPageCount;
+	int					l_iPageLen;
+	int					i;
+
+	// construct byte code pages
+
+	// get byte code length
+	l_uiByteCodeLength = 0;
+	for(std::map<unsigned int, Instruction*>::iterator it = this->m_ByteCode.begin(); it != this->m_ByteCode.end(); it++)
+	{
+		l_uiByteCodeLength += it->second->getLength();
+	}
+
+	l_yscHeader.SetByteCodeLength(l_uiByteCodeLength);
+
+	// alloc the bytecode pages
+	l_iPageCount = l_uiByteCodeLength / 0x4000 + 1;
+	l_pByteCode = new unsigned char*[l_iPageCount];
+
+	for(i = 0; i < l_iPageCount; i++)
+	{
+		l_iPageLen =  0x4000;
+		if(i == l_iPageCount - 1) l_iPageLen = l_uiByteCodeLength % 0x4000;
+		l_pByteCode[i] = new unsigned char[l_iPageLen];
+	}
+
+	// fill them with the code
+	for(std::map<unsigned int, Instruction*>::iterator it = this->m_ByteCode.begin(); it != this->m_ByteCode.end(); it++)
+	{	
+		memcpy(&l_pByteCode[it->first / 0x4000][it->first % 0x4000], it->second->getByteCode(), it->second->getLength());
+	}
+
+	l_yscHeader.SetScriptName("Test_Script");	// todo: !!!
+	l_yscHeader.SetNativeCollector(&this->m_NativeCollector);
+	// todo: string collector !
+	l_yscHeader.WriteToFile(a_pBinaryStream, l_pByteCode, 0);
+}
 
 void Assembler::CollectCode()
 {
@@ -115,7 +164,9 @@ bool Assembler::ParseCode()
 		std::string		l_szOperand;
 		int				l_iPos;
 
-		l_iPos = it->second.find_first_of(" ");
+		l_iPos = it->second.find_first_of(ASSEMBLY_SPACE);
+
+		
 
 		if(l_iPos != std::string::npos)
 		{
@@ -136,6 +187,11 @@ bool Assembler::ParseCode()
 
 		if(l_szOperation[0] == ':') // we got a label there
 		{
+			if(m_LabelCollector.AddLabel(l_szOperation.substr(1), l_uiAddress) == false)
+			{
+				printf("Unable to collect label '%s'.\n", l_szOperation.substr(1).c_str());
+				return false;
+			}
 		}
 		else if(l_szOperation == "nop")
 		{
@@ -342,7 +398,23 @@ bool Assembler::ParseCode()
 		}
 		else if(l_szOperation == "native")
 		{
-			printf("NOT SUPPORTED YET !!\n");
+			if(m_NativeCollector.ProcessAssemblyLine(l_szOperand))
+			{
+				l_pInstruction = new InstructionNative(&this->m_NativeCollector);
+			}
+			else
+			{
+				printf("Error line %d, cannot understand native hash/name !\n", it->first);
+				return false;
+			}
+		}
+		else if(l_szOperation == "enter")		
+		{
+			l_pInstruction = new InstructionEnter();
+		}
+		else if(l_szOperation == "ret")		
+		{
+			l_pInstruction = new InstructionRet();
 		}
 		else
 		{
@@ -352,14 +424,20 @@ bool Assembler::ParseCode()
 
 		if(l_pInstruction)
 		{
-			l_pInstruction->Process(l_szOperand);
-
-			this->m_ByteCode.insert(std::pair<unsigned int, Instruction*>(l_uiAddress, l_pInstruction));
-			l_uiAddress += l_pInstruction->getLength();
+			if(l_pInstruction->Process(l_szOperand))
+			{
+				this->m_ByteCode.insert(std::pair<unsigned int, Instruction*>(l_uiAddress, l_pInstruction));
+				l_uiAddress += l_pInstruction->getLength();
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{
-			printf("-> %s\n", l_szOperation.c_str());
+			if(l_szOperation[0] != ':')
+				printf("-> %d: %s\n", it->first, l_szOperation.c_str());
 		}
 
 	}

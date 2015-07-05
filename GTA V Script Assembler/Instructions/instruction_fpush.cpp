@@ -19,7 +19,10 @@ unsigned char* InstructionfPush::getByteCode()
 
 bool InstructionfPush::Process(std::string a_szAssemblyLine)
 {
-	float l_fValue = atof(a_szAssemblyLine.c_str());
+	if(a_szAssemblyLine.length() == 0) return 0;
+
+
+	float l_fValue = (float) atof(a_szAssemblyLine.c_str());
 	*(int*)&m_aByteCode[1] = *(int*)&l_fValue;
 	return true;
 }
