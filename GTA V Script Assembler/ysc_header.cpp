@@ -22,7 +22,7 @@ YscHeader::YscHeader()
 	m_uiUnk004C					= 0;
 	m_uiUnk0050					= 0;
 	m_uiScriptHash				= 0;
-	m_uiNull					= 0;
+	m_uiScriptCount				= 1;
 	m_uiScriptNameOffset		= 0;
 	m_uiStringsOffset			= 0;
 	m_uiStringsLength			= 0;
@@ -62,33 +62,11 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 {
 	char					l_szScriptName[64];
 	unsigned long long*		l_pByteCodePageAddr; 
-	// TODO: Write everything on the file !
 
 
-
-	// the byte code page addresses will be right after the header (0x80)
-	m_uiByteCodePageOffset	= offset(0x80);
-	l_pByteCodePageAddr		= new unsigned long long[(m_uiByteCodeLength / 0x4000) + 1];
-
-	// the first code page will be right after
-	l_pByteCodePageAddr[0]	= 0x80 + (((m_uiByteCodeLength / 0x4000) + 1) * sizeof(unsigned long long));
-
-	for(unsigned int i = 1; i < (m_uiByteCodeLength / 0x4000) + 1; i++)
-	{
-		l_pByteCodePageAddr[i] = l_pByteCodePageAddr[i - 1] + 0x4000;
-	}
-	for(unsigned int i = 0; i < (m_uiByteCodeLength / 0x4000) + 1; i++)
-	{
-		l_pByteCodePageAddr[i] = offset(l_pByteCodePageAddr[i]);
-	}
-
-	// get the natives function count
-	this->m_uiNativeCount = this->m_pNativeCollector->getNativeCount();
-
-	// set where the natives are going to be written on the file (right after the last byte code page)
-	this->m_uiNativesOffset = offset((l_pByteCodePageAddr[m_uiByteCodeLength / 0x4000] & 0xFFFFFF) + m_uiByteCodeLength % 0x4000); // this is the address of the last bytecode page + plus the length of the last bycode page
-
-	this->m_uiScriptNameOffset = offset((this->m_uiNativesOffset & 0xFFFFFF) + this->m_uiNativeCount * sizeof(unsigned long long));
+	this->m_uiNativeCount	= this->m_pNativeCollector->getNativeCount();
+	this->m_uiUnk000C		= 0x99B407C5;
+	this->m_uiScriptCount	= 1;
 
 	// write the header on the file
 	a_pFileStream->seekp(0);
@@ -108,7 +86,7 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 	a_pFileStream->write((char*)&m_uiUnk004C, sizeof(m_uiUnk004C));
 	a_pFileStream->write((char*)&m_uiUnk0050, sizeof(m_uiUnk0050));
 	a_pFileStream->write((char*)&m_uiScriptHash, sizeof(m_uiScriptHash));
-	a_pFileStream->write((char*)&m_uiNull, sizeof(m_uiNull));
+	a_pFileStream->write((char*)&m_uiScriptCount, sizeof(m_uiScriptCount));
 	a_pFileStream->write((char*)&m_uiScriptNameOffset, sizeof(m_uiScriptNameOffset));
 	a_pFileStream->write((char*)&m_uiStringsOffset, sizeof(m_uiStringsOffset));
 	a_pFileStream->write((char*)&m_uiStringsLength, sizeof(m_uiStringsLength));
@@ -116,26 +94,53 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 	a_pFileStream->write((char*)&m_iUnk0078, sizeof(m_iUnk0078));
 	a_pFileStream->write((char*)&m_iUnk007C, sizeof(m_iUnk007C));
 
-	// write the bytecode pages addr
-	a_pFileStream->write((char*)l_pByteCodePageAddr, sizeof(unsigned long long) * ((m_uiByteCodeLength / 0x4000) + 1));
+	
+
+	// alloc the bytecode pages addr table
+	l_pByteCodePageAddr = new unsigned long long[(this->m_uiByteCodeLength / 0x4000) + 1];
+
 	// write the bytecode pages
-	for(unsigned int i = 0; i < (m_uiByteCodeLength / 0x4000) + 1; i++)
+	for(unsigned int i = 0; i < (this->m_uiByteCodeLength / 0x4000) + 1; i++)
 	{
 		int l_iPageLen = 0x4000;
-		if(i == (m_uiByteCodeLength / 0x4000)) l_iPageLen = m_uiByteCodeLength % 0x4000;
 
+		//if(i == (this->m_uiByteCodeLength / 0x4000)) l_iPageLen = this->m_uiByteCodeLength % 0x4000;
+
+		l_pByteCodePageAddr[i] = offset(a_pFileStream->tellp());
 		a_pFileStream->write((char*)a_pByteCode[i], l_iPageLen);
 	}
 
-	// write the native list
-	for(unsigned int i = 0; i < this->m_uiNativeCount; i++)
+
+	// write the native table
+	if(this->m_uiNativeCount)
 	{
-		unsigned long long l_uiNativeHash = _rotr64(this->m_pNativeCollector->getNativeFromId(i), this->m_uiByteCodeLength + i);
-		a_pFileStream->write((char*)&l_uiNativeHash, sizeof(l_uiNativeHash));
+		this->m_uiNativesOffset = offset(a_pFileStream->tellp());
+
+		for(unsigned int i = 0; i < this->m_uiNativeCount; i++)
+		{
+			unsigned long long l_uiNativeHash = this->m_pNativeCollector->getNativeFromId(i);
+			l_uiNativeHash = _rotr64(l_uiNativeHash, this->m_uiByteCodeLength + i);
+			a_pFileStream->write((char*)&l_uiNativeHash, sizeof(unsigned long long));
+		}
 	}
 
 	strncpy(l_szScriptName, this->m_szScriptName.c_str(), sizeof(l_szScriptName));
+	this->m_uiScriptNameOffset = offset(a_pFileStream->tellp());
+	a_pFileStream->write(l_szScriptName, sizeof(l_szScriptName));
 
-	a_pFileStream->write(l_szScriptName, 64);
-	
+
+	// write the bytecode page addr table
+	m_uiByteCodePageOffset = offset(a_pFileStream->tellp());
+	a_pFileStream->write((char*)l_pByteCodePageAddr, ((this->m_uiByteCodeLength / 0x4000) + 1) * sizeof(unsigned long long));
+
+
+	// rewrite bytecode offset
+	a_pFileStream->seekp(0x10);
+	a_pFileStream->write((char*)&m_uiByteCodePageOffset, sizeof(m_uiByteCodePageOffset));
+	// rewrite native table offset
+	a_pFileStream->seekp(0x40);
+	a_pFileStream->write((char*)&m_uiNativesOffset, sizeof(m_uiNativesOffset));
+	// rewrite script name offset
+	a_pFileStream->seekp(0x60);
+	a_pFileStream->write((char*)&m_uiScriptNameOffset, sizeof(m_uiScriptNameOffset));
 }

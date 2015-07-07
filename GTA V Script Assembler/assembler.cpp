@@ -68,8 +68,9 @@ void Assembler::ConstructBinary(std::ofstream* a_pBinaryStream)
 	for(i = 0; i < l_iPageCount; i++)
 	{
 		l_iPageLen =  0x4000;
-		if(i == l_iPageCount - 1) l_iPageLen = l_uiByteCodeLength % 0x4000;
+		//if(i == l_iPageCount - 1) l_iPageLen = l_uiByteCodeLength % 0x4000;
 		l_pByteCode[i] = new unsigned char[l_iPageLen];
+		memset(l_pByteCode[i], 0, l_iPageLen);
 	}
 
 	// fill them with the code
@@ -78,7 +79,7 @@ void Assembler::ConstructBinary(std::ofstream* a_pBinaryStream)
 		memcpy(&l_pByteCode[it->first / 0x4000][it->first % 0x4000], it->second->getByteCode(), it->second->getLength());
 	}
 
-	l_yscHeader.SetScriptName("Test_Script");	// todo: !!!
+	l_yscHeader.SetScriptName("test_script");	// todo: !!!
 	l_yscHeader.SetNativeCollector(&this->m_NativeCollector);
 	// todo: string collector !
 	l_yscHeader.WriteToFile(a_pBinaryStream, l_pByteCode, 0);

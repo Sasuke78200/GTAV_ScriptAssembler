@@ -68,7 +68,7 @@ private:
 	unsigned int 		m_uiUnk004C;
 	unsigned long long 	m_uiUnk0050;
 	unsigned int 		m_uiScriptHash;
-	unsigned int 		m_uiNull;
+	unsigned int 		m_uiScriptCount;
 	unsigned long long	m_uiScriptNameOffset;
 	unsigned long long	m_uiStringsOffset;
 	unsigned int		m_uiStringsLength;
