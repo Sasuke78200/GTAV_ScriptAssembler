@@ -417,6 +417,28 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionRet();
 		}
+		else if(l_szOperation == "jmp")
+		{
+			l_pInstruction = new InstructionJmp();
+			l_pInstruction->setOpcode(85);
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
+			((InstructionJmp*)l_pInstruction)->setAddress(it->first);
+		}		
+		else if(l_szOperation == "jmpf")
+		{
+			l_pInstruction = new InstructionJmp();
+			l_pInstruction->setOpcode(86);
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
+			((InstructionJmp*)l_pInstruction)->setAddress(it->first);
+		}		
+		else if(l_szOperation == "jmpt")
+		{
+			l_pInstruction = new InstructionJmp();
+			l_pInstruction->setOpcode(87);
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
+			((InstructionJmp*)l_pInstruction)->setAddress(it->first);
+		}
+		
 		else
 		{
 			//printf("Line %d : Unknown operation \"%s\". !\n", it->first, l_szOperation.c_str());

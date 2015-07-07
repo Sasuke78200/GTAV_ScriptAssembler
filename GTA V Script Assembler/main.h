@@ -26,6 +26,7 @@
 #include "Instructions/instruction_native.h"
 #include "Instructions/instruction_enter.h"
 #include "Instructions/instruction_ret.h"
+#include "Instructions/instruction_jmp.h"
 
 #include "ysc_header.h"
 

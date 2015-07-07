@@ -28,6 +28,9 @@
       <Filter>Instructions</Filter>
     </ClCompile>
     <ClCompile Include="ysc_header.cpp" />
+    <ClCompile Include="Instructions\instruction_jmp.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -57,6 +60,9 @@
       <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="ysc_header.h" />
+    <ClInclude Include="Instructions\instruction_jmp.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Instructions">
