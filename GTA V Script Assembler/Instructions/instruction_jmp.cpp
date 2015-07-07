@@ -8,7 +8,7 @@
 InstructionJmp::InstructionJmp()
 {
 	setOpcode(-1);
-	setLength(4);
+	setLength(3);
 }
 
 InstructionJmp::~InstructionJmp()
@@ -23,8 +23,9 @@ unsigned char* InstructionJmp::getByteCode()
 	//TODO: Verify that this label exist in the class assembler
 	l_uiLabelAddress = this->m_pLabelCollector->getAddress(this->m_szJmpLabel);
 
-	*(unsigned int*)&m_aByteCode = l_uiLabelAddress - (m_uiOurAddress + getLength());
-	m_aByteCode[0] = getOpcode();
+	*(short*)&m_aByteCode[1]	= l_uiLabelAddress - (m_uiOurAddress + getLength());
+	m_aByteCode[0]				= getOpcode();
+
 
 	return m_aByteCode;
 }

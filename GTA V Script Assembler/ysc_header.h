@@ -44,11 +44,11 @@ public:
 
 	void SetByteCodeLength(unsigned int a_uiLength);
 	void SetScriptName(std::string a_szName);
-	void SetNativeCollector(NativeCollector* a_pNativeCollector);
 
 	void WriteToFile(std::ofstream* a_pFileStream, 
-		unsigned char** a_pByteCode, 
-		char** a_pStrings);
+		unsigned char**		a_pByteCode,
+		NativeCollector*	a_pNativeCollector,
+		StringCollector*	a_pStringCollector);
 
 private:
 	/* scrProgram/ysc Header*/
@@ -78,7 +78,6 @@ private:
 	/* end of the header*/
 
 
-	NativeCollector*	m_pNativeCollector;
 	std::string			m_szScriptName;
 };
 

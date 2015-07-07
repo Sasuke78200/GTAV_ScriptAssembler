@@ -30,7 +30,6 @@ YscHeader::YscHeader()
 	m_iUnk0078					= 0;
 	m_iUnk007C					= 0;
 
-	m_pNativeCollector			= nullptr;
 	m_szScriptName				= "";
 
 }
@@ -51,22 +50,18 @@ void YscHeader::SetScriptName(std::string a_szName)
 	this->m_szScriptName = a_szName;
 }
 
-void YscHeader::SetNativeCollector(NativeCollector* a_pNativeCollector)
-{
-	this->m_pNativeCollector = a_pNativeCollector;
-}
 
 
-
-void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByteCode, char** a_pStrings)
+void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByteCode, NativeCollector*	a_pNativeCollector, StringCollector* a_pStringCollector)
 {
 	char					l_szScriptName[64];
-	unsigned long long*		l_pByteCodePageAddr; 
+	unsigned long long*		l_pByteCodePageAddr;
+	unsigned long long*		l_pStringPageAddr;
 
-
-	this->m_uiNativeCount	= this->m_pNativeCollector->getNativeCount();
-	this->m_uiUnk000C		= 0x99B407C5;
-	this->m_uiScriptCount	= 1;
+	this->m_uiStringsLength		= a_pStringCollector->getStringsLength();
+	this->m_uiNativeCount		= a_pNativeCollector->getNativeCount();
+	this->m_uiUnk000C			= 0x99B407C5;
+	this->m_uiScriptCount		= 1;
 
 	// write the header on the file
 	a_pFileStream->seekp(0);
@@ -109,7 +104,25 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 		l_pByteCodePageAddr[i] = offset(a_pFileStream->tellp());
 		a_pFileStream->write((char*)a_pByteCode[i], l_iPageLen);
 	}
+	
+	// write the string pages
 
+	if(a_pStringCollector->getStringsLength() != 0)
+	{
+		int		l_iPageCount = a_pStringCollector->getStringPageCount();
+		int		l_iPageLen;
+		char**	l_ppStringPages = a_pStringCollector->constructStringsPage();
+
+		l_pStringPageAddr = new unsigned long long[l_iPageCount];
+
+
+		for(int i = 0; i < l_iPageCount; i++)
+		{
+			l_iPageLen = 0x4000;
+			l_pStringPageAddr[i] = offset(a_pFileStream->tellp());
+			a_pFileStream->write((char*)l_ppStringPages[i], l_iPageLen);
+		}
+	}
 
 	// write the native table
 	if(this->m_uiNativeCount)
@@ -118,7 +131,7 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 
 		for(unsigned int i = 0; i < this->m_uiNativeCount; i++)
 		{
-			unsigned long long l_uiNativeHash = this->m_pNativeCollector->getNativeFromId(i);
+			unsigned long long l_uiNativeHash = a_pNativeCollector->getNativeFromId(i);
 			l_uiNativeHash = _rotr64(l_uiNativeHash, this->m_uiByteCodeLength + i);
 			a_pFileStream->write((char*)&l_uiNativeHash, sizeof(unsigned long long));
 		}
@@ -133,6 +146,13 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 	m_uiByteCodePageOffset = offset(a_pFileStream->tellp());
 	a_pFileStream->write((char*)l_pByteCodePageAddr, ((this->m_uiByteCodeLength / 0x4000) + 1) * sizeof(unsigned long long));
 
+	// write the string page addr table
+	if(m_uiStringsLength)
+	{
+		m_uiStringsOffset = offset(a_pFileStream->tellp());
+		a_pFileStream->write((char*)l_pStringPageAddr, a_pStringCollector->getStringPageCount() * sizeof(unsigned long long));
+	}
+
 
 	// rewrite bytecode offset
 	a_pFileStream->seekp(0x10);
@@ -143,4 +163,7 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 	// rewrite script name offset
 	a_pFileStream->seekp(0x60);
 	a_pFileStream->write((char*)&m_uiScriptNameOffset, sizeof(m_uiScriptNameOffset));
+	// rewrite strings offset
+	a_pFileStream->seekp(0x68);
+	a_pFileStream->write((char*)&m_uiStringsOffset, sizeof(m_uiScriptNameOffset));
 }

@@ -85,9 +85,11 @@
     <ClCompile Include="Instructions\instruction_jmp.cpp" />
     <ClCompile Include="Instructions\instruction_native.cpp" />
     <ClCompile Include="Instructions\instruction_ret.cpp" />
+    <ClCompile Include="Instructions\instruction_spush.cpp" />
     <ClCompile Include="label_collector.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="native_collector.cpp" />
+    <ClCompile Include="string_collector.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="ysc_header.cpp" />
   </ItemGroup>
@@ -101,9 +103,11 @@
     <ClInclude Include="Instructions\instruction_jmp.h" />
     <ClInclude Include="Instructions\instruction_native.h" />
     <ClInclude Include="Instructions\instruction_ret.h" />
+    <ClInclude Include="Instructions\instruction_spush.h" />
     <ClInclude Include="label_collector.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="native_collector.h" />
+    <ClInclude Include="string_collector.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="ysc_header.h" />
   </ItemGroup>

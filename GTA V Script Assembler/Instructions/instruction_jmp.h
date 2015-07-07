@@ -21,7 +21,7 @@ public:
 
 private:
 
-	unsigned char	m_aByteCode[4];
+	unsigned char	m_aByteCode[3];
 	LabelCollector*	m_pLabelCollector;
 	std::string		m_szJmpLabel;
 	unsigned int	m_uiOurAddress;

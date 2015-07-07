@@ -31,6 +31,10 @@
     <ClCompile Include="Instructions\instruction_jmp.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
+    <ClCompile Include="Instructions\instruction_spush.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="string_collector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -63,6 +67,10 @@
     <ClInclude Include="Instructions\instruction_jmp.h">
       <Filter>Instructions</Filter>
     </ClInclude>
+    <ClInclude Include="Instructions\instruction_spush.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="string_collector.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Instructions">

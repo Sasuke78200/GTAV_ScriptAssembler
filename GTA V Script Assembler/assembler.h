@@ -25,6 +25,7 @@ private:
 
 	NativeCollector							m_NativeCollector;
 	LabelCollector							m_LabelCollector;
+	StringCollector							m_StringCollector;
 };
 
 

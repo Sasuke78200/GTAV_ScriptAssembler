@@ -80,9 +80,11 @@ void Assembler::ConstructBinary(std::ofstream* a_pBinaryStream)
 	}
 
 	l_yscHeader.SetScriptName("test_script");	// todo: !!!
-	l_yscHeader.SetNativeCollector(&this->m_NativeCollector);
 	// todo: string collector !
-	l_yscHeader.WriteToFile(a_pBinaryStream, l_pByteCode, 0);
+	l_yscHeader.WriteToFile(a_pBinaryStream, 
+		l_pByteCode, 
+		&this->m_NativeCollector,
+		&this->m_StringCollector);
 }
 
 void Assembler::CollectCode()
@@ -422,23 +424,61 @@ bool Assembler::ParseCode()
 			l_pInstruction = new InstructionJmp();
 			l_pInstruction->setOpcode(85);
 			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(it->first);
+			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
 		}		
 		else if(l_szOperation == "jmpf")
 		{
 			l_pInstruction = new InstructionJmp();
 			l_pInstruction->setOpcode(86);
 			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(it->first);
+			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
 		}		
-		else if(l_szOperation == "jmpt")
+		else if(l_szOperation == "jmpneq")
 		{
 			l_pInstruction = new InstructionJmp();
 			l_pInstruction->setOpcode(87);
 			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(it->first);
+			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
 		}
-		
+		else if(l_szOperation == "jmpeq")
+		{
+			l_pInstruction = new InstructionJmp();
+			l_pInstruction->setOpcode(88);
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
+			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+		}
+		else if(l_szOperation == "jmpgt")
+		{
+			l_pInstruction = new InstructionJmp();
+			l_pInstruction->setOpcode(89);
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
+			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+		}
+		else if(l_szOperation == "jmpge")
+		{
+			l_pInstruction = new InstructionJmp();
+			l_pInstruction->setOpcode(90);
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
+			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+		}
+		else if(l_szOperation == "jmplt")
+		{
+			l_pInstruction = new InstructionJmp();
+			l_pInstruction->setOpcode(91);
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
+			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+		}
+		else if(l_szOperation == "jmple")
+		{
+			l_pInstruction = new InstructionJmp();
+			l_pInstruction->setOpcode(92);
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
+			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+		}
+		else if(l_szOperation == "spush")
+		{
+			l_pInstruction = new InstructionsPush(&this->m_StringCollector);
+		}
 		else
 		{
 			//printf("Line %d : Unknown operation \"%s\". !\n", it->first, l_szOperation.c_str());
@@ -454,6 +494,7 @@ bool Assembler::ParseCode()
 			}
 			else
 			{
+				printf("Error line %d : -> %s\n", it->first, it->second.c_str());
 				return false;
 			}
 		}

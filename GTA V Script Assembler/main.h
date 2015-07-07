@@ -13,10 +13,14 @@
 
 #include "utils.h"
 
+// rapidjson
+#include "rapidjson/document.h" 
+#include "rapidjson/filereadstream.h"
+
 // collectors
 #include "label_collector.h"
 #include "native_collector.h"
-//#include "string_collector.h"
+#include "string_collector.h"
 
 // all the instruction
 #include "Instructions/instruction.h"
@@ -27,6 +31,7 @@
 #include "Instructions/instruction_enter.h"
 #include "Instructions/instruction_ret.h"
 #include "Instructions/instruction_jmp.h"
+#include "Instructions/instruction_spush.h"
 
 #include "ysc_header.h"
 

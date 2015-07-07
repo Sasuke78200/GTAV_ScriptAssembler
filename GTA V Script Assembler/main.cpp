@@ -2,8 +2,6 @@
 
 
 
-
-
 int main(int a_iArgCount, char** a_pszArgs)
 {
 	Assembler l_Assembler;
@@ -16,6 +14,7 @@ int main(int a_iArgCount, char** a_pszArgs)
 	// construct natives pages
 	// construct script header
 	// write everything on a file
+
 
 	l_Assembler.AssembleFile("C:/Users/Sasuke78200/Desktop/main.sc", "C:/Users/Sasuke78200/Desktop/main.ysc");
 	system("pause");

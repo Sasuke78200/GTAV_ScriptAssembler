@@ -32,7 +32,13 @@ bool InstructioniPush::Process(std::string a_szAssemblyLine)
 	}
 
 
+	setValue(l_iValue);
 
+	return true;
+}
+
+void InstructioniPush::setValue(int l_iValue)
+{
 	if(*(char*)&l_iValue == l_iValue) // 8 bits, so we're using opcode 37
 	{
 		m_aByteCode[1] = (l_iValue & 0xFF);
@@ -58,5 +64,4 @@ bool InstructioniPush::Process(std::string a_szAssemblyLine)
 		setOpcode(40);
 		setLength(5);
 	}
-	return true;
 }
