@@ -6,6 +6,8 @@
 #include <cctype>
 #include <locale>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 #include <fstream>
 #include <string>
 #include <vector>

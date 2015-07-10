@@ -62,9 +62,10 @@ bool InstructionNative::Process(std::string a_szAssemblyLine)
 
 	l_iNativeId = m_pNativeCollector->getNativeId(l_szNativeIdentifier);
 
+
 	if(l_byReturnCount > 3) return false;
 
-	m_aByteCode[1]				= (l_byArgCount << 2) | l_byReturnCount;
+	m_aByteCode[1]				= (l_byArgCount << 2) | (l_byReturnCount&3);
 	m_aByteCode[2]				= (l_iNativeId >> 8) & 0xFF;
 	m_aByteCode[3]				= l_iNativeId & 0xFF;
 	return true;

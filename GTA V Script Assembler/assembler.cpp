@@ -24,7 +24,7 @@ bool Assembler::AssembleFile(char* a_szAssemblyPath, char* a_szOuputScriptPath)
 	CollectCode();
 	CleanCode();
 
-	if(ParseCode())
+	if(CollectNatives() && ParseCode())
 	{
 
 
@@ -150,6 +150,53 @@ void Assembler::CleanCode()
 		}
 	}
 	while(it != this->m_AssemblyLines.end());
+}
+
+bool Assembler::CollectNatives()
+{
+	std::map<unsigned int, std::string>::iterator it;
+	for(it = this->m_AssemblyLines.begin(); it != this->m_AssemblyLines.end(); it++)
+	{
+		std::string		l_szOperation;
+		std::string		l_szOperand;
+		int				l_iPos;
+
+		l_iPos = it->second.find_first_of(ASSEMBLY_SPACE);
+
+		
+
+		if(l_iPos != std::string::npos)
+		{
+			l_szOperation	= it->second.substr(0, l_iPos);
+			l_szOperand		= it->second.substr(l_iPos + 1);
+			l_szOperand		= trim(l_szOperand);
+		}
+		else
+		{
+			l_szOperation	= it->second;
+			l_szOperand		= "";
+		}
+
+
+		std::transform(l_szOperation.begin(), l_szOperation.end(), l_szOperation.begin(), ::tolower); // lower the operation name
+
+		if(l_szOperation == "native")
+		{
+			if(m_NativeCollector.ProcessAssemblyLine(l_szOperand) == false)
+			{
+				printf("Error line %d, cannot understand native hash/name !\n", it->first);
+				return false;
+			}
+		}
+
+	}
+
+	m_NativeCollector.ParseJson();
+	//m_NativeCollector.TranslateHash(0);		// 335 -> 350
+	//m_NativeCollector.TranslateHash(1);		// 350 -> 372
+	m_NativeCollector.TranslateHash(2);		// 372 -> 393
+
+	return true;
 }
 
 bool Assembler::ParseCode()
@@ -401,15 +448,7 @@ bool Assembler::ParseCode()
 		}
 		else if(l_szOperation == "native")
 		{
-			if(m_NativeCollector.ProcessAssemblyLine(l_szOperand))
-			{
-				l_pInstruction = new InstructionNative(&this->m_NativeCollector);
-			}
-			else
-			{
-				printf("Error line %d, cannot understand native hash/name !\n", it->first);
-				return false;
-			}
+			l_pInstruction = new InstructionNative(&this->m_NativeCollector);
 		}
 		else if(l_szOperation == "enter")		
 		{

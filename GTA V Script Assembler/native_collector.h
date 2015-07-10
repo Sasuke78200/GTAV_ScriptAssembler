@@ -14,12 +14,14 @@ public:
 
 	int					getNativeCount();
 	unsigned long long	getNativeFromId(int a_iId);
-
+	void				ParseJson();
+	void				TranslateHash(int a_iVersion);
 
 private:
-	unsigned long long getNativeHashFromName(std::string a_szNativeName);
 
-	std::vector<unsigned long long>		m_NativeHashes;
+
+
+	std::map<std::string, unsigned long long>				m_NativeHashes;
 
 
 
