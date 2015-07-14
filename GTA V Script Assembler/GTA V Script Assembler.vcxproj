@@ -79,6 +79,7 @@
     <ClCompile Include="assembler.cpp" />
     <ClCompile Include="Instructions\instruction.cpp" />
     <ClCompile Include="Instructions\instruction_basic.cpp" />
+    <ClCompile Include="Instructions\instruction_call.cpp" />
     <ClCompile Include="Instructions\instruction_enter.cpp" />
     <ClCompile Include="Instructions\instruction_fpush.cpp" />
     <ClCompile Include="Instructions\instruction_ipush.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="assembler.h" />
     <ClInclude Include="Instructions\instruction.h" />
     <ClInclude Include="Instructions\instruction_basic.h" />
+    <ClInclude Include="Instructions\instruction_call.h" />
     <ClInclude Include="Instructions\instruction_enter.h" />
     <ClInclude Include="Instructions\instruction_fpush.h" />
     <ClInclude Include="Instructions\instruction_ipush.h" />

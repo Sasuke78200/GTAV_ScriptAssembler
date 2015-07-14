@@ -117,7 +117,7 @@ void NativeCollector::TranslateHash(int a_iVersion)
 	{
 		int i;
 		
-		for(i = 0; i < a_iVersion + 1; i++)
+		for(i = 0; i <= a_iVersion; i++)
 		{
 			for(it = this->m_NativeHashes.begin(); it != this->m_NativeHashes.end(); it++)
 			{

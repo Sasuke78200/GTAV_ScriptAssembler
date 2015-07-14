@@ -518,6 +518,10 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionsPush(&this->m_StringCollector);
 		}
+		else if(l_szOperation == "call")
+		{
+			l_pInstruction = new InstructionCall(&this->m_LabelCollector);
+		}
 		else
 		{
 			//printf("Line %d : Unknown operation \"%s\". !\n", it->first, l_szOperation.c_str());

@@ -23,6 +23,8 @@ unsigned int LabelCollector::getAddress(std::string a_szName)
 {
 	std::map<std::string, unsigned int>::iterator it;
 
+	std::transform(a_szName.begin(), a_szName.end(), a_szName.begin(), ::tolower);
+
 	it = this->m_Labels.find(a_szName); 
 	
 	if(it == this->m_Labels.end())

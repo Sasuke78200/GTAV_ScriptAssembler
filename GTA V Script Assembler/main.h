@@ -34,6 +34,7 @@
 #include "Instructions/instruction_ret.h"
 #include "Instructions/instruction_jmp.h"
 #include "Instructions/instruction_spush.h"
+#include "Instructions/instruction_call.h"
 
 #include "ysc_header.h"
 
