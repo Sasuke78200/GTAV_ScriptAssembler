@@ -458,6 +458,21 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionRet();
 		}
+		else if(l_szOperation == "pget")
+		{
+			l_pInstruction = new InstructionBasic();
+			l_pInstruction->setOpcode(47);
+		}
+		else if(l_szOperation == "pset")
+		{
+			l_pInstruction = new InstructionBasic();
+			l_pInstruction->setOpcode(48);
+		}
+		else if(l_szOperation == "ppeekset")
+		{
+			l_pInstruction = new InstructionBasic();
+			l_pInstruction->setOpcode(49);
+		}
 		else if(l_szOperation == "jmp")
 		{
 			l_pInstruction = new InstructionJmp();
