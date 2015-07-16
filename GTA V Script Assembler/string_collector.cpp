@@ -76,7 +76,7 @@ int	StringCollector::getStringsLength()
 
 	for(unsigned int i = 0; i < this->m_Strings.size(); i++)
 	{		
-		l_iLen += this->m_Strings[i].length();
+		l_iLen += this->m_Strings[i].length() + 1;
 	}
 	return l_iLen;
 }
@@ -109,6 +109,7 @@ char** StringCollector::constructStringsPage()
 	{
 		int l_iIndex = 0;
 		m_ppStringPages[i] = new char[0x4000];
+		memset(m_ppStringPages[i], 0, 0x4000);
 
 		for(unsigned int j = 0; j < this->m_Strings.size(); j++)
 		{

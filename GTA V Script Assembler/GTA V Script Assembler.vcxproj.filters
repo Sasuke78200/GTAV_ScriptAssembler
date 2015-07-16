@@ -38,6 +38,9 @@
     <ClCompile Include="Instructions\instruction_call.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
+    <ClCompile Include="Instructions\instruction_getframe.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -75,6 +78,9 @@
     </ClInclude>
     <ClInclude Include="string_collector.h" />
     <ClInclude Include="Instructions\instruction_call.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_getframe.h">
       <Filter>Instructions</Filter>
     </ClInclude>
   </ItemGroup>
