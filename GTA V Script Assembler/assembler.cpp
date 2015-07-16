@@ -522,6 +522,10 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionCall(&this->m_LabelCollector);
 		}
+		else if(l_szOperation == "getframep")
+		{
+			l_pInstruction = new InstructionGetFrameP();
+		}
 		else if(l_szOperation == "getframe")
 		{
 			l_pInstruction = new InstructionGetFrame();

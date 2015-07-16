@@ -83,6 +83,7 @@
     <ClCompile Include="Instructions\instruction_enter.cpp" />
     <ClCompile Include="Instructions\instruction_fpush.cpp" />
     <ClCompile Include="Instructions\instruction_getframe.cpp" />
+    <ClCompile Include="Instructions\instruction_getframep.cpp" />
     <ClCompile Include="Instructions\instruction_ipush.cpp" />
     <ClCompile Include="Instructions\instruction_jmp.cpp" />
     <ClCompile Include="Instructions\instruction_native.cpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="Instructions\instruction_enter.h" />
     <ClInclude Include="Instructions\instruction_fpush.h" />
     <ClInclude Include="Instructions\instruction_getframe.h" />
+    <ClInclude Include="Instructions\instruction_getframep.h" />
     <ClInclude Include="Instructions\instruction_ipush.h" />
     <ClInclude Include="Instructions\instruction_jmp.h" />
     <ClInclude Include="Instructions\instruction_native.h" />

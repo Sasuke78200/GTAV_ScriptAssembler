@@ -31,11 +31,7 @@ bool InstructioniPush::Process(std::string a_szAssemblyLine)
 		l_iValue = _strtoi64(a_szAssemblyLine.c_str(), 0, 10);
 	}
 
-	printf("%lx\n", (int)l_iValue);
-
-
 	setValue(l_iValue);
-
 	return true;
 }
 
