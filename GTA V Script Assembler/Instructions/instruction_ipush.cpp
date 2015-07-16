@@ -20,16 +20,18 @@ bool InstructioniPush::Process(std::string a_szAssemblyLine)
 {	
 	if(a_szAssemblyLine.length() == 0) return 0;
 
-	int l_iValue;
+	__int64 l_iValue;
 
 	if(a_szAssemblyLine[0] == '0' && a_szAssemblyLine[1] == 'x') // we're playing with an hexadecimal value
 	{
-		l_iValue = strtol(a_szAssemblyLine.substr(2).c_str(), 0, 16);
+		l_iValue = _strtoi64(a_szAssemblyLine.substr(2).c_str(), 0, 16);
 	}
 	else
-	{
-		l_iValue = strtol(a_szAssemblyLine.c_str(), 0, 10);
+	{		
+		l_iValue = _strtoi64(a_szAssemblyLine.c_str(), 0, 10);
 	}
+
+	printf("%lx\n", (int)l_iValue);
 
 
 	setValue(l_iValue);

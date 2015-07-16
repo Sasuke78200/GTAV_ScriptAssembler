@@ -41,6 +41,9 @@
     <ClCompile Include="Instructions\instruction_getframe.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
+    <ClCompile Include="Instructions\instruction_setframe.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -81,6 +84,9 @@
       <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="Instructions\instruction_getframe.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_setframe.h">
       <Filter>Instructions</Filter>
     </ClInclude>
   </ItemGroup>

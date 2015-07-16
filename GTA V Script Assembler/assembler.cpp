@@ -526,6 +526,10 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionGetFrame();
 		}
+		else if(l_szOperation == "setframe")
+		{
+			l_pInstruction = new InstructionSetFrame();
+		}
 		else
 		{
 			//printf("Line %d : Unknown operation \"%s\". !\n", it->first, l_szOperation.c_str());
