@@ -43,6 +43,8 @@
 
 #include "assembler.h"
 
+#include "commandline.h"
+
 
 #define ASSEMBLY_SPACE		" \t"
 

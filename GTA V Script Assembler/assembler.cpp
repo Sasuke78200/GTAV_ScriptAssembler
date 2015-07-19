@@ -7,6 +7,7 @@ Assembler::Assembler()
 {
 	m_AssemblyLines.clear();
 	m_pAssemblyFile = nullptr;
+	m_szScriptName = "ScriptName";
 }
 
 Assembler::~Assembler()
@@ -15,21 +16,24 @@ Assembler::~Assembler()
 }
 
 
-bool Assembler::AssembleFile(char* a_szAssemblyPath, char* a_szOuputScriptPath)
+bool Assembler::AssembleFile(char* a_szAssemblyPath, char* a_szOuputScriptPath, char* a_szScriptName)
 {
 	std::ofstream l_BinaryFile(a_szOuputScriptPath, std::ofstream::binary | std::ofstream::out);
 	m_pAssemblyFile = new std::ifstream(a_szAssemblyPath, std::ifstream::in);
 
+
+	m_szScriptName = a_szScriptName;
 
 	CollectCode();
 	CleanCode();
 
 	if(CollectNatives() && ParseCode())
 	{
-
-
-
 		ConstructBinary(&l_BinaryFile);
+	}
+	else
+	{
+		printf("Couldn't parse code !\n");
 	}
 
 	
@@ -79,7 +83,7 @@ void Assembler::ConstructBinary(std::ofstream* a_pBinaryStream)
 		memcpy(&l_pByteCode[it->first / 0x4000][it->first % 0x4000], it->second->getByteCode(), it->second->getLength());
 	}
 
-	l_yscHeader.SetScriptName("test_script");	// todo: !!!
+	l_yscHeader.SetScriptName(m_szScriptName);
 	// todo: string collector !
 	l_yscHeader.WriteToFile(a_pBinaryStream, 
 		l_pByteCode, 

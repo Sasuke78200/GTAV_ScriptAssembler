@@ -46,6 +46,7 @@ void YscHeader::SetByteCodeLength(unsigned int a_uiLength)
 
 void YscHeader::SetScriptName(std::string a_szName)
 {
+	std::transform(a_szName.begin(), a_szName.end(), a_szName.begin(), std::tolower);
 	this->m_uiScriptHash = jooat((char*)a_szName.c_str(), a_szName.length());
 	this->m_szScriptName = a_szName;
 }

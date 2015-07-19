@@ -47,6 +47,7 @@
     <ClCompile Include="Instructions\instruction_getframep.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
+    <ClCompile Include="commandline.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -95,6 +96,7 @@
     <ClInclude Include="Instructions\instruction_getframep.h">
       <Filter>Instructions</Filter>
     </ClInclude>
+    <ClInclude Include="commandline.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Instructions">

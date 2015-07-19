@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="assembler.cpp" />
+    <ClCompile Include="commandline.cpp" />
     <ClCompile Include="Instructions\instruction.cpp" />
     <ClCompile Include="Instructions\instruction_basic.cpp" />
     <ClCompile Include="Instructions\instruction_call.cpp" />
@@ -99,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="assembler.h" />
+    <ClInclude Include="commandline.h" />
     <ClInclude Include="Instructions\instruction.h" />
     <ClInclude Include="Instructions\instruction_basic.h" />
     <ClInclude Include="Instructions\instruction_call.h" />
