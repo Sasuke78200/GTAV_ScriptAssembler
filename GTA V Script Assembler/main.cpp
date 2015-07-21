@@ -7,9 +7,14 @@ using namespace rapidjson;
 
 void ShowHelp()
 {
-	printf("USAGE : -i input_path -o output_path [-n]\n\n");
+	printf("USAGE : -i input_path -o output_path [-n] [-v]\n\n");
 	printf("Options :\n");
 	printf("    -n\t\tInternal script name, by default it takes the output file name\n");
+	printf("    -v\t\tNative functions hashes\n");
+	printf("      \t\t0 for build 335\n");
+	printf("      \t\t1 for build 350\n");
+	printf("      \t\t2 for build 372\n");
+	printf("      \t\t3 for build 393 (default)\n");
 	printf("\n");
 }
 
@@ -32,11 +37,14 @@ std::string GetFileNameFromPath(std::string a_szPath)
 
 int main(int a_iArgCount, char** a_pszArgs)
 {
-	CommandLine		l_CommandLine(a_iArgCount, a_pszArgs);
+	CommandLine*	l_pCommandLine;	
 	Assembler		l_Assembler;
 	std::string*	l_pInput;
 	std::string*	l_pOutput;
 	std::string*	l_pScriptName;
+
+
+	l_pCommandLine = CommandLine::Instance(a_iArgCount, a_pszArgs);
 
 
 	if(a_iArgCount == 1)
@@ -45,19 +53,19 @@ int main(int a_iArgCount, char** a_pszArgs)
 	}
 	else
 	{
-		if((l_pInput = l_CommandLine.getVal("-i")) == 0)
+		if((l_pInput = l_pCommandLine->getVal("-i")) == 0)
 		{
 			ShowHelp();
 			return 0;
 		}
 
-		if((l_pOutput = l_CommandLine.getVal("-o")) == 0)
+		if((l_pOutput = l_pCommandLine->getVal("-o")) == 0)
 		{
 			ShowHelp();
 			return 0;
 		}
 
-		if((l_pScriptName = l_CommandLine.getVal("-n")) == 0)
+		if((l_pScriptName = l_pCommandLine->getVal("-n")) == 0)
 		{
 			// process the script name
 			l_pScriptName = new std::string(GetFileNameFromPath(*l_pOutput));
@@ -66,6 +74,12 @@ int main(int a_iArgCount, char** a_pszArgs)
 		{
 			*l_pScriptName = l_pScriptName->substr(0, 64);
 		}
+
+		if(l_pCommandLine->getVal("-v") == 0)
+		{
+			l_pCommandLine->setVal("-v", "3");
+		}
+
 
 		l_Assembler.AssembleFile((char*)l_pInput->c_str(), (char*)l_pOutput->c_str(), (char*)l_pScriptName->c_str());
 	}

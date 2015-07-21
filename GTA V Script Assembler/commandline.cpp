@@ -1,7 +1,6 @@
 #include "main.h"
 
 
-
 CommandLine::CommandLine(int a_iArgCount, char** a_pszArgs)
 {
 	int i;
@@ -32,4 +31,18 @@ std::string* CommandLine::getVal(std::string a_szKey)
 		return &it->second;
 	}
 	return 0;
+}
+
+void CommandLine::setVal(std::string a_szKey, std::string a_szVal)
+{
+	std::map<std::string, std::string>::iterator it;
+
+	if((it = this->m_Args.find(a_szKey)) != this->m_Args.end())
+	{
+		it->second = a_szVal;
+	}
+	else
+	{
+		this->m_Args.insert(std::pair<std::string, std::string>(a_szKey, a_szVal));
+	}
 }

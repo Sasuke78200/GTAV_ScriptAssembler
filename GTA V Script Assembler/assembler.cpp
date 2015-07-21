@@ -158,6 +158,7 @@ void Assembler::CleanCode()
 
 bool Assembler::CollectNatives()
 {
+	int l_iNativeVersion;
 	std::map<unsigned int, std::string>::iterator it;
 	for(it = this->m_AssemblyLines.begin(); it != this->m_AssemblyLines.end(); it++)
 	{
@@ -193,12 +194,20 @@ bool Assembler::CollectNatives()
 			}
 		}
 
-	}
+	}	
 
 	m_NativeCollector.ParseJson();
-	//m_NativeCollector.TranslateHash(0);		// 335 -> 350
-	//m_NativeCollector.TranslateHash(1);		// 350 -> 372
-	m_NativeCollector.TranslateHash(2);		// 372 -> 393
+
+	// Get which version of natives hashes we want to use
+	l_iNativeVersion = atoi(CommandLine::Instance()->getVal("-v")->c_str());
+
+	if(l_iNativeVersion > 0)
+	{
+		//m_NativeCollector.TranslateHash(0);		// 335 -> 350
+		//m_NativeCollector.TranslateHash(1);		// 350 -> 372
+		//m_NativeCollector.TranslateHash(2);		// 372 -> 393
+		m_NativeCollector.TranslateHash(l_iNativeVersion - 1);
+	}
 
 	return true;
 }

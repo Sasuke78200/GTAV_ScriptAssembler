@@ -74,7 +74,7 @@ unsigned long long NativeCollector::getNativeFromId(int a_iId)
 
 void NativeCollector::ParseJson()
 {
-	FILE*							l_pNativeJsonFile = fopen("natives.json", "rb");
+	FILE*							l_pNativeJsonFile = fopen("./jsons/natives.json", "rb");
 	char							l_szBuffer[65535];
 	rapidjson::FileReadStream		l_FileReadStream(l_pNativeJsonFile, l_szBuffer, sizeof(l_szBuffer));
 	rapidjson::Document				l_Document;
@@ -104,7 +104,7 @@ void NativeCollector::ParseJson()
 void NativeCollector::TranslateHash(int a_iVersion)
 {
 	std::map<std::string, unsigned long long>::iterator it;
-	FILE*							l_pNativeJsonFile = fopen("native_translation.json", "rb");
+	FILE*							l_pNativeJsonFile = fopen("./jsons/native_translation.json", "rb");
 	char							l_szBuffer[65535];
 	rapidjson::FileReadStream		l_FileReadStream(l_pNativeJsonFile, l_szBuffer, sizeof(l_szBuffer));
 	rapidjson::Document				l_Document;
@@ -113,7 +113,7 @@ void NativeCollector::TranslateHash(int a_iVersion)
 
 
 
-	if(a_iVersion < l_Document["translation_tables"].Size())
+	if(a_iVersion < (int)l_Document["translation_tables"].Size())
 	{
 		int i;
 		
