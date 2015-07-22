@@ -13,6 +13,8 @@ public:
 	bool				Process(std::string a_szAssemblyLine);
 
 
+	void				setValue(float a_fValue);
+
 private:
 	unsigned char	m_aByteCode[5];
 };

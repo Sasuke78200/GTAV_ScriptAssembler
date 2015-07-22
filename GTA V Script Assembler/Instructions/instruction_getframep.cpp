@@ -27,7 +27,6 @@ bool InstructionGetFrameP::Process(std::string a_szAssemblyLine)
 	l_iIndex = atoi(a_szAssemblyLine.c_str());
 
 
-
 	if(*(char*)&l_iIndex == l_iIndex)	// if the index fit in one byte
 	{
 		m_aByteCode[1] = l_iIndex;
@@ -40,9 +39,6 @@ bool InstructionGetFrameP::Process(std::string a_szAssemblyLine)
 		setLength(3);
 		setOpcode(76);
 	}
-
-
-
 
 	return true;
 }

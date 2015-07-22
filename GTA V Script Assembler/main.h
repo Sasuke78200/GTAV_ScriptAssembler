@@ -39,6 +39,9 @@
 #include "Instructions/instruction_getframep.h"
 #include "Instructions/instruction_getframe.h"
 #include "Instructions/instruction_setframe.h"
+#include "Instructions/instruction_getglobalp.h"
+#include "Instructions/instruction_getglobal.h"
+#include "Instructions/instruction_setglobal.h"
 
 #include "ysc_header.h"
 

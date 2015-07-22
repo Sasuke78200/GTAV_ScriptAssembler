@@ -48,6 +48,15 @@
       <Filter>Instructions</Filter>
     </ClCompile>
     <ClCompile Include="commandline.cpp" />
+    <ClCompile Include="Instructions\instruction_getglobalp.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructions\instruction_getglobal.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructions\instruction_setglobal.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -97,6 +106,15 @@
       <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="commandline.h" />
+    <ClInclude Include="Instructions\instruction_getglobalp.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_getglobal.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_setglobal.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Instructions">

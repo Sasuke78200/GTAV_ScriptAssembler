@@ -11,7 +11,7 @@ public:
 
 	unsigned char*		getByteCode();
 	bool				Process(std::string a_szAssemblyLine);
-	void				setValue(int l_iValue);
+	void				setValue(int a_iValue);
 
 private:
 

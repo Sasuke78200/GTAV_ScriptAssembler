@@ -35,17 +35,22 @@ bool InstructioniPush::Process(std::string a_szAssemblyLine)
 	return true;
 }
 
-void InstructioniPush::setValue(int l_iValue)
+void InstructioniPush::setValue(int a_iValue)
 {
-	if(*(char*)&l_iValue == l_iValue) // 8 bits, so we're using opcode 37
+	if(a_iValue >= -1 && a_iValue <= 7)
 	{
-		m_aByteCode[1] = (l_iValue & 0xFF);
+		setOpcode(110 + a_iValue);
+		setLength(1);
+	}
+	else if(*(char*)&a_iValue == a_iValue) // 8 bits, so we're using opcode 37
+	{
+		m_aByteCode[1] = (a_iValue & 0xFF);
 		setOpcode(37);
 		setLength(2);
 	}
-	else if(*(short*)&l_iValue == l_iValue) // 16 bits, so we're using opcode 67
+	else if(*(short*)&a_iValue == a_iValue) // 16 bits, so we're using opcode 67
 	{
-		*(short*)&m_aByteCode[1] = (l_iValue & 0xFFFF);
+		*(short*)&m_aByteCode[1] = (a_iValue & 0xFFFF);
 		setOpcode(67);
 		setLength(3);
 	}
@@ -58,7 +63,7 @@ void InstructioniPush::setValue(int l_iValue)
 	}*/
 	else // 32 bits, so we're using opcode 40
 	{
-		*(int*)&m_aByteCode[1] = l_iValue;
+		*(int*)&m_aByteCode[1] = a_iValue;
 		setOpcode(40);
 		setLength(5);
 	}

@@ -562,6 +562,18 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionSetFrame();
 		}
+		else if(l_szOperation == "getglobalp")
+		{
+			l_pInstruction = new InstructionGetGlobalP();
+		}
+		else if(l_szOperation == "getglobal")
+		{
+			l_pInstruction = new InstructionGetGlobal();
+		}
+		else if(l_szOperation == "setglobal")
+		{
+			l_pInstruction = new InstructionSetGlobal();
+		}
 		else
 		{
 			//printf("Line %d : Unknown operation \"%s\". !\n", it->first, l_szOperation.c_str());
