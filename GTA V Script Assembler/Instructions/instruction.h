@@ -22,8 +22,11 @@ public:
 
 	virtual	unsigned char*		getByteCode() = 0;
 	virtual bool				Process(std::string a_szAssemblyLine) = 0;
+	/*virtual */bool				Process(unsigned char*){ return true;}
 
 	virtual std::string			toString() = 0;
+
+	static Instruction*			allocFromOpcode(unsigned char l_bOpcode);
 
 protected:
 

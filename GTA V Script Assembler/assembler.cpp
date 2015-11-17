@@ -62,7 +62,7 @@ void Assembler::ConstructBinary(std::ofstream* a_pBinaryStream)
 		l_uiByteCodeLength += it->second->getLength();
 	}
 
-	l_yscHeader.SetByteCodeLength(l_uiByteCodeLength);
+	l_yscHeader.setByteCodeLength(l_uiByteCodeLength);
 
 	// alloc the bytecode pages
 	l_iPageCount = l_uiByteCodeLength / 0x4000 + 1;
@@ -82,7 +82,7 @@ void Assembler::ConstructBinary(std::ofstream* a_pBinaryStream)
 		memcpy(&l_pByteCode[it->first / 0x4000][it->first % 0x4000], it->second->getByteCode(), it->second->getLength());
 	}
 
-	l_yscHeader.SetScriptName(m_szScriptName);
+	l_yscHeader.setScriptName(m_szScriptName);
 	// todo: string collector !
 	l_yscHeader.WriteToFile(a_pBinaryStream, 
 		l_pByteCode, 

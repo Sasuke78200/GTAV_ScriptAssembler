@@ -42,18 +42,31 @@ public:
 	~YscHeader();
 
 
-	void SetByteCodeLength(unsigned int a_uiLength);
-	void SetScriptName(std::string a_szName);
+	void setByteCodeLength(unsigned int a_uiLength);
+	unsigned int getByteCodeLength();
+	void setScriptName(std::string a_szName);
 
 	void WriteToFile(std::ofstream* a_pFileStream, 
 		unsigned char**		a_pByteCode,
 		NativeCollector*	a_pNativeCollector,
 		StringCollector*	a_pStringCollector);
 
+	void ReadFromFile(std::ifstream* a_pFileStream);
+
+
+	std::string getName();
+
+	/* Code page informations */
+	int getCodePageCount();
+	int getCodePageLength(unsigned int a_uiPage);
+	int getCodePageOffset(std::ifstream* a_pFileStream, int a_uiPage);
+
+
+
 private:
 	/* scrProgram/ysc Header*/
 	unsigned long long	m_uiMagicNumber;			
-	unsigned long long	m_uiUnk0008;				
+	unsigned long long	m_uiPgBase;				
 	unsigned long long	m_uiByteCodePageOffset;		
 	unsigned int		m_uiUnk000C;				
 	unsigned int		m_uiByteCodeLength;			
