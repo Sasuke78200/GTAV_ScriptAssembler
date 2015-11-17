@@ -6,6 +6,7 @@ InstructionSetFrame::InstructionSetFrame()
 {
 	setOpcode(-1);
 	setLength(-1);
+	setName("setframe");
 }
 
 InstructionSetFrame::~InstructionSetFrame()
@@ -41,8 +42,11 @@ bool InstructionSetFrame::Process(std::string a_szAssemblyLine)
 		setOpcode(78);
 	}
 
-
-
-
 	return true;
+}
+
+std::string InstructionSetFrame::toString()
+{
+	// TODO: Print the index
+	return getName() + "";
 }

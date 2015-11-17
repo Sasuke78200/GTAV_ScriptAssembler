@@ -9,6 +9,7 @@ InstructionJmp::InstructionJmp()
 {
 	setOpcode(-1);
 	setLength(3);
+	setName("jmp");
 }
 
 InstructionJmp::~InstructionJmp()
@@ -38,6 +39,10 @@ bool InstructionJmp::Process(std::string a_szAssemblyLine)
 	return true;
 }
  
+std::string InstructionJmp::toString()
+{
+	return getName();
+}
 
 void InstructionJmp::setLabelCollector(LabelCollector* a_pLabelCollector)
 {

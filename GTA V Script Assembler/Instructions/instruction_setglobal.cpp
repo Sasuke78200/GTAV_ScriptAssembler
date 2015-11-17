@@ -3,7 +3,7 @@
 
 InstructionSetGlobal::InstructionSetGlobal()
 {
-
+	setName("setglobal");
 }
 
 InstructionSetGlobal::~InstructionSetGlobal()
@@ -39,4 +39,10 @@ bool InstructionSetGlobal::Process(std::string a_szAssemblyLine)
 		setLength(4);
 	}
 	return true;
+}
+
+std::string InstructionSetGlobal::toString()
+{
+	// TODO: Print the global id
+	return getName() + "";
 }

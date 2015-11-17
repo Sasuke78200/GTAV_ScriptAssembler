@@ -4,8 +4,9 @@
 
 Instruction::Instruction()
 {	
-	l_byOpcode = 0xFF;
-	l_byLength = 0xFF;
+	l_byOpcode	= 0xFF;
+	l_byLength	= 0xFF;
+	l_szName	= "instruction";
 }
 
 Instruction::~Instruction()
@@ -30,4 +31,14 @@ unsigned char Instruction::getLength()
 void Instruction::setLength(unsigned char a_byLength)
 {
 	this->l_byLength = a_byLength;
+}
+
+void Instruction::setName(std::string a_szName)
+{
+	this->l_szName = a_szName;
+}
+
+std::string Instruction::getName()
+{
+	return this->l_szName;
 }

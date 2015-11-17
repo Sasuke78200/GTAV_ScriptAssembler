@@ -6,7 +6,7 @@ InstructionRet::InstructionRet()
 {
 	setOpcode(46);
 	setLength(3);
-
+	setName("ret");
 }
 
 InstructionRet::~InstructionRet()
@@ -42,4 +42,10 @@ bool InstructionRet::Process(std::string a_szAssemblyLine)
 	m_aByteCode[1]	= l_byArgCount;
 	m_aByteCode[2]	= l_usStackPop;
 	return true;
+}
+
+std::string InstructionRet::toString()
+{
+	// TODO: Print arg count & stack pop
+	return getName() + "";
 }

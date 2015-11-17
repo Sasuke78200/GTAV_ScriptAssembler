@@ -21,3 +21,8 @@ bool InstructionBasic::Process(std::string a_szAssemblyLine)
 {
 	return true;
 }
+
+std::string InstructionBasic::toString()
+{
+	return getName();
+}

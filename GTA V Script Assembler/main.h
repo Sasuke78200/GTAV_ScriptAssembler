@@ -42,10 +42,12 @@
 #include "Instructions/instruction_getglobalp.h"
 #include "Instructions/instruction_getglobal.h"
 #include "Instructions/instruction_setglobal.h"
+#include "Instructions/instruction_strcpy.h"
 
 #include "ysc_header.h"
 
 #include "assembler.h"
+#include "disassembler.h"
 
 #include "commandline.h"
 

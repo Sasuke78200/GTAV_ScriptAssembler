@@ -13,11 +13,11 @@ public:
 
 	unsigned char*		getByteCode();
 	bool				Process(std::string a_szAssemblyLine);
+	std::string			toString();
 
 
 	void				setLabelCollector(LabelCollector* a_pLabelCollector);
-	void				setAddress(unsigned int a_uiAddress);
-
+	void				setAddress(unsigned int a_uiAddress);	
 
 private:
 

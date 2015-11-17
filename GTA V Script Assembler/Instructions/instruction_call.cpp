@@ -5,6 +5,7 @@ InstructionCall::InstructionCall(LabelCollector* a_pLabelCollector)
 {
 	setOpcode(93);
 	setLength(4);
+	setName("call");
 	this->m_pLabelCollector = a_pLabelCollector;
 }
 
@@ -28,3 +29,10 @@ bool InstructionCall::Process(std::string a_szAssemblyLine)
 	m_szJmpLabel = a_szAssemblyLine;
 	return true;
 }
+
+std::string InstructionCall::toString()
+{
+	// TODO: Print the function name
+	return getName() + "";
+}
+

@@ -3,7 +3,7 @@
 
 InstructionGetGlobal::InstructionGetGlobal()
 {
-
+	setName("getglobal");
 }
 
 InstructionGetGlobal::~InstructionGetGlobal()
@@ -40,4 +40,10 @@ bool InstructionGetGlobal::Process(std::string a_szAssemblyLine)
 		setLength(4);
 	}
 	return true;
+}
+
+std::string InstructionGetGlobal::toString()
+{
+	// TODO: Print the global index
+	return getName() + "";
 }

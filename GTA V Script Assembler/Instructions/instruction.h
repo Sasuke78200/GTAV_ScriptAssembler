@@ -17,14 +17,19 @@ public:
 	unsigned char				getLength();
 	void						setLength(unsigned char a_byLength);
 
+	void						setName(std::string a_szName);
+	std::string					getName();
 
 	virtual	unsigned char*		getByteCode() = 0;
 	virtual bool				Process(std::string a_szAssemblyLine) = 0;
+
+	virtual std::string			toString() = 0;
 
 protected:
 
 	unsigned char	l_byOpcode;
 	unsigned char	l_byLength;
+	std::string		l_szName;
 
 };
 

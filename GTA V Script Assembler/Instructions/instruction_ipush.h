@@ -12,6 +12,7 @@ public:
 	unsigned char*		getByteCode();
 	bool				Process(std::string a_szAssemblyLine);
 	void				setValue(int a_iValue);
+	std::string			toString();
 
 private:
 

@@ -6,6 +6,7 @@ InstructionGetFrameP::InstructionGetFrameP()
 {
 	setOpcode(-1);
 	setLength(-1);
+	setName("getframep");
 }
 
 InstructionGetFrameP::~InstructionGetFrameP()
@@ -41,4 +42,10 @@ bool InstructionGetFrameP::Process(std::string a_szAssemblyLine)
 	}
 
 	return true;
+}
+
+std::string InstructionGetFrameP::toString()
+{
+	// TODO: Print the index
+	return getName();
 }

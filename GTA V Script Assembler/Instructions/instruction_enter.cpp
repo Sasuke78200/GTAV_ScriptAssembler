@@ -5,6 +5,7 @@ InstructionEnter::InstructionEnter()
 {
 	setOpcode(45);
 	setLength(5);
+	setName("enter");
 }
 
 InstructionEnter::~InstructionEnter()
@@ -42,4 +43,10 @@ bool InstructionEnter::Process(std::string a_szAssemblyLine)
 	*(unsigned short*)&m_aByteCode[2]	= l_usStackAlloc;
 	m_aByteCode[4]						= 0;
 	return true;
+}
+
+std::string InstructionEnter::toString()
+{
+	// TODO: Print arg count & stack alloc
+	return getName() + "";
 }

@@ -3,10 +3,9 @@
 InstructionsPush::InstructionsPush(StringCollector* a_pStringCollector)
 {
 	setOpcode(99);
+	setName("spush");
 
 	this->m_pStringCollector = a_pStringCollector;
-
-
 }
 
 InstructionsPush::~InstructionsPush()
@@ -72,4 +71,11 @@ bool InstructionsPush::Process(std::string a_szAssemblyLine)
 
 	setLength(this->m_StringIndexInstruction.getLength() + 1);
 	return true;
+}
+
+
+std::string InstructionsPush::toString()
+{
+	// TODO: Print the string
+	return getName() + "";
 }

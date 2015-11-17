@@ -6,6 +6,7 @@ InstructionNative::InstructionNative(NativeCollector* a_pNativeCollector)
 {
 	setOpcode(44);
 	setLength(4);
+	setName("native");
 	m_pNativeCollector = a_pNativeCollector;
 }
 
@@ -69,4 +70,10 @@ bool InstructionNative::Process(std::string a_szAssemblyLine)
 	m_aByteCode[2]				= (l_iNativeId >> 8) & 0xFF;
 	m_aByteCode[3]				= l_iNativeId & 0xFF;
 	return true;
+}
+
+std::string InstructionNative::toString()
+{
+	// TODO: Print narive name, arg count & ret count
+	return getName() + "";
 }

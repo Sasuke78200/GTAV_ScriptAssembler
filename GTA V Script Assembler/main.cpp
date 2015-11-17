@@ -9,6 +9,7 @@ void ShowHelp()
 {
 	printf("USAGE : -i input_path -o output_path [-n] [-v]\n\n");
 	printf("Options :\n");
+	printf("    -d\t\tDisassemble a compiled script");
 	printf("    -n\t\tInternal script name, by default it takes the output file name\n");
 	printf("    -v\t\tNative functions hashes\n");
 	printf("      \t\t0 for build 335\n");
@@ -38,7 +39,8 @@ std::string GetFileNameFromPath(std::string a_szPath)
 int main(int a_iArgCount, char** a_pszArgs)
 {
 	CommandLine*	l_pCommandLine;	
-	Assembler		l_Assembler;
+	Assembler*		l_pAssembler;
+	Disassembler*	l_pDisassembler;
 	std::string*	l_pInput;
 	std::string*	l_pOutput;
 	std::string*	l_pScriptName;
@@ -80,14 +82,22 @@ int main(int a_iArgCount, char** a_pszArgs)
 			l_pCommandLine->setVal("-v", "3");
 		}
 
-
-		l_Assembler.AssembleFile((char*)l_pInput->c_str(), (char*)l_pOutput->c_str(), (char*)l_pScriptName->c_str());
+		if(l_pCommandLine->getVal("-d") != 0)
+		{
+			l_pDisassembler = new Disassembler();
+			l_pDisassembler->DisassembleFile((char*)l_pInput->c_str(), (char*)l_pOutput->c_str());
+			delete l_pDisassembler;
+		}
+		else
+		{
+			l_pAssembler = new Assembler();
+			l_pAssembler->AssembleFile((char*)l_pInput->c_str(), (char*)l_pOutput->c_str(), (char*)l_pScriptName->c_str());
+			delete l_pAssembler;
+		}
 	}
 
 #ifdef _DEBUG
 	system("pause");
 #endif
-
-
 	return 0;
 }

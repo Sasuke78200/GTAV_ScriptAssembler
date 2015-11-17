@@ -57,6 +57,10 @@
     <ClCompile Include="Instructions\instruction_setglobal.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
+    <ClCompile Include="Instructions\instruction_strcpy.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="disassembler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -115,6 +119,10 @@
     <ClInclude Include="Instructions\instruction_setglobal.h">
       <Filter>Instructions</Filter>
     </ClInclude>
+    <ClInclude Include="Instructions\instruction_strcpy.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="disassembler.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Instructions">

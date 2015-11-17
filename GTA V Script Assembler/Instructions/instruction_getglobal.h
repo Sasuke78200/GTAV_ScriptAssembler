@@ -10,7 +10,7 @@ public:
 
 	unsigned char*		getByteCode();
 	bool				Process(std::string a_szAssemblyLine);
-
+	std::string			toString();
 
 private:
 

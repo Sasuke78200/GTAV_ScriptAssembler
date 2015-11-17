@@ -4,6 +4,7 @@ InstructionfPush::InstructionfPush()
 {
 	setOpcode(-1);
 	setLength(-1);
+	setName("fpush");
 }
 
 InstructionfPush::~InstructionfPush()
@@ -44,4 +45,10 @@ void InstructionfPush::setValue(float a_fValue)
 		setOpcode(41);
 		setLength(5);
 	}
+}
+
+std::string InstructionfPush::toString()
+{
+	// TODO: Print the value
+	return getName() + "";
 }

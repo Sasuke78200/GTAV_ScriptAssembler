@@ -3,7 +3,7 @@
 
 InstructionGetGlobalP::InstructionGetGlobalP()
 {
-
+	setName("getglobalp");
 }
 
 InstructionGetGlobalP::~InstructionGetGlobalP()
@@ -38,4 +38,10 @@ bool InstructionGetGlobalP::Process(std::string a_szAssemblyLine)
 		setLength(4);
 	}
 	return true;
+}
+
+std::string InstructionGetGlobalP::toString()
+{
+	// TODO: Print the global id
+	return getName() + "";
 }

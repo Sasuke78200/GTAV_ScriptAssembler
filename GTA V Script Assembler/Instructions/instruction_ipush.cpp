@@ -4,6 +4,7 @@
 InstructioniPush::InstructioniPush()
 {
 	memset(m_aByteCode, 0, sizeof(m_aByteCode));
+	setName("ipush");
 }
 
 InstructioniPush::~InstructioniPush()
@@ -67,4 +68,10 @@ void InstructioniPush::setValue(int a_iValue)
 		setOpcode(40);
 		setLength(5);
 	}
+}
+
+std::string InstructioniPush::toString()
+{
+	//TODO: Print the value too
+	return getName() + "";
 }

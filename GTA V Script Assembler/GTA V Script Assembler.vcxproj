@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="assembler.cpp" />
     <ClCompile Include="commandline.cpp" />
+    <ClCompile Include="disassembler.cpp" />
     <ClCompile Include="Instructions\instruction.cpp" />
     <ClCompile Include="Instructions\instruction_basic.cpp" />
     <ClCompile Include="Instructions\instruction_call.cpp" />
@@ -96,6 +97,7 @@
     <ClCompile Include="Instructions\instruction_setframe.cpp" />
     <ClCompile Include="Instructions\instruction_setglobal.cpp" />
     <ClCompile Include="Instructions\instruction_spush.cpp" />
+    <ClCompile Include="Instructions\instruction_strcpy.cpp" />
     <ClCompile Include="label_collector.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="native_collector.cpp" />
@@ -106,6 +108,7 @@
   <ItemGroup>
     <ClInclude Include="assembler.h" />
     <ClInclude Include="commandline.h" />
+    <ClInclude Include="disassembler.h" />
     <ClInclude Include="Instructions\instruction.h" />
     <ClInclude Include="Instructions\instruction_basic.h" />
     <ClInclude Include="Instructions\instruction_call.h" />
@@ -122,6 +125,7 @@
     <ClInclude Include="Instructions\instruction_setframe.h" />
     <ClInclude Include="Instructions\instruction_setglobal.h" />
     <ClInclude Include="Instructions\instruction_spush.h" />
+    <ClInclude Include="Instructions\instruction_strcpy.h" />
     <ClInclude Include="label_collector.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="native_collector.h" />

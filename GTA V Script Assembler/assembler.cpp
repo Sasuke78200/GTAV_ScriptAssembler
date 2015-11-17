@@ -15,7 +15,6 @@ Assembler::~Assembler()
 
 }
 
-
 bool Assembler::AssembleFile(char* a_szAssemblyPath, char* a_szOuputScriptPath, char* a_szScriptName)
 {
 	std::ofstream l_BinaryFile(a_szOuputScriptPath, std::ofstream::binary | std::ofstream::out);
@@ -260,186 +259,223 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(0);
+			l_pInstruction->setName("nop");
 		}
 		else if(l_szOperation == "addi")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(1);
+			l_pInstruction->setName("addi");
 		}
 		else if(l_szOperation == "subi")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(2);
+			l_pInstruction->setName("subi");
 		}
 		else if(l_szOperation == "muli")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(3);
+			l_pInstruction->setName("muli");
 		}
 		else if(l_szOperation == "divi")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(4);
+			l_pInstruction->setName("divi");
 		}
 		else if(l_szOperation == "modi")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(5);
+			l_pInstruction->setName("modi");
 		}		
 		else if(l_szOperation == "noti")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(6);
+			l_pInstruction->setName("noti");
 		}
 		else if(l_szOperation == "negi")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(7);
+			l_pInstruction->setName("negi");
 		}		
 		else if(l_szOperation == "icmpeq")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(8);
+			l_pInstruction->setName("icmpeq");
 		}
 		else if(l_szOperation == "icmpne")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(9);
+			l_pInstruction->setName("icmpne");
 		}
 		else if(l_szOperation == "icmpgt")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(10);
+			l_pInstruction->setName("icmpgt");
 		}
 		else if(l_szOperation == "icmpge")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(11);
+			l_pInstruction->setName("icmpge");
 		}
 		else if(l_szOperation == "icmplt")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(12);
+			l_pInstruction->setName("icmplt");
 		}
 		else if(l_szOperation == "icmple")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(13);
+			l_pInstruction->setName("icmple");
 		}
 		else if(l_szOperation == "fadd")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(14);
+			l_pInstruction->setName("fadd");
 		}
 		else if(l_szOperation == "fsub")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(15);
+			l_pInstruction->setName("fsub");
 		}
 		else if(l_szOperation == "fmul")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(16);
+			l_pInstruction->setName("fmul");
 		}
 		else if(l_szOperation == "fdiv")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(17);
+			l_pInstruction->setName("fdiv");
 		}
 		else if(l_szOperation == "fmod")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(18);
+			l_pInstruction->setName("fmod");
 		}		
 		else if(l_szOperation == "fneg")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(19);
+			l_pInstruction->setName("fneg");
 		}
 		else if(l_szOperation == "fcmpeq")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(20);
+			l_pInstruction->setName("fcmpeq");
 		}
 		else if(l_szOperation == "fcmpne")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(21);
+			l_pInstruction->setName("fcmpne");
 		}
 		else if(l_szOperation == "fcmpgt")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(22);
+			l_pInstruction->setName("fcmpgt");
 		}
 		else if(l_szOperation == "fcmpge")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(23);
+			l_pInstruction->setName("fcmpge");
 		}
 		else if(l_szOperation == "fcmplt")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(24);
+			l_pInstruction->setName("fcmplt");
 		}
 		else if(l_szOperation == "fcmple")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(25);
+			l_pInstruction->setName("fcmple");
 		}
 		else if(l_szOperation == "vadd")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(26);
+			l_pInstruction->setName("vadd");
 		}
 		else if(l_szOperation == "vsub")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(27);
+			l_pInstruction->setName("vsub");
 		}
 		else if(l_szOperation == "vmul")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(28);
+			l_pInstruction->setName("vmul");
 		}
 		else if(l_szOperation == "vdiv")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(29);
+			l_pInstruction->setName("vdiv");
 		}
 		else if(l_szOperation == "vneg")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(30);
+			l_pInstruction->setName("vneg");
 		}
 		else if(l_szOperation == "iand")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(31);
+			l_pInstruction->setName("iand");
 		}
 		else if(l_szOperation == "ior")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(32);
+			l_pInstruction->setName("ior");
 		}
 		else if(l_szOperation == "ixor")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(33);
+			l_pInstruction->setName("ixor");
 		}
 		else if(l_szOperation == "itof")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(34);
+			l_pInstruction->setName("itof");
 		}
 		else if(l_szOperation == "ftoi")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(35);
+			l_pInstruction->setName("ftoi");
 		}
 		else if(l_szOperation == "dup2")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(36);
+			l_pInstruction->setName("dup2");
 		}
 		else if(l_szOperation == "ipush")
 		{
@@ -453,11 +489,13 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(42);
+			l_pInstruction->setName("dup");
 		}
 		else if(l_szOperation == "drop")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(43);
+			l_pInstruction->setName("drop");
 		}
 		else if(l_szOperation == "native")
 		{
@@ -475,16 +513,19 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(47);
+			l_pInstruction->setName("pget");
 		}
 		else if(l_szOperation == "pset")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(48);
+			l_pInstruction->setName("pset");
 		}
 		else if(l_szOperation == "ppeekset")
 		{
 			l_pInstruction = new InstructionBasic();
 			l_pInstruction->setOpcode(49);
+			l_pInstruction->setName("ppeekset");
 		}
 		else if(l_szOperation == "jmp")
 		{
@@ -492,6 +533,7 @@ bool Assembler::ParseCode()
 			l_pInstruction->setOpcode(85);
 			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
 			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+			((InstructionJmp*)l_pInstruction)->setName("jmp");
 		}		
 		else if(l_szOperation == "jmpf")
 		{
@@ -499,6 +541,7 @@ bool Assembler::ParseCode()
 			l_pInstruction->setOpcode(86);
 			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
 			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+			((InstructionJmp*)l_pInstruction)->setName("jmpf");
 		}		
 		else if(l_szOperation == "jmpneq")
 		{
@@ -506,6 +549,7 @@ bool Assembler::ParseCode()
 			l_pInstruction->setOpcode(87);
 			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
 			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+			((InstructionJmp*)l_pInstruction)->setName("jmpneq");
 		}
 		else if(l_szOperation == "jmpeq")
 		{
@@ -513,6 +557,7 @@ bool Assembler::ParseCode()
 			l_pInstruction->setOpcode(88);
 			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
 			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+			((InstructionJmp*)l_pInstruction)->setName("jmpeq");
 		}
 		else if(l_szOperation == "jmpgt")
 		{
@@ -520,6 +565,7 @@ bool Assembler::ParseCode()
 			l_pInstruction->setOpcode(89);
 			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
 			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+			((InstructionJmp*)l_pInstruction)->setName("jmpgt");
 		}
 		else if(l_szOperation == "jmpge")
 		{
@@ -527,6 +573,7 @@ bool Assembler::ParseCode()
 			l_pInstruction->setOpcode(90);
 			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
 			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+			((InstructionJmp*)l_pInstruction)->setName("jmpge");
 		}
 		else if(l_szOperation == "jmplt")
 		{
@@ -534,6 +581,7 @@ bool Assembler::ParseCode()
 			l_pInstruction->setOpcode(91);
 			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
 			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+			((InstructionJmp*)l_pInstruction)->setName("jmplt");
 		}
 		else if(l_szOperation == "jmple")
 		{
@@ -541,6 +589,7 @@ bool Assembler::ParseCode()
 			l_pInstruction->setOpcode(92);
 			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
 			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
+			((InstructionJmp*)l_pInstruction)->setName("jmple");
 		}
 		else if(l_szOperation == "spush")
 		{
@@ -574,10 +623,20 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionSetGlobal();
 		}
+		else if(l_szOperation == "jooat")
+		{
+			l_pInstruction = new InstructionBasic();
+			l_pInstruction->setOpcode(100);
+			l_pInstruction->setName("jooat");
+		}
+		else if(l_szOperation == "strcpy")
+		{
+			l_pInstruction = new InstructionStrcpy();
+		}
 		else
 		{
-			//printf("Line %d : Unknown operation \"%s\". !\n", it->first, l_szOperation.c_str());
-			//return false;
+			printf("Line %d : Unknown operation \"%s\". !\n", it->first, l_szOperation.c_str());
+			return false;
 		}
 
 		if(l_pInstruction)
@@ -598,8 +657,6 @@ bool Assembler::ParseCode()
 			if(l_szOperation[0] != ':')
 				printf("-> %d: %s\n", it->first, l_szOperation.c_str());
 		}
-
 	}
-
 	return true;
 }
