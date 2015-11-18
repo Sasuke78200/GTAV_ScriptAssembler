@@ -50,3 +50,8 @@ std::string InstructionSetFrame::toString()
 	// TODO: Print the index
 	return getName() + "";
 }
+
+bool InstructionSetFrame::Process(unsigned char* a_aByteCode)
+{
+	return true;
+}

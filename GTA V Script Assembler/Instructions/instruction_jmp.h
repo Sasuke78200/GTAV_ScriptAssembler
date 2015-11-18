@@ -18,6 +18,7 @@ public:
 
 	void				setLabelCollector(LabelCollector* a_pLabelCollector);
 	void				setAddress(unsigned int a_uiAddress);	
+	bool				Process(unsigned char* a_aByteCode);
 
 private:
 

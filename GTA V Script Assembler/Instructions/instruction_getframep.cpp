@@ -49,3 +49,8 @@ std::string InstructionGetFrameP::toString()
 	// TODO: Print the index
 	return getName();
 }
+
+bool InstructionGetFrameP::Process(unsigned char* a_aByteCode)
+{
+	return true;
+}

@@ -50,3 +50,8 @@ std::string InstructionEnter::toString()
 	// TODO: Print arg count & stack alloc
 	return getName() + "";
 }
+
+bool InstructionEnter::Process(unsigned char* a_aByteCode)
+{
+	return true;
+}

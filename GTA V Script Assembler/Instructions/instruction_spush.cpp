@@ -79,3 +79,8 @@ std::string InstructionsPush::toString()
 	// TODO: Print the string
 	return getName() + "";
 }
+
+bool InstructionsPush::Process(unsigned char* a_aByteCode)
+{
+	return true;
+}

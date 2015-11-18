@@ -83,259 +83,8 @@ void Disassembler::ConvertToInstructions()
 
 		/*
 
-		if(l_bOpcode == 0)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setName("nop");
-		}
-		else if(l_bOpcode == 1)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(1);
-			l_pInstruction->setName("addi");
-		}
-		else if(l_bOpcode == 2)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(2);
-			l_pInstruction->setName("subi");
-		}
-		else if(l_bOpcode == 3)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(3);
-			l_pInstruction->setName("muli");
-		}
-		else if(l_bOpcode == 4)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(4);
-			l_pInstruction->setName("divi");
-		}
-		else if(l_bOpcode == 5)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(5);
-			l_pInstruction->setName("modi");
-		}		
-		else if(l_bOpcode == 6)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(6);
-			l_pInstruction->setName("noti");
-		}
-		else if(l_bOpcode == 7)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(7);
-			l_pInstruction->setName("negi");
-		}		
-		else if(l_bOpcode == 8)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(8);
-			l_pInstruction->setName("icmpeq");
-		}
-		else if(l_bOpcode == 9)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(9);
-			l_pInstruction->setName("icmpne");
-		}
-		else if(l_bOpcode == 10)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(10);
-			l_pInstruction->setName("icmpgt");
-		}
-		else if(l_bOpcode == 11)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(11);
-			l_pInstruction->setName("icmpge");
-		}
-		else if(l_bOpcode == 12)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(12);
-			l_pInstruction->setName("icmplt");
-		}
-		else if(l_bOpcode == 13)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(13);
-			l_pInstruction->setName("icmple");
-		}
-		else if(l_bOpcode == 14)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(14);
-			l_pInstruction->setName("fadd");
-		}
-		else if(l_bOpcode == 15)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(15);
-			l_pInstruction->setName("fsub");
-		}
-		else if(l_bOpcode == 16)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(16);
-			l_pInstruction->setName("fmul");
-		}
-		else if(l_bOpcode == 17)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(17);
-			l_pInstruction->setName("fdiv");
-		}
-		else if(l_bOpcode == 18)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(18);
-			l_pInstruction->setName("fmod");
-		}		
-		else if(l_bOpcode == 19)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(19);
-			l_pInstruction->setName("fneg");
-		}
-		else if(l_bOpcode == 20)
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(20);
-			l_pInstruction->setName("fcmpeq");
-		}
-		else if(l_bOpcode == "fcmpne")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(21);
-			l_pInstruction->setName("fcmpne");
-		}
-		else if(l_bOpcode == "fcmpgt")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(22);
-			l_pInstruction->setName("fcmpgt");
-		}
-		else if(l_bOpcode == "fcmpge")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(23);
-			l_pInstruction->setName("fcmpge");
-		}
-		else if(l_bOpcode == "fcmplt")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(24);
-			l_pInstruction->setName("fcmplt");
-		}
-		else if(l_bOpcode == "fcmple")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(25);
-			l_pInstruction->setName("fcmple");
-		}
-		else if(l_bOpcode == "vadd")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(26);
-			l_pInstruction->setName("vadd");
-		}
-		else if(l_bOpcode == "vsub")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(27);
-			l_pInstruction->setName("vsub");
-		}
-		else if(l_bOpcode == "vmul")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(28);
-			l_pInstruction->setName("vmul");
-		}
-		else if(l_bOpcode == "vdiv")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(29);
-			l_pInstruction->setName("vdiv");
-		}
-		else if(l_bOpcode == "vneg")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(30);
-			l_pInstruction->setName("vneg");
-		}
-		else if(l_bOpcode == "iand")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(31);
-			l_pInstruction->setName("iand");
-		}
-		else if(l_bOpcode == "ior")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(32);
-			l_pInstruction->setName("ior");
-		}
-		else if(l_bOpcode == "ixor")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(33);
-			l_pInstruction->setName("ixor");
-		}
-		else if(l_bOpcode == "itof")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(34);
-			l_pInstruction->setName("itof");
-		}
-		else if(l_bOpcode == "ftoi")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(35);
-			l_pInstruction->setName("ftoi");
-		}
-		else if(l_bOpcode == "dup2")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(36);
-			l_pInstruction->setName("dup2");
-		}
 
-		else if(l_bOpcode == "dup")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(42);
-			l_pInstruction->setName("dup");
-		}
-		else if(l_bOpcode == "drop")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(43);
-			l_pInstruction->setName("drop");
-		}
 
-		else if(l_bOpcode == "pget")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(47);
-			l_pInstruction->setName("pget");
-		}
-		else if(l_bOpcode == "pset")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(48);
-			l_pInstruction->setName("pset");
-		}
-		else if(l_bOpcode == "ppeekset")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(49);
-			l_pInstruction->setName("ppeekset");
-		}
 		else if(l_bOpcode == "jmp")
 		{
 			l_pInstruction = new InstructionJmp();
@@ -401,12 +150,6 @@ void Disassembler::ConvertToInstructions()
 			((InstructionJmp*)l_pInstruction)->setName("jmple");
 		}
 
-		else if(l_bOpcode == "jooat")
-		{
-			l_pInstruction = new InstructionBasic();
-			l_pInstruction->setOpcode(100);
-			l_pInstruction->setName("jooat");
-		}
 		*/
 
 		l_pInstruction = Instruction::allocFromOpcode(l_bOpcode);
@@ -415,6 +158,10 @@ void Disassembler::ConvertToInstructions()
 		{
 			l_pInstruction->Process(&m_aByteCode[l_uiBytecodeAddr / 0x4000][l_uiBytecodeAddr % 0x4000]);
 			this->m_Instructions.push_back(l_pInstruction);
+		}
+		else
+		{
+			printf("Unk opcode %d\n", l_bOpcode);
 		}
 
 		l_uiBytecodeAddr += getOpcodeLenByAddr(l_uiBytecodeAddr);
@@ -439,8 +186,9 @@ void Disassembler::PrintInstructionsToFile(char* a_szOutputPath)
 
 bool Disassembler::ValidateBinary()
 {
-	int l_uiByteCodeLength;
-	int l_uiBytecodeAddr;
+	unsigned int	l_uiByteCodeLength;
+	unsigned int	l_uiBytecodeAddr;
+	int				l_iBytecodeLength;
 
 	l_uiByteCodeLength = m_yscHeader.getByteCodeLength();
 
@@ -452,7 +200,12 @@ bool Disassembler::ValidateBinary()
 
 	for(l_uiBytecodeAddr = 0; l_uiBytecodeAddr < l_uiByteCodeLength;)
 	{
-		l_uiBytecodeAddr += getOpcodeLenByAddr(l_uiBytecodeAddr);
+		l_iBytecodeLength = getOpcodeLenByAddr(l_uiBytecodeAddr);
+		if(l_iBytecodeLength == 0)
+		{
+			return false;
+		}
+		l_uiBytecodeAddr += l_iBytecodeLength;
 	}
 
 	return l_uiBytecodeAddr == l_uiByteCodeLength;

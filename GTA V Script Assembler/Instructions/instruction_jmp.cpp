@@ -53,3 +53,8 @@ void InstructionJmp::setAddress(unsigned int a_uiAddress)
 {
 	this->m_uiOurAddress = a_uiAddress;
 }
+
+bool InstructionJmp::Process(unsigned char* a_aByteCode)
+{
+	return true;
+}

@@ -45,3 +45,8 @@ std::string InstructionGetGlobalP::toString()
 	// TODO: Print the global id
 	return getName() + "";
 }
+
+bool InstructionGetGlobalP::Process(unsigned char* a_aByteCode)
+{
+	return true;
+}

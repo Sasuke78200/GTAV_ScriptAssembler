@@ -41,3 +41,8 @@ std::string InstructionStrcpy::toString()
 	// TODO: Print the len
 	return getName() + "";
 }
+
+bool InstructionStrcpy::Process(unsigned char* a_aByteCode)
+{
+	return true;
+}

@@ -46,3 +46,8 @@ std::string InstructionSetGlobal::toString()
 	// TODO: Print the global id
 	return getName() + "";
 }
+
+bool InstructionSetGlobal::Process(unsigned char* a_aByteCode)
+{
+	return true;
+}

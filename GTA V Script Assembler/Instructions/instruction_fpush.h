@@ -14,7 +14,9 @@ public:
 
 
 	void				setValue(float a_fValue);
+	float				getValue();
 	std::string			toString();
+	bool				Process(unsigned char* a_aByteCode);
 
 private:
 	unsigned char	m_aByteCode[5];

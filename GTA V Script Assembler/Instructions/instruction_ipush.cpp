@@ -70,8 +70,56 @@ void InstructioniPush::setValue(int a_iValue)
 	}
 }
 
+int InstructioniPush::getValue()
+{
+	if(getOpcode() >= 109 && getOpcode() <= 117)
+	{
+		return getOpcode() - 110;
+	}
+	else if(getOpcode() == 37)
+	{
+		return m_aByteCode[1];
+	}
+	else if(getOpcode() == 67)
+	{
+		return *(short*)&m_aByteCode[1];
+	}	
+	return *(int*)&m_aByteCode[1];
+}
+
 std::string InstructioniPush::toString()
 {
-	//TODO: Print the value too
-	return getName() + "";
+	std::stringstream l_ss;
+
+	l_ss << getName() << " " << getValue();
+
+	return l_ss.str();
+}
+
+bool InstructioniPush::Process(unsigned char* a_aByteCode)
+{
+
+	setOpcode(*a_aByteCode);
+
+	if(*a_aByteCode >= 109 && *a_aByteCode <= 117)
+	{
+		setLength(1);
+	}
+	else if(*a_aByteCode == 37)
+	{
+		setLength(2);
+	}
+	else if(*a_aByteCode == 67)
+	{
+		setLength(3);
+	}
+	else
+	{
+		setLength(5);
+	}
+
+	memcpy(this->m_aByteCode, a_aByteCode, getLength());
+
+
+	return true;
 }

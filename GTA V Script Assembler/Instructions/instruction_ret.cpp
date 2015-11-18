@@ -49,3 +49,8 @@ std::string InstructionRet::toString()
 	// TODO: Print arg count & stack pop
 	return getName() + "";
 }
+
+bool InstructionRet::Process(unsigned char* a_aByteCode)
+{
+	return true;
+}

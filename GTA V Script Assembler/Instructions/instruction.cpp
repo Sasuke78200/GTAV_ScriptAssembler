@@ -110,7 +110,7 @@ Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
 	}
 	else if((l_bOpcode >= 118 && l_bOpcode <= 126) || l_bOpcode == 41)
 	{
-		new InstructionfPush();
+		return new InstructionfPush();
 	}
 	return 0;
 }

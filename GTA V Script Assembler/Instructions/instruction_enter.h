@@ -13,6 +13,7 @@ public:
 	unsigned char*		getByteCode();
 	bool				Process(std::string a_szAssemblyLine);
 	std::string			toString();
+	bool				Process(unsigned char* a_aByteCode);
 
 private:
 

@@ -36,3 +36,8 @@ std::string InstructionCall::toString()
 	return getName() + "";
 }
 
+
+bool InstructionCall::Process(unsigned char* a_aByteCode)
+{
+	return true;
+}

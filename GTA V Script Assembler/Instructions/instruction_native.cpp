@@ -77,3 +77,8 @@ std::string InstructionNative::toString()
 	// TODO: Print narive name, arg count & ret count
 	return getName() + "";
 }
+
+bool InstructionNative::Process(unsigned char* a_aByteCode)
+{
+	return true;
+}

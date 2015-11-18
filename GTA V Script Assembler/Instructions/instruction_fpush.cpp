@@ -47,8 +47,38 @@ void InstructionfPush::setValue(float a_fValue)
 	}
 }
 
+float InstructionfPush::getValue()
+{
+	if(getOpcode() >= 118 && getOpcode() <= 126)
+	{
+		return (float)(getOpcode() - 119);
+	}
+	return *(float*)&m_aByteCode[1];
+}
+
 std::string InstructionfPush::toString()
 {
+	std::stringstream l_ss;
 	// TODO: Print the value
-	return getName() + "";
+
+	l_ss << getName() << " " << getValue();
+
+	return l_ss.str();
+}
+
+bool InstructionfPush::Process(unsigned char* a_aByteCode)
+{
+	setOpcode(*a_aByteCode);
+
+	if(*a_aByteCode == 41)
+	{
+		setLength(5);
+	}
+	else
+	{
+		setLength(1);
+	}
+
+	memcpy(this->m_aByteCode, a_aByteCode, getLength());
+	return true;
 }

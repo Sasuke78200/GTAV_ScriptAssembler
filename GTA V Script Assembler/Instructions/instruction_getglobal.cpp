@@ -47,3 +47,8 @@ std::string InstructionGetGlobal::toString()
 	// TODO: Print the global index
 	return getName() + "";
 }
+
+bool InstructionGetGlobal::Process(unsigned char* a_aByteCode)
+{
+	return true;
+}
