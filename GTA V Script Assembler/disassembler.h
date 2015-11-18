@@ -12,7 +12,7 @@ public:
 
 	void	ReadByteCode();
 	void	ConvertToInstructions();
-	void	LinkStringPushes();
+	void	ProcessInstructions();
 	void	PrintInstructionsToFile(char* a_szOutputPath);
 	bool	ValidateBinary();
 	int		getOpcodeLen(unsigned char a_bOpcode);
@@ -23,6 +23,7 @@ private:
 	std::ifstream*				m_pBinaryFile;
 	YscHeader					m_yscHeader;
 	StringCollector				m_stringCollector;
+	LabelCollector				m_labelCollector;
 
 	unsigned char**				m_aByteCode;
 

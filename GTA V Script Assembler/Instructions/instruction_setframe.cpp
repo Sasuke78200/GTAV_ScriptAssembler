@@ -47,11 +47,33 @@ bool InstructionSetFrame::Process(std::string a_szAssemblyLine)
 
 std::string InstructionSetFrame::toString()
 {
-	// TODO: Print the index
-	return getName() + "";
+	std::stringstream l_ss;
+
+	l_ss << getName() << " ";
+
+	if(getOpcode() == 57)
+	{
+		l_ss << (int)m_aByteCode[1];
+	}
+	else
+	{
+		l_ss << *(short*)&m_aByteCode[1];
+	}
+
+	return l_ss.str();
 }
 
 bool InstructionSetFrame::Process(unsigned char* a_aByteCode)
 {
+	setOpcode(*a_aByteCode);
+	if(*a_aByteCode == 57)
+	{
+		setLength(2);
+	}
+	else
+	{
+		setLength(3);
+	}
+	memcpy(this->m_aByteCode, a_aByteCode, getLength());
 	return true;
 }

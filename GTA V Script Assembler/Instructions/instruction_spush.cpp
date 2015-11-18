@@ -1,15 +1,20 @@
 #include "../main.h"
 
-InstructionsPush::InstructionsPush(StringCollector* a_pStringCollector)
+InstructionsPush::InstructionsPush()
 {
 	setOpcode(99);
 	setName("spush");
 
-	this->m_pStringCollector = a_pStringCollector;
+	this->m_pStringCollector = 0;
 }
 
 InstructionsPush::~InstructionsPush()
 {
+}
+
+void InstructionsPush::setStringCollector(StringCollector* a_pStringCollector)
+{
+	this->m_pStringCollector = a_pStringCollector;
 }
 
 unsigned char* InstructionsPush::getByteCode()
@@ -63,24 +68,28 @@ bool InstructionsPush::Process(std::string a_szAssemblyLine)
 	// a string push is represented by two pushes
 	// an integer push, which push the string index
 	// and the opcode 99 which says to the script machine, that we want to get the string pointer at the index X
-	this->m_StringIndexInstruction.setValue(l_iStringId);
-
-
-	memcpy(m_aByteCode, this->m_StringIndexInstruction.getByteCode(), this->m_StringIndexInstruction.getLength());
-	m_aByteCode[this->m_StringIndexInstruction.getLength()] = getOpcode();
-
-	setLength(this->m_StringIndexInstruction.getLength() + 1);
+	setIndex(l_iStringId);
 	return true;
 }
 
 
 std::string InstructionsPush::toString()
 {
-	// TODO: Print the string
-	return getName() + " \"" /*+ this->m_pStringCollector->getString(0) +*/ "\"";
+	return getName() + " \"" + this->m_pStringCollector->getString(this->m_StringIndexInstruction.getValue()) + "\"";
 }
 
 bool InstructionsPush::Process(unsigned char* a_aByteCode)
 {
+	setOpcode(*a_aByteCode);
 	return true;
+}
+
+void InstructionsPush::setIndex(int a_iIndex)
+{
+	this->m_StringIndexInstruction.setValue(a_iIndex);
+
+	memcpy(m_aByteCode, this->m_StringIndexInstruction.getByteCode(), this->m_StringIndexInstruction.getLength());
+	m_aByteCode[this->m_StringIndexInstruction.getLength()] = getOpcode();
+
+	setLength(this->m_StringIndexInstruction.getLength() + 1);
 }

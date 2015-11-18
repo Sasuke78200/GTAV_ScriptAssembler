@@ -42,11 +42,32 @@ bool InstructionGetGlobalP::Process(std::string a_szAssemblyLine)
 
 std::string InstructionGetGlobalP::toString()
 {
-	// TODO: Print the global id
-	return getName() + "";
+	std::stringstream l_ss;
+	l_ss << getName() << " ";
+
+	if(getOpcode() == 82)
+	{
+		l_ss << *(short*)&m_aByteCode[1];
+	}
+	else
+	{
+		l_ss << *(int*)m_aByteCode;
+	}
+
+	return l_ss.str();
 }
 
 bool InstructionGetGlobalP::Process(unsigned char* a_aByteCode)
 {
+	setOpcode(*a_aByteCode);
+	if(*a_aByteCode == 82)
+	{
+		setLength(3);
+	}
+	else
+	{
+		setLength(4);
+	}
+	memcpy(this->m_aByteCode, a_aByteCode, getLength());
 	return true;
 }

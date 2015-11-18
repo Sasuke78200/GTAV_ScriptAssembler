@@ -39,5 +39,6 @@ std::string InstructionCall::toString()
 
 bool InstructionCall::Process(unsigned char* a_aByteCode)
 {
+	setOpcode(*a_aByteCode);
 	return true;
 }

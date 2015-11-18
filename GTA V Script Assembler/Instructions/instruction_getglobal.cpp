@@ -64,7 +64,6 @@ std::string InstructionGetGlobal::toString()
 bool InstructionGetGlobal::Process(unsigned char* a_aByteCode)
 {
 	setOpcode(*a_aByteCode);
-
 	if(*a_aByteCode == 83)
 	{
 		setLength(3);

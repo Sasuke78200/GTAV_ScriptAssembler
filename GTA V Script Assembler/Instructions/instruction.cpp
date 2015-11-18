@@ -4,9 +4,10 @@
 
 Instruction::Instruction()
 {	
-	l_byOpcode	= 0xFF;
-	l_byLength	= 0xFF;
-	l_szName	= "instruction";
+	m_byOpcode	= 0xFF;
+	m_byLength	= 0xFF;
+	m_szName	= "instruction";
+	m_iAddress	= -1;
 }
 
 Instruction::~Instruction()
@@ -15,32 +16,32 @@ Instruction::~Instruction()
 
 void Instruction::setOpcode(unsigned char a_byOpcode)
 {
-	this->l_byOpcode = a_byOpcode;
+	this->m_byOpcode = a_byOpcode;
 }
 
 unsigned char Instruction::getOpcode()
 {
-	return this->l_byOpcode;
+	return this->m_byOpcode;
 }
 
 unsigned char Instruction::getLength()
 {
-	return this->l_byLength;
+	return this->m_byLength;
 }
 
 void Instruction::setLength(unsigned char a_byLength)
 {
-	this->l_byLength = a_byLength;
+	this->m_byLength = a_byLength;
 }
 
 void Instruction::setName(std::string a_szName)
 {
-	this->l_szName = a_szName;
+	this->m_szName = a_szName;
 }
 
 std::string Instruction::getName()
 {
-	return this->l_szName;
+	return this->m_szName;
 }
 
 Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
@@ -98,7 +99,7 @@ Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
 	}
 	else if(l_bOpcode == 99)
 	{
-		return new InstructionsPush(0);
+		return new InstructionsPush();
 	}
 	else if(l_bOpcode == 101)
 	{
@@ -113,4 +114,14 @@ Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
 		return new InstructionfPush();
 	}
 	return 0;
+}
+
+void Instruction::setAddress(int a_iAddress)
+{
+	this->m_iAddress = a_iAddress;
+}
+
+int Instruction::getAddress()
+{
+	return this->m_iAddress;
 }

@@ -41,7 +41,7 @@ bool Disassembler::DisassembleFile(char* a_szBinaryPath, char* a_szOutputPath)
 	{
 		m_stringCollector.importFromBinary(&this->m_yscHeader, this->m_pBinaryFile);
 		ConvertToInstructions();
-		LinkStringPushes();
+		ProcessInstructions();
 		PrintInstructionsToFile(a_szOutputPath);
 		printf("Script disassembled !\n");
 	}
@@ -88,6 +88,7 @@ void Disassembler::ConvertToInstructions()
 
 		if(l_pInstruction)
 		{
+			l_pInstruction->setAddress(l_uiBytecodeAddr);
 			l_pInstruction->Process(&m_aByteCode[l_uiBytecodeAddr / 0x4000][l_uiBytecodeAddr % 0x4000]);
 			this->m_Instructions.push_back(l_pInstruction);
 		}
@@ -100,19 +101,35 @@ void Disassembler::ConvertToInstructions()
 	}
 }
 
-void Disassembler::LinkStringPushes()
+void Disassembler::ProcessInstructions()
 {
 	std::vector<Instruction*>::iterator it;
 
 	for(it = this->m_Instructions.begin(); it != this->m_Instructions.end(); it++)
 	{
-		if((*it)->getOpcode() == 99)
+		if((*it)->getOpcode() == 99)		// string push
 		{
+			InstructionsPush* l_pJmp;
 			std::vector<Instruction*>::iterator previous_it = it - 1;
 			while((*previous_it)->getName() != "ipush") previous_it--;
 
-			*previous_it; // this is the id of the string we need to push
-		}		
+			l_pJmp = (InstructionsPush*)*it;
+			l_pJmp->setStringCollector(&this->m_stringCollector);
+			l_pJmp->setIndex(((InstructioniPush*)*previous_it)->getValue());
+
+			delete *previous_it;
+
+			it = this->m_Instructions.erase(previous_it);
+		}
+		else if((*it)->getOpcode() >= 85 && (*it)->getOpcode() <= 92)	// any jump
+		{
+			std::stringstream l_ss;
+			InstructionJmp* l_pJmp = (InstructionJmp*)*it;
+			l_pJmp->setLabelCollector(&this->m_labelCollector);
+			l_ss << "label_" << std::setfill('0') << std::setw(4) << std::hex << l_pJmp->getJumpAddress();
+			l_pJmp->setLabel(l_ss.str());
+			this->m_labelCollector.AddLabel(l_ss.str(), l_pJmp->getJumpAddress());			
+		}
 	}
 
 }
@@ -124,11 +141,24 @@ void Disassembler::PrintInstructionsToFile(char* a_szOutputPath)
 
 	for(it = this->m_Instructions.begin(); it != this->m_Instructions.end(); it++)
 	{
+		/* TODO: I could do better than that*/
+		std::stringstream l_ss;
+		l_ss << "label_" << std::setfill('0') << std::setw(4) << std::hex << (*it)->getAddress();
+		
+		if(this->m_labelCollector.getAddress(l_ss.str()) != 0xFFFFFFFF) // if the label exists
+		{
+			l_ss << "\n";
+			l_OutputFile.write((":" + l_ss.str()).c_str(), l_ss.str().length()+1);
+		}
+#ifdef _DEBUG
+		std::stringstream l_AssemblyLine;
+		l_AssemblyLine << "- "<< std::hex << std::setfill('0') << std::setw(4) << (*it)->getAddress() << "\t" << (*it)->toString() << "\n";
+		l_OutputFile.write(l_AssemblyLine.str().c_str(), l_AssemblyLine.str().length());
+#else
 		std::string l_AssemblyLine = (*it)->toString() + "\n";
 		l_OutputFile.write(l_AssemblyLine.c_str(), l_AssemblyLine.length());
+#endif
 	}
-
-
 	l_OutputFile.close();
 }
 

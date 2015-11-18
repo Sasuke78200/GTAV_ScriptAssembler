@@ -10,6 +10,7 @@ InstructionJmp::InstructionJmp()
 	setOpcode(-1);
 	setLength(3);
 	setName("jmp");
+	m_bJumpAlreadyComputed = false;
 }
 
 InstructionJmp::~InstructionJmp()
@@ -24,9 +25,10 @@ unsigned char* InstructionJmp::getByteCode()
 	//TODO: Verify that this label exist in the class assembler
 	l_uiLabelAddress = this->m_pLabelCollector->getAddress(this->m_szJmpLabel);
 
-	*(short*)&m_aByteCode[1]	= l_uiLabelAddress - (m_uiOurAddress + getLength());
+	*(short*)&m_aByteCode[1]	= l_uiLabelAddress - (getAddress() + getLength());
 	m_aByteCode[0]				= getOpcode();
 
+	m_bJumpAlreadyComputed = true;
 
 	return m_aByteCode;
 }
@@ -41,8 +43,7 @@ bool InstructionJmp::Process(std::string a_szAssemblyLine)
  
 std::string InstructionJmp::toString()
 {
-	// TODO: Print the label
-	return getName();
+	return getName() + " " + this->m_szJmpLabel;
 }
 
 void InstructionJmp::setLabelCollector(LabelCollector* a_pLabelCollector)
@@ -50,15 +51,10 @@ void InstructionJmp::setLabelCollector(LabelCollector* a_pLabelCollector)
 	this->m_pLabelCollector = a_pLabelCollector;
 }
 
-void InstructionJmp::setAddress(unsigned int a_uiAddress)
-{
-	this->m_uiOurAddress = a_uiAddress;
-}
 
 bool InstructionJmp::Process(unsigned char* a_aByteCode)
 {
 	setOpcode(*a_aByteCode);
-
 	switch(*a_aByteCode)
 	{
 		case 85:
@@ -86,6 +82,19 @@ bool InstructionJmp::Process(unsigned char* a_aByteCode)
 			setName("jmple");
 			break;
 	}
+	m_bJumpAlreadyComputed = true;
 	memcpy(this->m_aByteCode, a_aByteCode, getLength());
 	return true;
+}
+
+short InstructionJmp::getJumpAddress()
+{
+	if(m_bJumpAlreadyComputed == false)
+		getByteCode(); //compute it
+	return ((short)(getAddress() + getLength())) + *(short*)&m_aByteCode[1];
+}
+
+void InstructionJmp::setLabel(std::string a_szLabel)
+{
+	this->m_szJmpLabel = a_szLabel;
 }

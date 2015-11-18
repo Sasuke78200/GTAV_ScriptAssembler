@@ -17,17 +17,16 @@ public:
 
 
 	void				setLabelCollector(LabelCollector* a_pLabelCollector);
-	void				setAddress(unsigned int a_uiAddress);	
 	bool				Process(unsigned char* a_aByteCode);
+	short				getJumpAddress();
+	void				setLabel(std::string a_szLabel);
 
 private:
 
 	unsigned char	m_aByteCode[3];
 	LabelCollector*	m_pLabelCollector;
 	std::string		m_szJmpLabel;
-	unsigned int	m_uiOurAddress;
-
-
+	bool			m_bJumpAlreadyComputed;
 };
 
 

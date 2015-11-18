@@ -50,7 +50,7 @@ void InstructionfPush::setValue(float a_fValue)
 float InstructionfPush::getValue()
 {
 	if(getOpcode() >= 118 && getOpcode() <= 126)
-	{
+	{		
 		return (float)(getOpcode() - 119);
 	}
 	return *(float*)&m_aByteCode[1];
@@ -69,7 +69,6 @@ std::string InstructionfPush::toString()
 bool InstructionfPush::Process(unsigned char* a_aByteCode)
 {
 	setOpcode(*a_aByteCode);
-
 	if(*a_aByteCode == 41)
 	{
 		setLength(5);

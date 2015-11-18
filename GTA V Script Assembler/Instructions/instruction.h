@@ -20,6 +20,9 @@ public:
 	void						setName(std::string a_szName);
 	std::string					getName();
 
+	void						setAddress(int a_iAddress);
+	int							getAddress();
+
 	virtual	unsigned char*		getByteCode() = 0;
 	virtual bool				Process(std::string a_szAssemblyLine) = 0;
 	virtual bool				Process(unsigned char*) = 0;
@@ -30,10 +33,10 @@ public:
 
 protected:
 
-	unsigned char	l_byOpcode;
-	unsigned char	l_byLength;
-	std::string		l_szName;
-
+	unsigned char	m_byOpcode;
+	unsigned char	m_byLength;
+	std::string		m_szName;
+	int				m_iAddress;	// address of this instruction in the program
 };
 
 

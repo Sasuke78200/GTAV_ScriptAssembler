@@ -80,5 +80,6 @@ std::string InstructionNative::toString()
 
 bool InstructionNative::Process(unsigned char* a_aByteCode)
 {
+	setOpcode(*a_aByteCode);
 	return true;
 }

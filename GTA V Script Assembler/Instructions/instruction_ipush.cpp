@@ -98,9 +98,7 @@ std::string InstructioniPush::toString()
 
 bool InstructioniPush::Process(unsigned char* a_aByteCode)
 {
-
 	setOpcode(*a_aByteCode);
-
 	if(*a_aByteCode >= 109 && *a_aByteCode <= 117)
 	{
 		setLength(1);
@@ -119,7 +117,5 @@ bool InstructioniPush::Process(unsigned char* a_aByteCode)
 	}
 
 	memcpy(this->m_aByteCode, a_aByteCode, getLength());
-
-
 	return true;
 }

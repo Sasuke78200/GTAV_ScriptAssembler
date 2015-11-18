@@ -57,9 +57,9 @@ void Assembler::ConstructBinary(std::ofstream* a_pBinaryStream)
 
 	// get byte code length
 	l_uiByteCodeLength = 0;
-	for(std::map<unsigned int, Instruction*>::iterator it = this->m_ByteCode.begin(); it != this->m_ByteCode.end(); it++)
+	for(std::vector<Instruction*>::iterator it = this->m_ByteCode.begin(); it != this->m_ByteCode.end(); it++)
 	{
-		l_uiByteCodeLength += it->second->getLength();
+		l_uiByteCodeLength += (*it)->getLength();
 	}
 
 	l_yscHeader.setByteCodeLength(l_uiByteCodeLength);
@@ -77,9 +77,9 @@ void Assembler::ConstructBinary(std::ofstream* a_pBinaryStream)
 	}
 
 	// fill them with the code
-	for(std::map<unsigned int, Instruction*>::iterator it = this->m_ByteCode.begin(); it != this->m_ByteCode.end(); it++)
+	for(std::vector<Instruction*>::iterator it = this->m_ByteCode.begin(); it != this->m_ByteCode.end(); it++)
 	{	
-		memcpy(&l_pByteCode[it->first / 0x4000][it->first % 0x4000], it->second->getByteCode(), it->second->getLength());
+		memcpy(&l_pByteCode[(*it)->getAddress() / 0x4000][(*it)->getAddress() % 0x4000], (*it)->getByteCode(), (*it)->getLength());
 	}
 
 	l_yscHeader.setScriptName(m_szScriptName);
@@ -531,69 +531,63 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionJmp();
 			l_pInstruction->setOpcode(85);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmp");
+			l_pInstruction->setName("jmp");
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);			
 		}		
 		else if(l_szOperation == "jmpf")
 		{
 			l_pInstruction = new InstructionJmp();
 			l_pInstruction->setOpcode(86);
+			l_pInstruction->setName("jmpf");
 			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmpf");
+			
 		}		
 		else if(l_szOperation == "jmpneq")
 		{
 			l_pInstruction = new InstructionJmp();
 			l_pInstruction->setOpcode(87);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmpneq");
+			l_pInstruction->setName("jmpneq");
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);			
 		}
 		else if(l_szOperation == "jmpeq")
 		{
 			l_pInstruction = new InstructionJmp();
 			l_pInstruction->setOpcode(88);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmpeq");
+			l_pInstruction->setName("jmpeq");
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);			
 		}
 		else if(l_szOperation == "jmpgt")
 		{
 			l_pInstruction = new InstructionJmp();
 			l_pInstruction->setOpcode(89);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmpgt");
+			l_pInstruction->setName("jmpgt");
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);			
 		}
 		else if(l_szOperation == "jmpge")
 		{
 			l_pInstruction = new InstructionJmp();
 			l_pInstruction->setOpcode(90);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmpge");
+			l_pInstruction->setName("jmpge");
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);			
 		}
 		else if(l_szOperation == "jmplt")
 		{
 			l_pInstruction = new InstructionJmp();
 			l_pInstruction->setOpcode(91);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmplt");
+			l_pInstruction->setName("jmplt");
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);			
 		}
 		else if(l_szOperation == "jmple")
 		{
 			l_pInstruction = new InstructionJmp();
 			l_pInstruction->setOpcode(92);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmple");
+			l_pInstruction->setName("jmple");
+			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);			
 		}
 		else if(l_szOperation == "spush")
 		{
-			l_pInstruction = new InstructionsPush(&this->m_StringCollector);
+			l_pInstruction = new InstructionsPush();
+			((InstructionsPush*)l_pInstruction)->setStringCollector(&this->m_StringCollector);
 		}
 		else if(l_szOperation == "call")
 		{
@@ -643,7 +637,8 @@ bool Assembler::ParseCode()
 		{
 			if(l_pInstruction->Process(l_szOperand))
 			{
-				this->m_ByteCode.insert(std::pair<unsigned int, Instruction*>(l_uiAddress, l_pInstruction));
+				l_pInstruction->setAddress(l_uiAddress);
+				this->m_ByteCode.push_back(l_pInstruction);
 				l_uiAddress += l_pInstruction->getLength();
 			}
 			else

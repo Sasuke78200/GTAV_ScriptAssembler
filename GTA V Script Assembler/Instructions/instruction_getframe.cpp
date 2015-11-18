@@ -62,7 +62,6 @@ std::string InstructionGetFrame::toString()
 bool InstructionGetFrame::Process(unsigned char* a_aByteCode)
 {
 	setOpcode(*a_aByteCode);
-
 	if(*a_aByteCode == 56)
 	{
 		setLength(2);

@@ -46,11 +46,14 @@ bool InstructionRet::Process(std::string a_szAssemblyLine)
 
 std::string InstructionRet::toString()
 {
-	// TODO: Print arg count & stack pop
-	return getName() + "";
+	std::stringstream l_ss;
+	l_ss << getName() << " " << (int)m_aByteCode[1] << " " << (int)m_aByteCode[2];
+	return l_ss.str();
 }
 
 bool InstructionRet::Process(unsigned char* a_aByteCode)
 {
+	setOpcode(*a_aByteCode);
+	memcpy(this->m_aByteCode, a_aByteCode, getLength());
 	return true;
 }

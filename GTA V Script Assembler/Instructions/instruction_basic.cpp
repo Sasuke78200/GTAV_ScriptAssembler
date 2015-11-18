@@ -14,7 +14,7 @@ InstructionBasic::~InstructionBasic()
 
 unsigned char* InstructionBasic::getByteCode()
 {
-	return &l_byOpcode;
+	return &m_byOpcode;
 }
 
 bool InstructionBasic::Process(std::string a_szAssemblyLine)
@@ -30,6 +30,7 @@ std::string InstructionBasic::toString()
 
 bool InstructionBasic::Process(unsigned char* a_aByteCode)
 {
+	setOpcode(*a_aByteCode);
 	switch(*a_aByteCode)
 	{
 	case 0:

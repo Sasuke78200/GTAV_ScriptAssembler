@@ -5,14 +5,16 @@ class InstructionsPush : public Instruction
 {
 public:
 	
-	InstructionsPush(StringCollector* a_pStringCollector);
+	InstructionsPush();
 	~InstructionsPush();
+
+	void				setStringCollector(StringCollector* a_pStringCollector);
 
 	unsigned char*		getByteCode();
 	bool				Process(std::string a_szAssemblyLine);
 	std::string			toString();
 	bool				Process(unsigned char* a_aByteCode);
-
+	void				setIndex(int a_iIndex);
 
 private:
 

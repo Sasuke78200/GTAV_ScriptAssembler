@@ -54,6 +54,7 @@ std::string InstructionEnter::toString()
 
 bool InstructionEnter::Process(unsigned char* a_aByteCode)
 {
+	setOpcode(*a_aByteCode);
 	memcpy(this->m_aByteCode, a_aByteCode, getLength());
 	return true;
 }

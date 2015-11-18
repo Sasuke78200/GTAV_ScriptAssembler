@@ -21,7 +21,9 @@ private:
 
 	std::ifstream*							m_pAssemblyFile;
 	std::map<unsigned int, std::string>		m_AssemblyLines;
-	std::map<unsigned int, Instruction*>	m_ByteCode;
+	//std::map<unsigned int, Instruction*>	m_ByteCode;
+	std::vector<Instruction*>				m_ByteCode;
+
 
 	std::string								m_szScriptName;
 

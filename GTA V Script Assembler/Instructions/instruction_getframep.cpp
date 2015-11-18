@@ -64,7 +64,6 @@ std::string InstructionGetFrameP::toString()
 bool InstructionGetFrameP::Process(unsigned char* a_aByteCode)
 {
 	setOpcode(*a_aByteCode);
-
 	if(*a_aByteCode == 55)
 	{
 		setLength(2);

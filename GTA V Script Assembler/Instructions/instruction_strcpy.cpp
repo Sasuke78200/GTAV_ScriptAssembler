@@ -38,11 +38,14 @@ bool InstructionStrcpy::Process(std::string a_szAssemblyLine)
 
 std::string InstructionStrcpy::toString()
 {
-	// TODO: Print the len
-	return getName() + "";
+	std::stringstream l_ss;
+	l_ss << getName() << (int)m_aByteCode[1];
+	return l_ss.str();
 }
 
 bool InstructionStrcpy::Process(unsigned char* a_aByteCode)
 {
+	setOpcode(*a_aByteCode);
+	memcpy(this->m_aByteCode, a_aByteCode, getLength());
 	return true;
 }

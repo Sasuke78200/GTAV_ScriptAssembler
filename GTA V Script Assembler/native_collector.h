@@ -18,13 +18,7 @@ public:
 	void				TranslateHash(int a_iVersion);
 
 private:
-
-
-
 	std::map<std::string, unsigned long long>				m_NativeHashes;
-
-
-
 };
 
 
