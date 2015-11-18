@@ -1,5 +1,5 @@
 #include "main.h"
-#include "ysc_header.h"
+
 
 StringCollector::StringCollector()
 {
@@ -70,17 +70,48 @@ int StringCollector::addString(char* a_szString)
 	return l_iStringId;
 }
 
-/*
-void StringCollector::importStringPage(YscHeader* a_pYscHeader, std::ifstream* a_pFileStream)
+char* StringCollector::getString(int a_uiId)
 {
-	freePages();
-
-}*/
+	if(a_uiId / 0x4000 < getPageCount())
+	{
+		return &this->m_stringPages[a_uiId / 0x4000][a_uiId % 0x4000];
+	}
+	return nullptr;
+}
 
 char** StringCollector::getStringPages()
 {
 	return &this->m_stringPages[0];
 }
+
+
+void StringCollector::importFromBinary(YscHeader* a_pYscHeader, std::ifstream* a_pFileStream)
+{
+	// strings pages informations
+	int l_iBinaryPageCount;
+	int l_iBinaryLength;
+
+	int i;
+
+	// 
+	l_iBinaryPageCount	= a_pYscHeader->getStringPageCount();
+	l_iBinaryLength		= a_pYscHeader->getStringsLength();
+
+
+	freePages();
+
+	for(i = 0; i < l_iBinaryPageCount; i++)
+	{
+		char* l_pNewPage = new char[0x4000];
+
+		this->m_stringPages.push_back(l_pNewPage);
+
+		a_pFileStream->seekg(a_pYscHeader->getStringPageOffset(a_pFileStream, i));
+		a_pFileStream->read(l_pNewPage, a_pYscHeader->getStringPageLength(i));
+	}
+	this->m_iStringPageLength = l_iBinaryLength;
+}
+
 
 /*
 StringCollector::StringCollector()

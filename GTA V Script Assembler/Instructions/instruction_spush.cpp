@@ -77,7 +77,7 @@ bool InstructionsPush::Process(std::string a_szAssemblyLine)
 std::string InstructionsPush::toString()
 {
 	// TODO: Print the string
-	return getName() + "";
+	return getName() + " \"" /*+ this->m_pStringCollector->getString(0) +*/ "\"";
 }
 
 bool InstructionsPush::Process(unsigned char* a_aByteCode)

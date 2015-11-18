@@ -23,7 +23,6 @@ bool Disassembler::DisassembleFile(char* a_szBinaryPath, char* a_szOutputPath)
 		return false;
 	}
 
-
 	// if the file isn't open, we return false;
 	if(m_pBinaryFile->is_open() == false)
 	{
@@ -32,7 +31,6 @@ bool Disassembler::DisassembleFile(char* a_szBinaryPath, char* a_szOutputPath)
 		return false;
 	}
 	
-
 	m_yscHeader.ReadFromFile(m_pBinaryFile);
 		
 	printf("Disassembling script \"%s\" ...\n", m_yscHeader.getName().c_str());
@@ -41,12 +39,11 @@ bool Disassembler::DisassembleFile(char* a_szBinaryPath, char* a_szOutputPath)
 
 	if(ValidateBinary())
 	{
-		printf("Binary validated !\n");
-		//m_stringCollector.importStringPage(&this->m_yscHeader, this->m_pBinaryFile);
-
-
+		m_stringCollector.importFromBinary(&this->m_yscHeader, this->m_pBinaryFile);
 		ConvertToInstructions();
+		LinkStringPushes();
 		PrintInstructionsToFile(a_szOutputPath);
+		printf("Script disassembled !\n");
 	}
 	else
 	{
@@ -101,6 +98,23 @@ void Disassembler::ConvertToInstructions()
 
 		l_uiBytecodeAddr += getOpcodeLenByAddr(l_uiBytecodeAddr);
 	}
+}
+
+void Disassembler::LinkStringPushes()
+{
+	std::vector<Instruction*>::iterator it;
+
+	for(it = this->m_Instructions.begin(); it != this->m_Instructions.end(); it++)
+	{
+		if((*it)->getOpcode() == 99)
+		{
+			std::vector<Instruction*>::iterator previous_it = it - 1;
+			while((*previous_it)->getName() != "ipush") previous_it--;
+
+			*previous_it; // this is the id of the string we need to push
+		}		
+	}
+
 }
 
 void Disassembler::PrintInstructionsToFile(char* a_szOutputPath)

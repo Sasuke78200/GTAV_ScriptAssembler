@@ -43,8 +43,6 @@ public:
 	~YscHeader();
 
 
-	void setByteCodeLength(unsigned int a_uiLength);
-	unsigned int getByteCodeLength();
 	void setScriptName(std::string a_szName);
 
 	void WriteToFile(std::ofstream* a_pFileStream, 
@@ -58,10 +56,17 @@ public:
 	std::string getName();
 
 	/* Code page informations */
-	int getCodePageCount();
-	int getCodePageLength(unsigned int a_uiPage);
-	int getCodePageOffset(std::ifstream* a_pFileStream, int a_uiPage);
+	int				getCodePageCount();
+	int				getCodePageLength(unsigned int a_uiPage);
+	int				getCodePageOffset(std::ifstream* a_pFileStream, int a_uiPage);
+	void			setByteCodeLength(unsigned int a_uiLength);
+	unsigned int	getByteCodeLength();
 
+
+	int getStringPageCount();
+	int getStringPageLength(unsigned int a_uiPage);
+	int getStringPageOffset(std::ifstream* a_pFileStream, int a_uiPage);
+	int getStringsLength();
 
 
 private:

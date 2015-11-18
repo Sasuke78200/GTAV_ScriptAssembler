@@ -1,6 +1,8 @@
 #ifndef __STRING_COLLECTOR_H__
 #define __STRING_COLLECTOR_H__
 
+class YscHeader;
+
 class StringCollector
 {
 public:
@@ -16,11 +18,12 @@ public:
 	*/
 	
 	int			addString(char* a_szString);
+	char*		getString(int a_uiId);
 	int			getPageCount();
 	int			getStringPageLength();
 	char**		getStringPages();
 	void		freePages();
-	void		copyPage(char* a_pSrc, int a_iPageDest);
+	void		importFromBinary(YscHeader* a_pYscHeader, std::ifstream* a_pFileStream);	
 
 private:
 

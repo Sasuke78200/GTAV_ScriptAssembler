@@ -12,6 +12,7 @@ public:
 
 	void	ReadByteCode();
 	void	ConvertToInstructions();
+	void	LinkStringPushes();
 	void	PrintInstructionsToFile(char* a_szOutputPath);
 	bool	ValidateBinary();
 	int		getOpcodeLen(unsigned char a_bOpcode);

@@ -254,3 +254,37 @@ int YscHeader::getCodePageOffset(std::ifstream* a_pFileStream, int a_uiPage)
 	}
 	return l_uiPageOffset;
 }
+
+int YscHeader::getStringPageCount()
+{
+	return (this->m_uiStringsLength / 0x4000) + 1;
+}
+
+int YscHeader::getStringPageLength(unsigned int a_uiPage)
+{
+	if((this->getStringPageCount() - 1) == a_uiPage)
+	{
+		return this->m_uiStringsLength % 0x4000;
+	}
+	return 0x4000;
+}
+
+int YscHeader::getStringPageOffset(std::ifstream* a_pFileStream, int a_uiPage)
+{
+	int l_uiPageOffset;
+
+	l_uiPageOffset = -1;
+
+	if(a_uiPage < getStringPageCount())
+	{
+		a_pFileStream->seekg(this->m_uiStringsOffset + 8 * a_uiPage);
+		a_pFileStream->read((char*)&l_uiPageOffset, 4);
+		l_uiPageOffset &= 0x00FFFFFF;
+	}
+	return l_uiPageOffset;
+}
+
+int YscHeader::getStringsLength()
+{
+	return this->m_uiStringsLength;
+}
