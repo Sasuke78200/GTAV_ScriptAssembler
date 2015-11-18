@@ -63,7 +63,7 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 	unsigned long long*		l_pByteCodePageAddr;
 	unsigned long long*		l_pStringPageAddr;
 
-	this->m_uiStringsLength		= a_pStringCollector->getStringsLength();
+	this->m_uiStringsLength		= a_pStringCollector->getStringPageLength();
 	this->m_uiNativeCount		= a_pNativeCollector->getNativeCount();
 	this->m_uiUnk000C			= 0x99B407C5;
 	this->m_uiScriptCount		= 1;
@@ -112,11 +112,11 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 	
 	// write the string pages
 
-	if(a_pStringCollector->getStringsLength() != 0)
+	if(a_pStringCollector->getStringPageLength() != 0)
 	{
-		int		l_iPageCount = a_pStringCollector->getStringPageCount();
+		int		l_iPageCount = a_pStringCollector->getPageCount();
 		int		l_iPageLen;
-		char**	l_ppStringPages = a_pStringCollector->constructStringsPage();
+		char**	l_ppStringPages = a_pStringCollector->getStringPages();
 
 		l_pStringPageAddr = new unsigned long long[l_iPageCount];
 
@@ -155,7 +155,7 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 	if(m_uiStringsLength)
 	{
 		m_uiStringsOffset = offset(a_pFileStream->tellp());
-		a_pFileStream->write((char*)l_pStringPageAddr, a_pStringCollector->getStringPageCount() * sizeof(unsigned long long));
+		a_pFileStream->write((char*)l_pStringPageAddr, a_pStringCollector->getPageCount() * sizeof(unsigned long long));
 	}
 
 

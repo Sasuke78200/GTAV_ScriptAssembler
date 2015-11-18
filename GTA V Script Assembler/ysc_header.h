@@ -1,6 +1,7 @@
 #ifndef __YSC_HEADER_H__
 #define __YSC_HEADER_H__
 
+
 // the header of each .ysc is the exact representation of a scrProgram
 // except that the vmt is the magic number
 

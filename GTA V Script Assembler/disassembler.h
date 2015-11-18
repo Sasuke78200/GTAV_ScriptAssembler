@@ -21,6 +21,7 @@ private:
 
 	std::ifstream*				m_pBinaryFile;
 	YscHeader					m_yscHeader;
+	StringCollector				m_stringCollector;
 
 	unsigned char**				m_aByteCode;
 

@@ -57,7 +57,7 @@ bool InstructionsPush::Process(std::string a_szAssemblyLine)
 	a_szAssemblyLine = a_szAssemblyLine.substr(l_iOpenQuote + 1, l_iCloseQuote - l_iOpenQuote - 1);
 
 	// add the string to the string collector
-	l_iStringId = this->m_pStringCollector->addString(a_szAssemblyLine);
+	l_iStringId = this->m_pStringCollector->addString((char*)a_szAssemblyLine.c_str());
 
 
 	// a string push is represented by two pushes

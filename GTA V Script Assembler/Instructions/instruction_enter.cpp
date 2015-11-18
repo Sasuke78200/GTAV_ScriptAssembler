@@ -47,11 +47,13 @@ bool InstructionEnter::Process(std::string a_szAssemblyLine)
 
 std::string InstructionEnter::toString()
 {
-	// TODO: Print arg count & stack alloc
-	return getName() + "";
+	std::stringstream l_ss;
+	l_ss << getName() << " " << (int)m_aByteCode[1] << " " << *(unsigned short*)&m_aByteCode[2];
+	return l_ss.str();
 }
 
 bool InstructionEnter::Process(unsigned char* a_aByteCode)
 {
+	memcpy(this->m_aByteCode, a_aByteCode, getLength());
 	return true;
 }

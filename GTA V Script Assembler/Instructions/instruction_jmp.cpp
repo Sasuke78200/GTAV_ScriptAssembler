@@ -41,6 +41,7 @@ bool InstructionJmp::Process(std::string a_szAssemblyLine)
  
 std::string InstructionJmp::toString()
 {
+	// TODO: Print the label
 	return getName();
 }
 
@@ -56,5 +57,35 @@ void InstructionJmp::setAddress(unsigned int a_uiAddress)
 
 bool InstructionJmp::Process(unsigned char* a_aByteCode)
 {
+	setOpcode(*a_aByteCode);
+
+	switch(*a_aByteCode)
+	{
+		case 85:
+			setName("jmp");
+			break;		
+		case 86:
+			setName("jmpf");
+			break;		
+		case 87:
+			setName("jmpneq");
+			break;
+		case 88:
+			setName("jmpeq");
+			break;
+		case 89:
+			setName("jmpgt");
+			break;
+		case 90:
+			setName("jmpge");
+			break;
+		case 91:
+			setName("jmplt");
+			break;
+		case 92:
+			setName("jmple");
+			break;
+	}
+	memcpy(this->m_aByteCode, a_aByteCode, getLength());
 	return true;
 }

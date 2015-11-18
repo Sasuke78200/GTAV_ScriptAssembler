@@ -9,7 +9,7 @@ void ShowHelp()
 {
 	printf("USAGE : -i input_path -o output_path [-n] [-v]\n\n");
 	printf("Options :\n");
-	printf("    -d\t\tDisassemble a compiled script");
+	printf("    -d\t\tDisassemble a compiled script\n");
 	printf("    -n\t\tInternal script name, by default it takes the output file name\n");
 	printf("    -v\t\tNative functions hashes\n");
 	printf("      \t\t0 for build 335\n");

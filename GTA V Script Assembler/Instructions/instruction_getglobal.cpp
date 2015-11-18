@@ -2,7 +2,9 @@
 
 
 InstructionGetGlobal::InstructionGetGlobal()
-{
+{	
+	setOpcode(-1);
+	setLength(-1);
 	setName("getglobal");
 }
 
@@ -44,11 +46,34 @@ bool InstructionGetGlobal::Process(std::string a_szAssemblyLine)
 
 std::string InstructionGetGlobal::toString()
 {
-	// TODO: Print the global index
-	return getName() + "";
+	std::stringstream l_ss;
+	l_ss << getName() << " ";
+
+	if(getOpcode() == 83)
+	{
+		l_ss << *(short*)&m_aByteCode[1];
+	}
+	else
+	{
+		l_ss << (int)(_byteswap_ulong(*(int*)m_aByteCode) & 0x00FFFFFF);
+	}
+
+	return l_ss.str();
 }
 
 bool InstructionGetGlobal::Process(unsigned char* a_aByteCode)
 {
+	setOpcode(*a_aByteCode);
+
+	if(*a_aByteCode == 83)
+	{
+		setLength(3);
+	}
+	else
+	{
+		setLength(4);
+	}
+
+	memcpy(this->m_aByteCode, a_aByteCode, getLength());
 	return true;
 }

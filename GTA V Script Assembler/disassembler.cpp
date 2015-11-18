@@ -42,10 +42,16 @@ bool Disassembler::DisassembleFile(char* a_szBinaryPath, char* a_szOutputPath)
 	if(ValidateBinary())
 	{
 		printf("Binary validated !\n");
+		//m_stringCollector.importStringPage(&this->m_yscHeader, this->m_pBinaryFile);
+
+
 		ConvertToInstructions();
 		PrintInstructionsToFile(a_szOutputPath);
 	}
-
+	else
+	{
+		printf("Unable to validate the binary !\n");
+	}
 	delete m_pBinaryFile;
 	m_pBinaryFile = 0;
 	return true;
@@ -80,78 +86,7 @@ void Disassembler::ConvertToInstructions()
 	for(l_uiBytecodeAddr = 0; l_uiBytecodeAddr < l_uiByteCodeLength;)
 	{
 		l_bOpcode = m_aByteCode[l_uiBytecodeAddr / 0x4000][l_uiBytecodeAddr % 0x4000];
-
-		/*
-
-
-
-		else if(l_bOpcode == "jmp")
-		{
-			l_pInstruction = new InstructionJmp();
-			l_pInstruction->setOpcode(85);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmp");
-		}		
-		else if(l_bOpcode == "jmpf")
-		{
-			l_pInstruction = new InstructionJmp();
-			l_pInstruction->setOpcode(86);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmpf");
-		}		
-		else if(l_bOpcode == "jmpneq")
-		{
-			l_pInstruction = new InstructionJmp();
-			l_pInstruction->setOpcode(87);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmpneq");
-		}
-		else if(l_bOpcode == "jmpeq")
-		{
-			l_pInstruction = new InstructionJmp();
-			l_pInstruction->setOpcode(88);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmpeq");
-		}
-		else if(l_bOpcode == "jmpgt")
-		{
-			l_pInstruction = new InstructionJmp();
-			l_pInstruction->setOpcode(89);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmpgt");
-		}
-		else if(l_bOpcode == "jmpge")
-		{
-			l_pInstruction = new InstructionJmp();
-			l_pInstruction->setOpcode(90);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmpge");
-		}
-		else if(l_bOpcode == "jmplt")
-		{
-			l_pInstruction = new InstructionJmp();
-			l_pInstruction->setOpcode(91);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmplt");
-		}
-		else if(l_bOpcode == "jmple")
-		{
-			l_pInstruction = new InstructionJmp();
-			l_pInstruction->setOpcode(92);
-			((InstructionJmp*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
-			((InstructionJmp*)l_pInstruction)->setAddress(l_uiAddress);
-			((InstructionJmp*)l_pInstruction)->setName("jmple");
-		}
-
-		*/
-
+	
 		l_pInstruction = Instruction::allocFromOpcode(l_bOpcode);
 
 		if(l_pInstruction)
@@ -161,7 +96,7 @@ void Disassembler::ConvertToInstructions()
 		}
 		else
 		{
-			printf("Unk opcode %d\n", l_bOpcode);
+			printf("Disassembler::ConvertToInstructions() -> Unk opcode %d\n", l_bOpcode);
 		}
 
 		l_uiBytecodeAddr += getOpcodeLenByAddr(l_uiBytecodeAddr);
@@ -203,6 +138,8 @@ bool Disassembler::ValidateBinary()
 		l_iBytecodeLength = getOpcodeLenByAddr(l_uiBytecodeAddr);
 		if(l_iBytecodeLength == 0)
 		{
+			printf("0 length opcode %d !\n", m_aByteCode[l_uiBytecodeAddr / 0x4000][l_uiBytecodeAddr % 0x4000]);
+			printf("Addr %d code size %d\n", l_uiBytecodeAddr, l_uiByteCodeLength);
 			return false;
 		}
 		l_uiBytecodeAddr += l_iBytecodeLength;

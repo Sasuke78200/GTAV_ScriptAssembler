@@ -20,6 +20,7 @@
 #include "rapidjson/document.h" 
 #include "rapidjson/filereadstream.h"
 
+
 // collectors
 #include "label_collector.h"
 #include "native_collector.h"
@@ -27,7 +28,7 @@
 
 // all the instruction
 #include "Instructions/instruction.h"
-#include "Instructions/instruction_basic.h" // on byte instruction, like add, mul, comparisons, etc ...
+#include "Instructions/instruction_basic.h" // one byte instruction, like add, mul, comparisons, etc ...
 #include "Instructions/instruction_ipush.h"
 #include "Instructions/instruction_fpush.h"
 #include "Instructions/instruction_native.h"
