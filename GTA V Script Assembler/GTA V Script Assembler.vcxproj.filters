@@ -61,6 +61,9 @@
       <Filter>Instructions</Filter>
     </ClCompile>
     <ClCompile Include="disassembler.cpp" />
+    <ClCompile Include="Instructions\instruction_setstack.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -123,6 +126,9 @@
       <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="disassembler.h" />
+    <ClInclude Include="Instructions\instruction_setstack.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Instructions">

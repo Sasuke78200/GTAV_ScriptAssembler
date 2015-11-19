@@ -96,6 +96,7 @@
     <ClCompile Include="Instructions\instruction_ret.cpp" />
     <ClCompile Include="Instructions\instruction_setframe.cpp" />
     <ClCompile Include="Instructions\instruction_setglobal.cpp" />
+    <ClCompile Include="Instructions\instruction_setstack.cpp" />
     <ClCompile Include="Instructions\instruction_spush.cpp" />
     <ClCompile Include="Instructions\instruction_strcpy.cpp" />
     <ClCompile Include="label_collector.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="Instructions\instruction_ret.h" />
     <ClInclude Include="Instructions\instruction_setframe.h" />
     <ClInclude Include="Instructions\instruction_setglobal.h" />
+    <ClInclude Include="Instructions\instruction_setstack.h" />
     <ClInclude Include="Instructions\instruction_spush.h" />
     <ClInclude Include="Instructions\instruction_strcpy.h" />
     <ClInclude Include="label_collector.h" />

@@ -594,6 +594,10 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionStrcpy();
 		}
+		else if(l_szOperation == "setstack")
+		{
+			l_pInstruction = new InstructionSetStack();
+		}
 		else
 		{
 			printf("Line %d : Unknown operation \"%s\". !\n", it->first, l_szOperation.c_str());

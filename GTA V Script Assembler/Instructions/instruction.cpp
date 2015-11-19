@@ -113,6 +113,10 @@ Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
 	{
 		return new InstructionfPush();
 	}
+	else if(l_bOpcode == 60 || l_bOpcode == 81)
+	{
+		return new InstructionSetStack();
+	}
 	return 0;
 }
 
