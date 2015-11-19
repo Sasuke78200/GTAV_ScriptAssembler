@@ -1,22 +1,22 @@
 #include "../main.h"
 
 
-InstructionSetStack::InstructionSetStack()
+InstructionSetStatic::InstructionSetStatic()
 {
-	setName("setstack");
+	setName("setstatic");
 	setLength(-1);
 	setOpcode(-1);
 }
 
-InstructionSetStack::~InstructionSetStack()
+InstructionSetStatic::~InstructionSetStatic()
 {
 }
 
-unsigned char* InstructionSetStack::getByteCode()
+unsigned char* InstructionSetStatic::getByteCode()
 {
 	return this->m_aByteCode;
 }
-bool InstructionSetStack::Process(std::string a_szAssemblyLine)
+bool InstructionSetStatic::Process(std::string a_szAssemblyLine)
 {
 	if(a_szAssemblyLine.length() == 0) return 0;
 
@@ -35,14 +35,14 @@ bool InstructionSetStack::Process(std::string a_szAssemblyLine)
 	return true;
 }
 
-std::string InstructionSetStack::toString()
+std::string InstructionSetStatic::toString()
 {
 	std::stringstream l_ss;
 	l_ss << getName() + " " << getIndex();
 	return l_ss.str();
 }
 
-bool InstructionSetStack::Process(unsigned char* a_aByteCode)
+bool InstructionSetStatic::Process(unsigned char* a_aByteCode)
 {
 	setOpcode(*a_aByteCode);
 	if(*a_aByteCode == 60)
@@ -57,7 +57,7 @@ bool InstructionSetStack::Process(unsigned char* a_aByteCode)
 	return true;
 }
 
-void InstructionSetStack::setIndex(int a_iIndex)
+void InstructionSetStatic::setIndex(int a_iIndex)
 {
 	// 60 byte
 	if(*(char*)&a_iIndex == a_iIndex)
@@ -76,7 +76,7 @@ void InstructionSetStack::setIndex(int a_iIndex)
 	}	
 }
 
-int InstructionSetStack::getIndex()
+int InstructionSetStatic::getIndex()
 {
 	// 60 byte
 	if(getOpcode() == 60)

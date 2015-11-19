@@ -61,10 +61,13 @@
       <Filter>Instructions</Filter>
     </ClCompile>
     <ClCompile Include="disassembler.cpp" />
-    <ClCompile Include="Instructions\instruction_setstack.cpp">
+    <ClCompile Include="Instructions\instruction_switch.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
-    <ClCompile Include="Instructions\instruction_switch.cpp">
+    <ClCompile Include="Instructions\instruction_getstatic.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructions\instruction_setstatic.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
   </ItemGroup>
@@ -129,10 +132,13 @@
       <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="disassembler.h" />
-    <ClInclude Include="Instructions\instruction_setstack.h">
+    <ClInclude Include="Instructions\instruction_switch.h">
       <Filter>Instructions</Filter>
     </ClInclude>
-    <ClInclude Include="Instructions\instruction_switch.h">
+    <ClInclude Include="Instructions\instruction_getstatic.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_setstatic.h">
       <Filter>Instructions</Filter>
     </ClInclude>
   </ItemGroup>

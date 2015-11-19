@@ -160,6 +160,12 @@ bool InstructionBasic::Process(unsigned char* a_aByteCode)
 	case 49:
 		setName("ppeekset");
 		break;
+	case 50:
+		setName("explode");
+		break;
+	case 51:
+		setName("implode");
+		break;
 	case 100:
 		setName("jooat");
 		break;

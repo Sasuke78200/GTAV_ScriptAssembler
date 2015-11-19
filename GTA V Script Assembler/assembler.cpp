@@ -493,6 +493,18 @@ bool Assembler::ParseCode()
 			l_pInstruction->setOpcode(49);
 			l_pInstruction->setName("ppeekset");
 		}
+		else if(l_szOperation == "explode")
+		{
+			l_pInstruction = new InstructionBasic();
+			l_pInstruction->setName("explode");
+			l_pInstruction->setOpcode(50);
+		}
+		else if(l_szOperation == "implode")
+		{
+			l_pInstruction = new InstructionBasic();
+			l_pInstruction->setName("implode");
+			l_pInstruction->setOpcode(51);
+		}
 		else if(l_szOperation == "jmp")
 		{
 			l_pInstruction = new InstructionJmp();
@@ -594,9 +606,13 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionStrcpy();
 		}
-		else if(l_szOperation == "setstack")
+		else if(l_szOperation == "getstatic")
 		{
-			l_pInstruction = new InstructionSetStack();
+			l_pInstruction = new InstructionGetStatic();
+		}
+		else if(l_szOperation == "setstatic")
+		{
+			l_pInstruction = new InstructionSetStatic();
 		}
 		else if(l_szOperation == "switch")
 		{

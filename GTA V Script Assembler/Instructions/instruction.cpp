@@ -48,7 +48,7 @@ Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
 {
 	if((l_bOpcode >= 0 && l_bOpcode <= 36) 
 		|| l_bOpcode == 42 || l_bOpcode == 43
-		|| (l_bOpcode >= 47 && l_bOpcode <= 49)
+		|| (l_bOpcode >= 47 && l_bOpcode <= 51)
 		|| l_bOpcode == 100)
 	{
 		return new InstructionBasic();
@@ -113,9 +113,13 @@ Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
 	{
 		return new InstructionfPush();
 	}
+	else if(l_bOpcode == 59 || l_bOpcode == 80)
+	{
+		return new InstructionGetStatic();
+	}
 	else if(l_bOpcode == 60 || l_bOpcode == 81)
 	{
-		return new InstructionSetStack();
+		return new InstructionSetStatic();
 	}
 	else if(l_bOpcode == 98)
 	{

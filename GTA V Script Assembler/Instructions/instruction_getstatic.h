@@ -1,13 +1,13 @@
-#ifndef __INSTRUCTION_SETSTACK_H__
-#define __INSTRUCTION_SETSTACK_H__
+#ifndef __INSTRUCTION_GETSTATIC_H__
+#define __INSTRUCTION_GETSTATIC_H__
 
 
-class InstructionSetStack : public Instruction
+class InstructionGetStatic : public Instruction
 {
 public:
 
-	InstructionSetStack();
-	~InstructionSetStack();
+	InstructionGetStatic();
+	~InstructionGetStatic();
 
 	unsigned char*		getByteCode();
 	bool				Process(std::string a_szAssemblyLine);
