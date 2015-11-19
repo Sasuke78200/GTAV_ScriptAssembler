@@ -64,7 +64,7 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 	unsigned long long*		l_pStringPageAddr;
 
 	this->m_uiStringsLength		= a_pStringCollector->getStringPageLength();
-	this->m_uiNativeCount		= a_pNativeCollector->getNativeCount();
+	this->m_uiNativeCount		= a_pNativeCollector->getCount();
 	this->m_uiUnk000C			= 0x99B407C5;
 	this->m_uiScriptCount		= 1;
 
@@ -136,7 +136,7 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 
 		for(unsigned int i = 0; i < this->m_uiNativeCount; i++)
 		{
-			unsigned long long l_uiNativeHash = a_pNativeCollector->getNativeFromId(i);
+			unsigned long long l_uiNativeHash = a_pNativeCollector->getNative(i)->m_ullNativeHash;
 			l_uiNativeHash = _rotr64(l_uiNativeHash, this->m_uiByteCodeLength + i);
 			a_pFileStream->write((char*)&l_uiNativeHash, sizeof(unsigned long long));
 		}
@@ -287,4 +287,14 @@ int YscHeader::getStringPageOffset(std::ifstream* a_pFileStream, int a_uiPage)
 int YscHeader::getStringsLength()
 {
 	return this->m_uiStringsLength;
+}
+
+int YscHeader::getNativesCount()
+{
+	return this->m_uiNativeCount;
+}
+
+int YscHeader::getNativesOffset()
+{
+	return this->m_uiNativesOffset;
 }

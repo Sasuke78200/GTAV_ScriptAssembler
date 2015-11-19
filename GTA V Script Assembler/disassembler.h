@@ -24,6 +24,7 @@ private:
 	YscHeader					m_yscHeader;
 	StringCollector				m_stringCollector;
 	LabelCollector				m_labelCollector;
+	NativeCollector				m_nativeCollector;
 
 	unsigned char**				m_aByteCode;
 

@@ -6,14 +6,16 @@ class InstructionCall : public Instruction
 {
 public:
 
-	InstructionCall(LabelCollector* a_pLabelCollector);
+	InstructionCall();
 	~InstructionCall();
-
+	
+	void				setLabelCollector(LabelCollector* a_pLabelCollector);
 	unsigned char*		getByteCode();
 	bool				Process(std::string a_szAssemblyLine);
 	std::string			toString();
 	bool				Process(unsigned char* a_aByteCode);
-
+	int					getCallAddress();
+	void				setLabel(std::string a_szLabel);
 private:
 
 
@@ -24,6 +26,7 @@ private:
 
 	LabelCollector*	m_pLabelCollector;
 	std::string		m_szJmpLabel;
+	bool			m_bJumpAlreadyComputed;
 
 };
 

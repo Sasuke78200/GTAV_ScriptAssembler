@@ -13,7 +13,7 @@ public:
 private:
 	void CollectCode();
 	void CleanCode();
-	bool CollectNatives();
+	bool CollectNativesHashes();
 	bool ParseCode();
 	void ConstructBinary(std::ofstream*	a_pBinaryStream);
 

@@ -40,6 +40,7 @@ bool Disassembler::DisassembleFile(char* a_szBinaryPath, char* a_szOutputPath)
 	if(ValidateBinary())
 	{
 		m_stringCollector.importFromBinary(&this->m_yscHeader, this->m_pBinaryFile);
+		m_nativeCollector.importFromBinary(&this->m_yscHeader, this->m_pBinaryFile);
 		ConvertToInstructions();
 		ProcessInstructions();
 		PrintInstructionsToFile(a_szOutputPath);
@@ -126,9 +127,26 @@ void Disassembler::ProcessInstructions()
 			std::stringstream l_ss;
 			InstructionJmp* l_pJmp = (InstructionJmp*)*it;
 			l_pJmp->setLabelCollector(&this->m_labelCollector);
+
 			l_ss << "label_" << std::setfill('0') << std::setw(4) << std::hex << l_pJmp->getJumpAddress();
 			l_pJmp->setLabel(l_ss.str());
 			this->m_labelCollector.AddLabel(l_ss.str(), l_pJmp->getJumpAddress());			
+		}
+		else if((*it)->getOpcode() == 93) // call
+		{
+			std::stringstream l_ss;
+			InstructionCall* l_pCall = (InstructionCall*)*it;
+			l_pCall->setLabelCollector(&this->m_labelCollector);
+
+			l_ss << "label_" << std::setfill('0') << std::setw(4) << std::hex << l_pCall->getCallAddress();
+			l_pCall->setLabel(l_ss.str());
+			this->m_labelCollector.AddLabel(l_ss.str(), l_pCall->getCallAddress());
+		}
+		else if((*it)->getOpcode() == 44) // native
+		{
+			InstructionNative* l_pNative = (InstructionNative*)*it;
+
+			l_pNative->setNativeCollector(&this->m_nativeCollector);
 		}
 	}
 

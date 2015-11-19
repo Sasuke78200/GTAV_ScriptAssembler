@@ -59,7 +59,7 @@ Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
 	}
 	else if(l_bOpcode == 93)
 	{
-		return new InstructionCall(0);
+		return new InstructionCall();
 	}
 	else if(l_bOpcode == 45)
 	{
@@ -83,7 +83,7 @@ Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
 	}
 	else if(l_bOpcode == 44)
 	{
-		return new InstructionNative(0);
+		return new InstructionNative();
 	}
 	else if(l_bOpcode == 46)
 	{

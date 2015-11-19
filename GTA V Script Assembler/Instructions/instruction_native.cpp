@@ -2,18 +2,23 @@
 
 
 
-InstructionNative::InstructionNative(NativeCollector* a_pNativeCollector)
+InstructionNative::InstructionNative()
 {
 	setOpcode(44);
 	setLength(4);
 	setName("native");
-	m_pNativeCollector = a_pNativeCollector;
+	this->m_pNativeCollector = 0;
 }
 
 InstructionNative::~InstructionNative()
 {
 }
 
+
+void InstructionNative::setNativeCollector(NativeCollector* a_pNativeCollector)
+{
+	this->m_pNativeCollector = a_pNativeCollector;
+}
 
 unsigned char* InstructionNative::getByteCode()
 {
@@ -29,9 +34,10 @@ bool InstructionNative::Process(std::string a_szAssemblyLine)
 	unsigned char		l_byReturnCount;
 	unsigned char		l_byArgCount;
 	int					l_iNativeId;
+	Native*				l_pNative;
+
 
 	// nativeidentifier argcount retcount
-
 
 
 	l_iPos = a_szAssemblyLine.find_first_of(ASSEMBLY_SPACE);
@@ -60,8 +66,16 @@ bool InstructionNative::Process(std::string a_szAssemblyLine)
 
 	l_byReturnCount = atoi(a_szAssemblyLine.c_str());
 
+	l_pNative = m_pNativeCollector->getNative(m_pNativeCollector->addNative(l_szNativeIdentifier));
 
-	l_iNativeId = m_pNativeCollector->getNativeId(l_szNativeIdentifier);
+	if(l_pNative)
+	{
+		l_iNativeId = l_pNative->m_iNativeIndex;
+	}
+	else
+	{
+		return false;
+	}
 
 
 	if(l_byReturnCount > 3) return false;
@@ -74,12 +88,19 @@ bool InstructionNative::Process(std::string a_szAssemblyLine)
 
 std::string InstructionNative::toString()
 {
+	std::stringstream l_ss;
 	// TODO: Print narive name, arg count & ret count
-	return getName() + "";
+	l_ss << getName() << " ";
+
+	l_ss << this->m_pNativeCollector->getNative((int)((m_aByteCode[2] << 2) + m_aByteCode[3]))->m_szName;
+
+	l_ss << " " <<(int)((m_aByteCode[1] >> 2) & 0x3F) << " " << (m_aByteCode[1] & 3);
+	return l_ss.str();
 }
 
 bool InstructionNative::Process(unsigned char* a_aByteCode)
 {
 	setOpcode(*a_aByteCode);
+	memcpy(this->m_aByteCode, a_aByteCode, getLength());
 	return true;
 }

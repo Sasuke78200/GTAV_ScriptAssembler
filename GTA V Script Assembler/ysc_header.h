@@ -62,12 +62,15 @@ public:
 	void			setByteCodeLength(unsigned int a_uiLength);
 	unsigned int	getByteCodeLength();
 
-
+	/* String page informations */
 	int getStringPageCount();
 	int getStringPageLength(unsigned int a_uiPage);
 	int getStringPageOffset(std::ifstream* a_pFileStream, int a_uiPage);
 	int getStringsLength();
 
+	/* Natives informations */
+	int getNativesCount();
+	int getNativesOffset();
 
 private:
 	/* scrProgram/ysc Header*/

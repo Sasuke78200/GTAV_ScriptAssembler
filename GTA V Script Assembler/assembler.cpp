@@ -26,8 +26,9 @@ bool Assembler::AssembleFile(char* a_szAssemblyPath, char* a_szOuputScriptPath, 
 	CollectCode();
 	CleanCode();
 
-	if(CollectNatives() && ParseCode())
+	if(ParseCode())
 	{
+		CollectNativesHashes();
 		ConstructBinary(&l_BinaryFile);
 	}
 	else
@@ -155,47 +156,12 @@ void Assembler::CleanCode()
 	while(it != this->m_AssemblyLines.end());
 }
 
-bool Assembler::CollectNatives()
+bool Assembler::CollectNativesHashes()
 {
 	int l_iNativeVersion;
-	std::map<unsigned int, std::string>::iterator it;
-	for(it = this->m_AssemblyLines.begin(); it != this->m_AssemblyLines.end(); it++)
-	{
-		std::string		l_szOperation;
-		std::string		l_szOperand;
-		int				l_iPos;
 
-		l_iPos = it->second.find_first_of(ASSEMBLY_SPACE);
-
-		
-
-		if(l_iPos != std::string::npos)
-		{
-			l_szOperation	= it->second.substr(0, l_iPos);
-			l_szOperand		= it->second.substr(l_iPos + 1);
-			l_szOperand		= trim(l_szOperand);
-		}
-		else
-		{
-			l_szOperation	= it->second;
-			l_szOperand		= "";
-		}
-
-
-		std::transform(l_szOperation.begin(), l_szOperation.end(), l_szOperation.begin(), ::tolower); // lower the operation name
-
-		if(l_szOperation == "native")
-		{
-			if(m_NativeCollector.ProcessAssemblyLine(l_szOperand) == false)
-			{
-				printf("Error line %d, cannot understand native hash/name !\n", it->first);
-				return false;
-			}
-		}
-
-	}	
-
-	m_NativeCollector.ParseJson();
+	// link native name with their hashes
+	this->m_NativeCollector.retrieveHashes();
 
 	// Get which version of natives hashes we want to use
 	l_iNativeVersion = atoi(CommandLine::Instance()->getVal("-v")->c_str());
@@ -205,9 +171,8 @@ bool Assembler::CollectNatives()
 		//m_NativeCollector.TranslateHash(0);		// 335 -> 350
 		//m_NativeCollector.TranslateHash(1);		// 350 -> 372
 		//m_NativeCollector.TranslateHash(2);		// 372 -> 393
-		m_NativeCollector.TranslateHash(l_iNativeVersion - 1);
+		m_NativeCollector.translateHash(l_iNativeVersion - 1);
 	}
-
 	return true;
 }
 
@@ -499,7 +464,8 @@ bool Assembler::ParseCode()
 		}
 		else if(l_szOperation == "native")
 		{
-			l_pInstruction = new InstructionNative(&this->m_NativeCollector);
+			l_pInstruction = new InstructionNative();
+			((InstructionNative*)l_pInstruction)->setNativeCollector(&this->m_NativeCollector);
 		}
 		else if(l_szOperation == "enter")		
 		{
@@ -591,7 +557,8 @@ bool Assembler::ParseCode()
 		}
 		else if(l_szOperation == "call")
 		{
-			l_pInstruction = new InstructionCall(&this->m_LabelCollector);
+			l_pInstruction = new InstructionCall();
+			((InstructionCall*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
 		}
 		else if(l_szOperation == "getframep")
 		{
