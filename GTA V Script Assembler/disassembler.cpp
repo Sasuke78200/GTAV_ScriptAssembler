@@ -159,6 +159,11 @@ void Disassembler::PrintInstructionsToFile(char* a_szOutputPath)
 
 	for(it = this->m_Instructions.begin(); it != this->m_Instructions.end(); it++)
 	{
+		if((*it)->getName() == "enter" && (*it)->getAddress() != 0) // function starting, let's print a new line
+		{
+			l_OutputFile.write("\n", 1);
+		}
+
 		/* TODO: I could do better than that*/
 		std::stringstream l_ss;
 		l_ss << "label_" << std::setfill('0') << std::setw(4) << std::hex << (*it)->getAddress();
@@ -243,7 +248,7 @@ int Disassembler::getOpcodeLenByAddr(unsigned int a_uiAddress)
 	}
 	else if(l_bOpcode == 98)
 	{
-		return 6 * m_aByteCode[(a_uiAddress + 4) / 0x4000][(a_uiAddress + 4) % 0x4000] + 2;
+		return 6 * m_aByteCode[(a_uiAddress + 1) / 0x4000][(a_uiAddress + 1) % 0x4000] + 2;
 	}
 	
 	return getOpcodeLen(l_bOpcode);
