@@ -110,17 +110,23 @@ void Disassembler::ProcessInstructions()
 	{
 		if((*it)->getOpcode() == 99)		// string push
 		{
+			InstructioniPush* l_piPush;
 			InstructionsPush* l_pJmp;
 			std::vector<Instruction*>::iterator previous_it = it - 1;
 			while((*previous_it)->getName() != "ipush") previous_it--;
 
+			l_piPush = (InstructioniPush*)*previous_it;
+
 			l_pJmp = (InstructionsPush*)*it;
 			l_pJmp->setStringCollector(&this->m_stringCollector);
-			l_pJmp->setIndex(((InstructioniPush*)*previous_it)->getValue());
+			l_pJmp->setIndex(l_piPush->getValue());
+			
+			*previous_it = new InstructionBasic();
+			(*previous_it)->setAddress(l_piPush->getAddress());
+			(*previous_it)->setName("DummyInstruction"); // that's a hack I know
+			delete l_piPush;
 
-			delete *previous_it;
-
-			it = this->m_Instructions.erase(previous_it);
+			//it = this->m_Instructions.erase(previous_it);
 		}
 		else if((*it)->getOpcode() >= 85 && (*it)->getOpcode() <= 92)	// any jump
 		{
@@ -148,6 +154,20 @@ void Disassembler::ProcessInstructions()
 
 			l_pNative->setNativeCollector(&this->m_nativeCollector);
 		}
+		else if((*it)->getOpcode() == 98) // switch !
+		{
+			InstructionSwitch* l_pSwitch = (InstructionSwitch*)*it;
+			int i;
+
+			l_pSwitch->setLabelCollector(&this->m_labelCollector);
+
+			for(i = 0; i < l_pSwitch->getCaseCount(); i++)
+			{
+				std::stringstream l_ss;
+				l_ss << "label_" << std::setfill('0') << std::setw(4) << std::hex << l_pSwitch->getCaseJmpAddress(i);
+				this->m_labelCollector.AddLabel(l_ss.str(), l_pSwitch->getCaseJmpAddress(i));
+			}
+		}
 	}
 
 }
@@ -173,6 +193,10 @@ void Disassembler::PrintInstructionsToFile(char* a_szOutputPath)
 			l_ss << "\n";
 			l_OutputFile.write((":" + l_ss.str()).c_str(), l_ss.str().length()+1);
 		}
+
+		if((*it)->getName() == "DummyInstruction") continue; // this dummy instruction is there only to print labels that point to an unused instruction that we can't remove
+
+
 #ifdef _DEBUG
 		std::stringstream l_AssemblyLine;
 		l_AssemblyLine << "- "<< std::hex << std::setfill('0') << std::setw(4) << (*it)->getAddress() << "\t" << (*it)->toString() << "\n";

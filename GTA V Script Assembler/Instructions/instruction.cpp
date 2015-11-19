@@ -117,6 +117,10 @@ Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
 	{
 		return new InstructionSetStack();
 	}
+	else if(l_bOpcode == 98)
+	{
+		return new InstructionSwitch();
+	}
 	return 0;
 }
 

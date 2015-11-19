@@ -45,6 +45,7 @@
 #include "Instructions/instruction_setglobal.h"
 #include "Instructions/instruction_strcpy.h"
 #include "Instructions/instruction_setstack.h"
+#include "Instructions/instruction_switch.h"
 
 #include "ysc_header.h"
 

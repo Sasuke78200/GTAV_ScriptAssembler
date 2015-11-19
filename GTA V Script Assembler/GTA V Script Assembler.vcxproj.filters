@@ -64,6 +64,9 @@
     <ClCompile Include="Instructions\instruction_setstack.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
+    <ClCompile Include="Instructions\instruction_switch.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="disassembler.h" />
     <ClInclude Include="Instructions\instruction_setstack.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_switch.h">
       <Filter>Instructions</Filter>
     </ClInclude>
   </ItemGroup>

@@ -598,6 +598,11 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionSetStack();
 		}
+		else if(l_szOperation == "switch")
+		{
+			l_pInstruction = new InstructionSwitch();
+			((InstructionSwitch*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
+		}
 		else
 		{
 			printf("Line %d : Unknown operation \"%s\". !\n", it->first, l_szOperation.c_str());
