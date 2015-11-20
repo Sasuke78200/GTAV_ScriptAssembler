@@ -82,6 +82,15 @@
     <ClCompile Include="Instructions\instruction_arrayset.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
+    <ClCompile Include="Instructions\instruction_psetimm.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructions\instruction_pgetimm.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructions\instruction_padd.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -163,6 +172,15 @@
       <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="Instructions\instruction_arrayset.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_psetimm.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_pgetimm.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_padd.h">
       <Filter>Instructions</Filter>
     </ClInclude>
   </ItemGroup>

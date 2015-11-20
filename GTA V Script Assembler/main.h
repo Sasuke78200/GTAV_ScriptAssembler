@@ -51,6 +51,9 @@
 #include "Instructions/instruction_arrayset.h"
 #include "Instructions/instruction_arrayget.h"
 #include "Instructions/instruction_arraygetp.h"
+#include "Instructions/instruction_psetimm.h"
+#include "Instructions/instruction_pgetimm.h"
+#include "Instructions/instruction_padd.h"
 
 #include "ysc_header.h"
 

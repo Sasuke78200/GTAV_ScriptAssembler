@@ -635,6 +635,18 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionArraySet();
 		}
+		else if(l_szOperation == "pgetimm")
+		{
+			l_pInstruction = new InstructionPGetImm();
+		}
+		else if(l_szOperation == "psetimm")
+		{
+			l_pInstruction = new InstructionPSetImm();
+		}
+		else if(l_szOperation == "padd")
+		{
+			l_pInstruction = new InstructionPAdd();
+		}
 		else
 		{
 			printf("Line %d : Unknown operation \"%s\". !\n", it->first, l_szOperation.c_str());

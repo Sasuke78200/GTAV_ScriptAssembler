@@ -141,6 +141,19 @@ Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
 	{
 		return new InstructionArraySet();
 	}
+	else if(l_bOpcode == 65 || l_bOpcode == 71)
+	{
+		return new InstructionPGetImm();
+	}
+	else if(l_bOpcode == 66 || l_bOpcode == 72)
+	{
+		return new InstructionPSetImm();
+	}
+	else if(l_bOpcode == 63 || l_bOpcode == 64 || l_bOpcode == 70)
+	{
+		return new InstructionPAdd();
+	}
+
 	return 0;
 }
 
