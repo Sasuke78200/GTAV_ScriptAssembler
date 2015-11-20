@@ -35,6 +35,7 @@ public:
 	bool				retrieveHashes();
 	void				translateHash(int a_iVersion);
 	void				importFromBinary(YscHeader* a_pYscHeader, std::ifstream* a_pFileStream);
+	void				retrieveNames();
 
 	/*
 	bool				ProcessAssemblyLine(std::string a_szAssemblyLine);

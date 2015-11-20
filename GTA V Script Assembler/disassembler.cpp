@@ -95,7 +95,17 @@ void Disassembler::ConvertToInstructions()
 		}
 		else
 		{
-			printf("Disassembler::ConvertToInstructions() -> Unk opcode %d\n", l_bOpcode);
+			std::stringstream l_ss;
+			l_pInstruction = new InstructionBasic();			
+			l_pInstruction->setLength(getOpcodeLen(l_bOpcode));
+
+			l_ss << "unkop_" << (int)l_bOpcode;
+
+			l_pInstruction->setName(l_ss.str());
+			l_pInstruction->setAddress(l_uiBytecodeAddr);
+			this->m_Instructions.push_back(l_pInstruction);
+
+			//printf("Disassembler::ConvertToInstructions() -> Unk opcode %d\n", l_bOpcode);
 		}
 
 		l_uiBytecodeAddr += getOpcodeLenByAddr(l_uiBytecodeAddr);
@@ -202,7 +212,7 @@ void Disassembler::PrintInstructionsToFile(char* a_szOutputPath)
 		l_AssemblyLine << "- "<< std::hex << std::setfill('0') << std::setw(4) << (*it)->getAddress() << "\t" << (*it)->toString() << "\n";
 		l_OutputFile.write(l_AssemblyLine.str().c_str(), l_AssemblyLine.str().length());
 #else
-		std::string l_AssemblyLine = (*it)->toString() + "\n";
+		std::string l_AssemblyLine = "\t\t" +(*it)->toString() + "\n";
 		l_OutputFile.write(l_AssemblyLine.c_str(), l_AssemblyLine.length());
 #endif
 	}

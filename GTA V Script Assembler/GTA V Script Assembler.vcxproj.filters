@@ -70,6 +70,15 @@
     <ClCompile Include="Instructions\instruction_setstatic.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
+    <ClCompile Include="Instructions\instruction_getarray.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructions\instruction_getarrayp.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructions\instruction_setarray.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -139,6 +148,15 @@
       <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="Instructions\instruction_setstatic.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_getarray.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_getarrayp.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_setarray.h">
       <Filter>Instructions</Filter>
     </ClInclude>
   </ItemGroup>

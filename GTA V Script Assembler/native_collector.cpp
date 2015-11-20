@@ -171,4 +171,59 @@ void NativeCollector::importFromBinary(YscHeader* a_pYscHeader, std::ifstream* a
 		l_pNative = getNative(addNative(l_ss.str()));
 		l_pNative->m_ullNativeHash = l_uiNativeHash;
 	}
+
+	retrieveNames();
+}
+
+void NativeCollector::retrieveNames()
+{
+	FILE*							l_pNativeJsonFile = fopen("./jsons/natives.json", "rb");
+	char							l_szBuffer[65535];
+	rapidjson::FileReadStream		l_FileReadStream(l_pNativeJsonFile, l_szBuffer, sizeof(l_szBuffer));
+	rapidjson::Document				l_Document;
+	std::vector<Native*>::iterator	it;
+	bool							l_bRetriveNameSpace;
+	CommandLine*					l_pCommandLine;	
+
+	l_Document.ParseStream(l_FileReadStream);
+
+	l_pCommandLine = CommandLine::Instance();
+
+	// if the options '-ns' exists, then we have to display natives' namespace
+	l_bRetriveNameSpace = l_pCommandLine->getVal("-ns") != 0;	
+
+	for(it = this->m_natives.begin(); it != this->m_natives.end(); it++)
+	{
+		for (rapidjson::Value::ConstMemberIterator l_NamespaceObject = l_Document.MemberBegin(); l_NamespaceObject != l_Document.MemberEnd(); l_NamespaceObject++)
+		{
+			std::stringstream l_ss;
+
+			l_ss << "0x" << std::hex << std::setw(16) << std::setfill('0') << std::uppercase << (*it)->m_ullNativeHash;
+
+			if(l_NamespaceObject->value.HasMember(l_ss.str().c_str()))
+			{
+				if(strlen(l_NamespaceObject->value[l_ss.str().c_str()]["name"].GetString()))
+				{
+					if(l_bRetriveNameSpace)
+					{
+						(*it)->m_szName = std::string(l_NamespaceObject->name.GetString()) + "::" + l_NamespaceObject->value[l_ss.str().c_str()]["name"].GetString();
+					}
+					else
+					{
+						(*it)->m_szName = l_NamespaceObject->value[l_ss.str().c_str()]["name"].GetString();
+					}
+				}
+				else
+				{
+					if(l_bRetriveNameSpace)
+					{
+						(*it)->m_szName = std::string(l_NamespaceObject->name.GetString()) + "::" + (*it)->m_szName;
+					}
+				}
+				l_NamespaceObject = l_Document.MemberEnd()-1;
+			}	
+		}
+	}
+
+	fclose(l_pNativeJsonFile);
 }

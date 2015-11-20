@@ -86,6 +86,8 @@
     <ClCompile Include="Instructions\instruction_call.cpp" />
     <ClCompile Include="Instructions\instruction_enter.cpp" />
     <ClCompile Include="Instructions\instruction_fpush.cpp" />
+    <ClCompile Include="Instructions\instruction_getarray.cpp" />
+    <ClCompile Include="Instructions\instruction_getarrayp.cpp" />
     <ClCompile Include="Instructions\instruction_getframe.cpp" />
     <ClCompile Include="Instructions\instruction_getframep.cpp" />
     <ClCompile Include="Instructions\instruction_getglobal.cpp" />
@@ -95,6 +97,7 @@
     <ClCompile Include="Instructions\instruction_jmp.cpp" />
     <ClCompile Include="Instructions\instruction_native.cpp" />
     <ClCompile Include="Instructions\instruction_ret.cpp" />
+    <ClCompile Include="Instructions\instruction_setarray.cpp" />
     <ClCompile Include="Instructions\instruction_setframe.cpp" />
     <ClCompile Include="Instructions\instruction_setglobal.cpp" />
     <ClCompile Include="Instructions\instruction_setstatic.cpp" />
@@ -117,6 +120,8 @@
     <ClInclude Include="Instructions\instruction_call.h" />
     <ClInclude Include="Instructions\instruction_enter.h" />
     <ClInclude Include="Instructions\instruction_fpush.h" />
+    <ClInclude Include="Instructions\instruction_getarray.h" />
+    <ClInclude Include="Instructions\instruction_getarrayp.h" />
     <ClInclude Include="Instructions\instruction_getframe.h" />
     <ClInclude Include="Instructions\instruction_getframep.h" />
     <ClInclude Include="Instructions\instruction_getglobal.h" />
@@ -126,6 +131,7 @@
     <ClInclude Include="Instructions\instruction_jmp.h" />
     <ClInclude Include="Instructions\instruction_native.h" />
     <ClInclude Include="Instructions\instruction_ret.h" />
+    <ClInclude Include="Instructions\instruction_setarray.h" />
     <ClInclude Include="Instructions\instruction_setframe.h" />
     <ClInclude Include="Instructions\instruction_setglobal.h" />
     <ClInclude Include="Instructions\instruction_setstatic.h" />

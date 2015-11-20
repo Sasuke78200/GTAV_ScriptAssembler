@@ -619,6 +619,18 @@ bool Assembler::ParseCode()
 			l_pInstruction = new InstructionSwitch();
 			((InstructionSwitch*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
 		}
+		else if(l_szOperation == "getarrayp")
+		{
+			l_pInstruction = new InstructionGetArrayP();
+		}
+		else if(l_szOperation == "getarray")
+		{
+			l_pInstruction = new InstructionGetArray();
+		}
+		else if(l_szOperation == "setarray")
+		{
+			l_pInstruction = new InstructionSetArray();
+		}
 		else
 		{
 			printf("Line %d : Unknown operation \"%s\". !\n", it->first, l_szOperation.c_str());

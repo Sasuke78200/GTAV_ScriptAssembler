@@ -11,6 +11,7 @@ void ShowHelp()
 	printf("Options :\n");
 	printf("    -d\t\tDisassemble a compiled script\n");
 	printf("    -n\t\tInternal script name, by default it takes the output file name\n");
+	printf("    -ns\t\tPrint natives namespace when disassembling.\n");
 	printf("    -v\t\tNative functions hashes\n");
 	printf("      \t\t0 for build 335\n");
 	printf("      \t\t1 for build 350\n");

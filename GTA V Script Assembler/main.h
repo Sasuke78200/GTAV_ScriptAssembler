@@ -47,6 +47,9 @@
 #include "Instructions/instruction_setstatic.h"
 #include "Instructions/instruction_getstatic.h"
 #include "Instructions/instruction_switch.h"
+#include "Instructions/instruction_setarray.h"
+#include "Instructions/instruction_getarray.h"
+#include "Instructions/instruction_getarrayp.h"
 
 #include "ysc_header.h"
 
