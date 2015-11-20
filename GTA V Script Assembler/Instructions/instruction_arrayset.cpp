@@ -1,24 +1,24 @@
 #include "../main.h"
 
 
-InstructionSetArray::InstructionSetArray()
+InstructionArraySet::InstructionArraySet()
 {
 	setLength(-1);
 	setOpcode(-1);
-	setName("setarray");
+	setName("arrayget");
 }
 
-InstructionSetArray::~InstructionSetArray()
+InstructionArraySet::~InstructionArraySet()
 {
 }
 
-unsigned char* InstructionSetArray::getByteCode()
+unsigned char* InstructionArraySet::getByteCode()
 {
 	this->m_aByteCode[0] = getOpcode();
 	return this->m_aByteCode;
 }
 
-bool InstructionSetArray::Process(std::string a_szAssemblyLine)
+bool InstructionArraySet::Process(std::string a_szAssemblyLine)
 {
 	if(a_szAssemblyLine.length() == 0) return 0;
 
@@ -37,7 +37,7 @@ bool InstructionSetArray::Process(std::string a_szAssemblyLine)
 	return false;
 }
 
-bool InstructionSetArray::Process(unsigned char* a_pByteCode)
+bool InstructionArraySet::Process(unsigned char* a_pByteCode)
 {
 	setOpcode(*a_pByteCode);
 	if(*a_pByteCode == 54) // 2 bytes version
@@ -52,14 +52,14 @@ bool InstructionSetArray::Process(unsigned char* a_pByteCode)
 	return true;
 }
 
-std::string InstructionSetArray::toString()
+std::string InstructionArraySet::toString()
 {
 	std::stringstream l_ss;	
 	l_ss << getName() << " " << getElementSize();
 	return l_ss.str();
 }
 
-void InstructionSetArray::setElementSize(unsigned int a_iSize)
+void InstructionArraySet::setElementSize(unsigned int a_iSize)
 {
 	if(*(unsigned char*)&a_iSize == a_iSize)
 	{
@@ -75,7 +75,7 @@ void InstructionSetArray::setElementSize(unsigned int a_iSize)
 	}
 }
 
-unsigned int InstructionSetArray::getElementSize()
+unsigned int InstructionArraySet::getElementSize()
 {
 	if(getOpcode() == 54)
 		return (unsigned int)this->m_aByteCode[1];

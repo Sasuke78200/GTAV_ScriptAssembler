@@ -610,6 +610,10 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionGetStatic();
 		}
+		else if(l_szOperation == "getstaticp")
+		{
+			l_pInstruction = new InstructionGetStaticP();
+		}
 		else if(l_szOperation == "setstatic")
 		{
 			l_pInstruction = new InstructionSetStatic();
@@ -619,17 +623,17 @@ bool Assembler::ParseCode()
 			l_pInstruction = new InstructionSwitch();
 			((InstructionSwitch*)l_pInstruction)->setLabelCollector(&this->m_LabelCollector);
 		}
-		else if(l_szOperation == "getarrayp")
+		else if(l_szOperation == "arraygetp")
 		{
-			l_pInstruction = new InstructionGetArrayP();
+			l_pInstruction = new InstructionArrayGetP();
 		}
-		else if(l_szOperation == "getarray")
+		else if(l_szOperation == "arrayget")
 		{
-			l_pInstruction = new InstructionGetArray();
+			l_pInstruction = new InstructionArrayGet();
 		}
-		else if(l_szOperation == "setarray")
+		else if(l_szOperation == "arrayset")
 		{
-			l_pInstruction = new InstructionSetArray();
+			l_pInstruction = new InstructionArraySet();
 		}
 		else
 		{

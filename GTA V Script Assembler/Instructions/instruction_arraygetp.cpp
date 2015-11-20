@@ -1,24 +1,24 @@
 #include "../main.h"
 
 
-InstructionGetArray::InstructionGetArray()
+InstructionArrayGetP::InstructionArrayGetP()
 {
 	setLength(-1);
 	setOpcode(-1);
-	setName("getarray");
+	setName("arraygetp");
 }
 
-InstructionGetArray::~InstructionGetArray()
+InstructionArrayGetP::~InstructionArrayGetP()
 {
 }
 
-unsigned char* InstructionGetArray::getByteCode()
+unsigned char* InstructionArrayGetP::getByteCode()
 {
 	this->m_aByteCode[0] = getOpcode();
 	return this->m_aByteCode;
 }
 
-bool InstructionGetArray::Process(std::string a_szAssemblyLine)
+bool InstructionArrayGetP::Process(std::string a_szAssemblyLine)
 {
 	if(a_szAssemblyLine.length() == 0) return 0;
 
@@ -37,14 +37,14 @@ bool InstructionGetArray::Process(std::string a_szAssemblyLine)
 	return false;
 }
 
-bool InstructionGetArray::Process(unsigned char* a_pByteCode)
+bool InstructionArrayGetP::Process(unsigned char* a_pByteCode)
 {
 	setOpcode(*a_pByteCode);
-	if(*a_pByteCode == 53) // 2 bytes version
+	if(*a_pByteCode == 52) // 2 bytes version
 	{
 		setLength(2);
 	}
-	else // 3 bytes version (opcode 74)
+	else // 3 bytes version (opcode 73)
 	{
 		setLength(3);
 	}
@@ -52,32 +52,32 @@ bool InstructionGetArray::Process(unsigned char* a_pByteCode)
 	return true;
 }
 
-std::string InstructionGetArray::toString()
+std::string InstructionArrayGetP::toString()
 {
 	std::stringstream l_ss;	
 	l_ss << getName() << " " << getElementSize();
 	return l_ss.str();
 }
 
-void InstructionGetArray::setElementSize(unsigned int a_iSize)
+void InstructionArrayGetP::setElementSize(unsigned int a_iSize)
 {
 	if(*(unsigned char*)&a_iSize == a_iSize)
 	{
-		setOpcode(53);
+		setOpcode(52);
 		setLength(2);
 		this->m_aByteCode[1] = a_iSize & 0xFF;
 	}
 	else
 	{
-		setOpcode(74);
+		setOpcode(73);
 		setLength(3);
 		*(unsigned short*)&this->m_aByteCode[1] = a_iSize & 0xFFFF;
 	}
 }
 
-unsigned int InstructionGetArray::getElementSize()
+unsigned int InstructionArrayGetP::getElementSize()
 {
-	if(getOpcode() == 53)
+	if(getOpcode() == 52)
 		return (unsigned int)this->m_aByteCode[1];
 	return *(unsigned short*)&this->m_aByteCode[1];
 }

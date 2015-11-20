@@ -70,13 +70,16 @@
     <ClCompile Include="Instructions\instruction_setstatic.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
-    <ClCompile Include="Instructions\instruction_getarray.cpp">
+    <ClCompile Include="Instructions\instruction_getstaticp.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
-    <ClCompile Include="Instructions\instruction_getarrayp.cpp">
+    <ClCompile Include="Instructions\instruction_arrayget.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
-    <ClCompile Include="Instructions\instruction_setarray.cpp">
+    <ClCompile Include="Instructions\instruction_arraygetp.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructions\instruction_arrayset.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,13 +153,16 @@
     <ClInclude Include="Instructions\instruction_setstatic.h">
       <Filter>Instructions</Filter>
     </ClInclude>
-    <ClInclude Include="Instructions\instruction_getarray.h">
+    <ClInclude Include="Instructions\instruction_getstaticp.h">
       <Filter>Instructions</Filter>
     </ClInclude>
-    <ClInclude Include="Instructions\instruction_getarrayp.h">
+    <ClInclude Include="Instructions\instruction_arrayget.h">
       <Filter>Instructions</Filter>
     </ClInclude>
-    <ClInclude Include="Instructions\instruction_setarray.h">
+    <ClInclude Include="Instructions\instruction_arraygetp.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_arrayset.h">
       <Filter>Instructions</Filter>
     </ClInclude>
   </ItemGroup>

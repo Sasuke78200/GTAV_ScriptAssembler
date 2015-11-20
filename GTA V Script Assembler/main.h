@@ -46,10 +46,11 @@
 #include "Instructions/instruction_strcpy.h"
 #include "Instructions/instruction_setstatic.h"
 #include "Instructions/instruction_getstatic.h"
+#include "Instructions/instruction_getstaticp.h"
 #include "Instructions/instruction_switch.h"
-#include "Instructions/instruction_setarray.h"
-#include "Instructions/instruction_getarray.h"
-#include "Instructions/instruction_getarrayp.h"
+#include "Instructions/instruction_arrayset.h"
+#include "Instructions/instruction_arrayget.h"
+#include "Instructions/instruction_arraygetp.h"
 
 #include "ysc_header.h"
 
@@ -61,5 +62,6 @@
 
 #define ASSEMBLY_SPACE		" \t"
 
-
+//TODO: Allow us to create statics !
+//		Got some ideas to allow us to do it easily
 #endif

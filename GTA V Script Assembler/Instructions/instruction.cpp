@@ -113,6 +113,10 @@ Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
 	{
 		return new InstructionfPush();
 	}
+	else if(l_bOpcode == 58 || l_bOpcode == 79)
+	{
+		return new InstructionGetStaticP();
+	}
 	else if(l_bOpcode == 59 || l_bOpcode == 80)
 	{
 		return new InstructionGetStatic();
@@ -127,15 +131,15 @@ Instruction* Instruction::allocFromOpcode(unsigned char l_bOpcode)
 	}
 	else if(l_bOpcode == 52 || l_bOpcode == 73)
 	{
-		return new InstructionGetArrayP();
+		return new InstructionArrayGetP();
 	}
 	else if(l_bOpcode == 53 || l_bOpcode == 74)
 	{
-		return new InstructionGetArray();
+		return new InstructionArrayGet();
 	}
 	else if(l_bOpcode == 54 || l_bOpcode == 75)
 	{
-		return new InstructionSetArray();
+		return new InstructionArraySet();
 	}
 	return 0;
 }

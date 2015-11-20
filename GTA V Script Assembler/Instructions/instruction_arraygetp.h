@@ -1,5 +1,5 @@
-#ifndef __INSTRUCTION_GET_ARRAYP_H__
-#define __INSTRUCTION_GET_ARRAYP_H__
+#ifndef __INSTRUCTION_ARRAYP_GET_H__
+#define __INSTRUCTION_ARRAYP_GET_H__
 
 /*
 
@@ -24,12 +24,12 @@ NOTE:
 
 
 
-class InstructionGetArrayP : public Instruction
+class InstructionArrayGetP : public Instruction
 {
 public:
 
-	InstructionGetArrayP();
-	~InstructionGetArrayP();
+	InstructionArrayGetP();
+	~InstructionArrayGetP();
 
 
 

@@ -1,22 +1,22 @@
 #include "../main.h"
 
 
-InstructionGetStatic::InstructionGetStatic()
+InstructionGetStaticP::InstructionGetStaticP()
 {
-	setName("getstatic");
+	setName("getstaticp");
 	setLength(-1);
 	setOpcode(-1);
 }
 
-InstructionGetStatic::~InstructionGetStatic()
+InstructionGetStaticP::~InstructionGetStaticP()
 {
 }
 
-unsigned char* InstructionGetStatic::getByteCode()
+unsigned char* InstructionGetStaticP::getByteCode()
 {
 	return this->m_aByteCode;
 }
-bool InstructionGetStatic::Process(std::string a_szAssemblyLine)
+bool InstructionGetStaticP::Process(std::string a_szAssemblyLine)
 {
 	if(a_szAssemblyLine.length() == 0) return 0;
 
@@ -35,17 +35,17 @@ bool InstructionGetStatic::Process(std::string a_szAssemblyLine)
 	return true;
 }
 
-std::string InstructionGetStatic::toString()
+std::string InstructionGetStaticP::toString()
 {
 	std::stringstream l_ss;
 	l_ss << getName() + " " << getIndex();
 	return l_ss.str();
 }
 
-bool InstructionGetStatic::Process(unsigned char* a_aByteCode)
+bool InstructionGetStaticP::Process(unsigned char* a_aByteCode)
 {
 	setOpcode(*a_aByteCode);
-	if(*a_aByteCode == 59)
+	if(*a_aByteCode == 58)
 	{
 		setLength(2);
 	}
@@ -57,33 +57,33 @@ bool InstructionGetStatic::Process(unsigned char* a_aByteCode)
 	return true;
 }
 
-void InstructionGetStatic::setIndex(int a_iIndex)
+void InstructionGetStaticP::setIndex(int a_iIndex)
 {
-	// 59 byte
+	// 58 byte
 	if(*(char*)&a_iIndex == a_iIndex)
 	{
 		setOpcode(59);
 		setLength(2);
 		m_aByteCode[1] = a_iIndex & 0xFF;
 	}
-	// 80 word
+	// 79 word
 	else 
 	{
-		setOpcode(80);
+		setOpcode(79);
 		setLength(2);
 		*(short*)m_aByteCode[1] = a_iIndex & 0xFFFF;
 		printf("Index2 words\n");
 	}	
 }
 
-int InstructionGetStatic::getIndex()
+int InstructionGetStaticP::getIndex()
 {
-	// 60 byte
-	if(getOpcode() == 59)
+	// 58 byte
+	if(getOpcode() == 58)
 	{
 		return (int)m_aByteCode[1];
 	}
 	
-	// 80 word
+	// 79 word
 	return *(short*)m_aByteCode[1];
 }

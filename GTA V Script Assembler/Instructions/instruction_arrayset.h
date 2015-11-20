@@ -1,5 +1,5 @@
-#ifndef __INSTRUCTION_SET_ARRAY_H__
-#define __INSTRUCTION_SET_ARRAY_H__
+#ifndef __INSTRUCTION_ARRAY_SET_H__
+#define __INSTRUCTION_ARRAY_SET_H__
 
 /*
 
@@ -36,12 +36,12 @@ NOTE:
 
 
 
-class InstructionSetArray : public Instruction
+class InstructionArraySet : public Instruction
 {
 public:
 
-	InstructionSetArray();
-	~InstructionSetArray();
+	InstructionArraySet();
+	~InstructionArraySet();
 
 
 

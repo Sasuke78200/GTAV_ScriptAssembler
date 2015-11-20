@@ -39,7 +39,7 @@ bool InstructionStrcpy::Process(std::string a_szAssemblyLine)
 std::string InstructionStrcpy::toString()
 {
 	std::stringstream l_ss;
-	l_ss << getName() << (int)m_aByteCode[1];
+	l_ss << getName() << " " << (int)m_aByteCode[1];
 	return l_ss.str();
 }
 
