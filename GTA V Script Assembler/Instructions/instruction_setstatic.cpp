@@ -14,6 +14,7 @@ InstructionSetStatic::~InstructionSetStatic()
 
 unsigned char* InstructionSetStatic::getByteCode()
 {
+	*this->m_aByteCode = getOpcode();
 	return this->m_aByteCode;
 }
 bool InstructionSetStatic::Process(std::string a_szAssemblyLine)
@@ -60,7 +61,7 @@ bool InstructionSetStatic::Process(unsigned char* a_aByteCode)
 void InstructionSetStatic::setIndex(int a_iIndex)
 {
 	// 60 byte
-	if(*(char*)&a_iIndex == a_iIndex)
+	if(*(unsigned char*)&a_iIndex == a_iIndex)
 	{
 		setOpcode(60);
 		setLength(2);
@@ -71,7 +72,7 @@ void InstructionSetStatic::setIndex(int a_iIndex)
 	{
 		setOpcode(81);
 		setLength(2);
-		*(short*)m_aByteCode[1] = a_iIndex & 0xFFFF;
+		*(unsigned short*)m_aByteCode[1] = a_iIndex & 0xFFFF;
 		printf("Index2 words\n");
 	}	
 }
@@ -85,5 +86,5 @@ int InstructionSetStatic::getIndex()
 	}
 	
 	// 81 word
-	return *(short*)m_aByteCode[1];
+	return *(unsigned short*)m_aByteCode[1];
 }

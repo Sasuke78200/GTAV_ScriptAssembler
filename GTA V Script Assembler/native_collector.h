@@ -1,7 +1,7 @@
 #ifndef __NATIVE_COLLECTOR_H__
 #define __NATIVE_COLLECTOR_H__
 
-class YscHeader;
+class scrHeader;
 
 class Native
 {
@@ -34,7 +34,7 @@ public:
 	int					getCount();
 	bool				retrieveHashes();
 	void				translateHash(int a_iVersion);
-	void				importFromBinary(YscHeader* a_pYscHeader, std::ifstream* a_pFileStream);
+	void				importFromBinary(scrHeader* a_pScrHeader);
 	void				retrieveNames();
 
 	/*

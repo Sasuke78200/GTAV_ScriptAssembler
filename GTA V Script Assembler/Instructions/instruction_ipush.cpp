@@ -13,7 +13,7 @@ InstructioniPush::~InstructioniPush()
 
 unsigned char* InstructioniPush::getByteCode()
 {
-	m_aByteCode[0] = getOpcode();
+	*this->m_aByteCode = getOpcode();
 	return m_aByteCode;
 }
 
@@ -55,13 +55,13 @@ void InstructioniPush::setValue(int a_iValue)
 		setOpcode(67);
 		setLength(3);
 	}
-	/*
-	else if((l_iValue & 0xFFFFFF) == l_iValue) // 24 bits, so we're using opcode 97
+	
+	else if((a_iValue & 0xFFFFFF) == a_iValue) // 24 bits, so we're using opcode 97
 	{
-		*(int*)&m_aByteCode[1] = (l_iValue & 0xFFFFFF);
+		*(int*)m_aByteCode = a_iValue << 8;
 		setOpcode(97);
 		setLength(4);
-	}*/
+	}
 	else // 32 bits, so we're using opcode 40
 	{
 		*(int*)&m_aByteCode[1] = a_iValue;
@@ -83,8 +83,17 @@ int InstructioniPush::getValue()
 	else if(getOpcode() == 67)
 	{
 		return *(short*)&m_aByteCode[1];
-	}	
-	return *(int*)&m_aByteCode[1];
+	}
+	else if(getOpcode() == 97)
+	{
+		return *(int*)m_aByteCode >> 8;
+	}
+	else if(getOpcode() == 40)
+	{
+		return *(int*)&m_aByteCode[1];
+	}
+	assert(!"InstructioniPush::getValue() -> Invalid opcode !");
+	return 0xDEADBEEF;
 }
 
 std::string InstructioniPush::toString()

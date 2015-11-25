@@ -4,7 +4,27 @@
 
 Disassembler::Disassembler()
 {
+	int l_iPlateform;
 	m_aByteCode = 0;
+
+	
+	l_iPlateform = atoi(CommandLine::Instance()->getVal("-p")->c_str());
+	switch(l_iPlateform)
+	{
+	case 0: // pc
+		m_pScrHeader = new YscHeader();
+		break;
+	case 1: // ps3
+		// m_pScrHeader = new CscHeader();
+		m_pScrHeader = 0; 
+		assert(!"Only PC scripts are supported !");
+		break;
+	default:
+		m_pScrHeader = new YscHeader();
+		break;
+	}
+	
+
 }
 
 Disassembler::~Disassembler()
@@ -31,16 +51,16 @@ bool Disassembler::DisassembleFile(char* a_szBinaryPath, char* a_szOutputPath)
 		return false;
 	}
 	
-	m_yscHeader.ReadFromFile(m_pBinaryFile);
+	m_pScrHeader->ReadFromFile(m_pBinaryFile);
 		
-	printf("Disassembling script \"%s\" ...\n", m_yscHeader.getName().c_str());
+	printf("Disassembling script \"%s\" ...\n", m_pScrHeader->getName().c_str());
 
 	ReadByteCode();
 
 	if(ValidateBinary())
 	{
-		m_stringCollector.importFromBinary(&this->m_yscHeader, this->m_pBinaryFile);
-		m_nativeCollector.importFromBinary(&this->m_yscHeader, this->m_pBinaryFile);
+		m_stringCollector.importFromBinary(this->m_pScrHeader, this->m_pBinaryFile);
+		m_nativeCollector.importFromBinary(this->m_pScrHeader);
 		ConvertToInstructions();
 		ProcessInstructions();
 		PrintInstructionsToFile(a_szOutputPath);
@@ -59,13 +79,13 @@ void Disassembler::ReadByteCode()
 {
 	int i;
 
-	m_aByteCode = new unsigned char*[m_yscHeader.getCodePageCount()];
+	m_aByteCode = new unsigned char*[m_pScrHeader->getCodePageCount()];
 
-	for(i = 0; i < m_yscHeader.getCodePageCount(); i++)
+	for(i = 0; i < m_pScrHeader->getCodePageCount(); i++)
 	{
-		m_aByteCode[i] = new unsigned char[m_yscHeader.getCodePageLength(i)];
-		this->m_pBinaryFile->seekg(m_yscHeader.getCodePageOffset(this->m_pBinaryFile, i));
-		this->m_pBinaryFile->read((char*)m_aByteCode[i], m_yscHeader.getCodePageLength(i));
+		m_aByteCode[i] = new unsigned char[m_pScrHeader->getCodePageLength(i)];
+		this->m_pBinaryFile->seekg(m_pScrHeader->getCodePageOffset(this->m_pBinaryFile, i));
+		this->m_pBinaryFile->read((char*)m_aByteCode[i], m_pScrHeader->getCodePageLength(i));
 	}
 }
 
@@ -76,7 +96,7 @@ void Disassembler::ConvertToInstructions()
 	unsigned char	l_bOpcode;
 	Instruction*	l_pInstruction;
 
-	l_uiByteCodeLength = m_yscHeader.getByteCodeLength();
+	l_uiByteCodeLength = m_pScrHeader->getByteCodeLength();
 
 	m_Instructions.clear();
 
@@ -135,7 +155,7 @@ void Disassembler::ProcessInstructions()
 			(*previous_it)->setAddress(l_piPush->getAddress());
 			(*previous_it)->setName("DummyInstruction"); // that's a hack I know
 			delete l_piPush;
-
+			
 			//it = this->m_Instructions.erase(previous_it);
 		}
 		else if((*it)->getOpcode() >= 85 && (*it)->getOpcode() <= 92)	// any jump
@@ -212,7 +232,7 @@ void Disassembler::PrintInstructionsToFile(char* a_szOutputPath)
 		l_AssemblyLine << "- "<< std::hex << std::setfill('0') << std::setw(4) << (*it)->getAddress() << "\t" << (*it)->toString() << "\n";
 		l_OutputFile.write(l_AssemblyLine.str().c_str(), l_AssemblyLine.str().length());
 #else
-		std::string l_AssemblyLine = "\t\t" +(*it)->toString() + "\n";
+		std::string l_AssemblyLine = "\t\t" + (*it)->toString() + "\n";
 		l_OutputFile.write(l_AssemblyLine.c_str(), l_AssemblyLine.length());
 #endif
 	}
@@ -226,7 +246,7 @@ bool Disassembler::ValidateBinary()
 	unsigned int	l_uiBytecodeAddr;
 	int				l_iBytecodeLength;
 
-	l_uiByteCodeLength = m_yscHeader.getByteCodeLength();
+	l_uiByteCodeLength = m_pScrHeader->getByteCodeLength();
 
 	// if the first opcode isn't a function enter, then the code is invalid
 	if(m_aByteCode[0][0] != 45)

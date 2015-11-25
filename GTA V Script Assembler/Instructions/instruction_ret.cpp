@@ -16,7 +16,7 @@ InstructionRet::~InstructionRet()
 
 unsigned char* InstructionRet::getByteCode()
 {
-	m_aByteCode[0] = getOpcode();
+	*this->m_aByteCode = getOpcode();
 	return m_aByteCode;
 }
 

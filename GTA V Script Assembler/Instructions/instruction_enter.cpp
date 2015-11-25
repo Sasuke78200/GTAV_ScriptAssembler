@@ -15,7 +15,7 @@ InstructionEnter::~InstructionEnter()
 
 unsigned char* InstructionEnter::getByteCode()
 {
-	m_aByteCode[0] = getOpcode();
+	*this->m_aByteCode = getOpcode();
 	return m_aByteCode;
 }
 

@@ -91,6 +91,13 @@
     <ClCompile Include="Instructions\instruction_padd.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
+    <ClCompile Include="Instructions\instruction_addimm.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructions\instruction_mulimm.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="scr_header.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -183,6 +190,13 @@
     <ClInclude Include="Instructions\instruction_padd.h">
       <Filter>Instructions</Filter>
     </ClInclude>
+    <ClInclude Include="Instructions\instruction_addimm.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\instruction_mulimm.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="scr_header.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Instructions">

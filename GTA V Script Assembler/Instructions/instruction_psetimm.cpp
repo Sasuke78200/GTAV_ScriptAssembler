@@ -14,7 +14,7 @@ InstructionPSetImm::~InstructionPSetImm()
 
 unsigned char* InstructionPSetImm::getByteCode()
 {
-	this->m_aByteCode[0] = getOpcode();
+	*this->m_aByteCode = getOpcode();
 	return this->m_aByteCode;
 }
 
@@ -34,7 +34,7 @@ bool InstructionPSetImm::Process(std::string a_szAssemblyLine)
 	}
 
 	setIndex((unsigned int)l_iValue);
-	return false;
+	return true;
 }
 
 bool InstructionPSetImm::Process(unsigned char* a_pByteCode)

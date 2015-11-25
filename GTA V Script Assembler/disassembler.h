@@ -21,7 +21,8 @@ public:
 private:
 
 	std::ifstream*				m_pBinaryFile;
-	YscHeader					m_yscHeader;
+	//YscHeader					m_yscHeader;
+	scrHeader*					m_pScrHeader;
 	StringCollector				m_stringCollector;
 	LabelCollector				m_labelCollector;
 	NativeCollector				m_nativeCollector;

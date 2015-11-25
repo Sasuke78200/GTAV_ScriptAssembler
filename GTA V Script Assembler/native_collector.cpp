@@ -44,6 +44,8 @@ Native* NativeCollector::getNative(int a_iIndex)
 {
 	std::vector<Native*>::iterator it;
 
+	//printf("Index %d\n", a_iIndex);
+
 	for(it = this->m_natives.begin(); it != this->m_natives.end(); it++)
 	{
 		if((*it)->m_iNativeIndex == a_iIndex)
@@ -51,6 +53,7 @@ Native* NativeCollector::getNative(int a_iIndex)
 			return *it;
 		}
 	}
+	//printf("fail\n");
 	return nullptr;
 }
 
@@ -64,9 +67,9 @@ int NativeCollector::addNative(std::string a_szName)
 	if(l_pNative == nullptr)
 	{
 		l_pNative = new Native();
-		
 		l_pNative->m_szName			= a_szName;
 		l_pNative->m_iNativeIndex	= this->m_iIndex ++;
+		
 		this->m_natives.push_back(l_pNative);
 	}
 	return l_pNative->m_iNativeIndex;
@@ -95,7 +98,7 @@ bool NativeCollector::retrieveHashes()
 			std::vector<Native*>::iterator it;
 
 			for(it = this->m_natives.begin(); it != this->m_natives.end(); it++)
-			{
+			{				
 				if(l_NativeObject->value["name"].GetString() == (*it)->m_szName)
 				{
 					(*it)->m_ullNativeHash = std::stoull(l_NativeObject->name.GetString(), 0, 16);
@@ -141,35 +144,26 @@ void NativeCollector::translateHash(int a_iVersion)
 			}
 		}
 	}
-
-
 	fclose(l_pNativeJsonFile);
 }
 
-void NativeCollector::importFromBinary(YscHeader* a_pYscHeader, std::ifstream* a_pFileStream)
+void NativeCollector::importFromBinary(scrHeader* a_pScrHeader)
 {
 	int i;
 	int l_iNativeCount;
 	
-	a_pFileStream->seekg(a_pYscHeader->getNativesOffset());
-		
-	l_iNativeCount = a_pYscHeader->getNativesCount();
-	
 	freeNatives();
+
+	l_iNativeCount = a_pScrHeader->getNativesCount();
 
 	for(i = 0; i < l_iNativeCount; i++)
 	{
 		Native* l_pNative;
 		std::stringstream l_ss;
-		unsigned __int64 l_uiNativeHash;
 
-		a_pFileStream->read((char*)&l_uiNativeHash, sizeof(l_uiNativeHash));
-
-		l_uiNativeHash = _rotl64(l_uiNativeHash, (a_pYscHeader->getByteCodeLength() + i));
-
-		l_ss << "unk_0x" << std::hex << std::setw(16) << std::setfill('0') << l_uiNativeHash;
+		l_ss << "unk_0x" << std::hex << std::setw(16) << std::setfill('0') << a_pScrHeader->getNativeHash(i);
 		l_pNative = getNative(addNative(l_ss.str()));
-		l_pNative->m_ullNativeHash = l_uiNativeHash;
+		l_pNative->m_ullNativeHash = a_pScrHeader->getNativeHash(i);
 	}
 
 	retrieveNames();

@@ -23,7 +23,7 @@ void InstructionCall::setLabelCollector(LabelCollector* a_pLabelCollector)
 unsigned char* InstructionCall::getByteCode()
 {	
 	*(int*)m_aByteCode = this->m_pLabelCollector->getAddress(this->m_szJmpLabel) << 8; // it's an absolute address + plus we only need 24 bits for the address
-	m_aByteCode[0] = getOpcode();
+	*this->m_aByteCode = getOpcode();
 	m_bJumpAlreadyComputed = true;
 	return this->m_aByteCode;
 }

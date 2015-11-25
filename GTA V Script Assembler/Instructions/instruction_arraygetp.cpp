@@ -14,7 +14,7 @@ InstructionArrayGetP::~InstructionArrayGetP()
 
 unsigned char* InstructionArrayGetP::getByteCode()
 {
-	this->m_aByteCode[0] = getOpcode();
+	*this->m_aByteCode = getOpcode();
 	return this->m_aByteCode;
 }
 
@@ -34,7 +34,7 @@ bool InstructionArrayGetP::Process(std::string a_szAssemblyLine)
 	}
 
 	setElementSize((unsigned int)l_iValue);
-	return false;
+	return true;
 }
 
 bool InstructionArrayGetP::Process(unsigned char* a_pByteCode)

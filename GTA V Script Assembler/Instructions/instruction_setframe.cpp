@@ -16,7 +16,7 @@ InstructionSetFrame::~InstructionSetFrame()
 
 unsigned char* InstructionSetFrame::getByteCode()
 {
-	m_aByteCode[0] = getOpcode();
+	*this->m_aByteCode = getOpcode();
 	return m_aByteCode;
 }
 
@@ -29,7 +29,7 @@ bool InstructionSetFrame::Process(std::string a_szAssemblyLine)
 
 
 
-	if(*(char*)&l_iIndex == l_iIndex)	// if the index fit in one byte
+	if(*(unsigned char*)&l_iIndex == l_iIndex)	// if the index fit in one byte
 	{
 		m_aByteCode[1] = l_iIndex;
 		setLength(2);
@@ -37,7 +37,7 @@ bool InstructionSetFrame::Process(std::string a_szAssemblyLine)
 	}
 	else
 	{
-		*(short*)&m_aByteCode[1] = l_iIndex;
+		*(unsigned short*)&m_aByteCode[1] = l_iIndex;
 		setLength(3);
 		setOpcode(78);
 	}
@@ -57,7 +57,7 @@ std::string InstructionSetFrame::toString()
 	}
 	else
 	{
-		l_ss << *(short*)&m_aByteCode[1];
+		l_ss << *(unsigned short*)&m_aByteCode[1];
 	}
 
 	return l_ss.str();

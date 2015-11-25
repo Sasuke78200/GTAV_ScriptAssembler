@@ -26,7 +26,7 @@ unsigned char* InstructionJmp::getByteCode()
 	l_uiLabelAddress = this->m_pLabelCollector->getAddress(this->m_szJmpLabel);
 
 	*(short*)&m_aByteCode[1]	= l_uiLabelAddress - (getAddress() + getLength());
-	m_aByteCode[0]				= getOpcode();
+	*this->m_aByteCode			= getOpcode();
 
 	m_bJumpAlreadyComputed = true;
 

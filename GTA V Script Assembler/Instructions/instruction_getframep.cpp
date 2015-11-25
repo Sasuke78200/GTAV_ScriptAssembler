@@ -16,7 +16,7 @@ InstructionGetFrameP::~InstructionGetFrameP()
 
 unsigned char* InstructionGetFrameP::getByteCode()
 {
-	m_aByteCode[0] = getOpcode();
+	*this->m_aByteCode = getOpcode();
 	return m_aByteCode;
 }
 
@@ -36,7 +36,7 @@ bool InstructionGetFrameP::Process(std::string a_szAssemblyLine)
 	}
 	else
 	{
-		*(short*)&m_aByteCode[1] = l_iIndex;
+		*(unsigned short*)&m_aByteCode[1] = l_iIndex;
 		setLength(3);
 		setOpcode(76);
 	}
@@ -55,7 +55,7 @@ std::string InstructionGetFrameP::toString()
 	}
 	else
 	{
-		l_ss << *(short*)&m_aByteCode[1];
+		l_ss << *(unsigned short*)&m_aByteCode[1];
 	}
 
 	return l_ss.str();

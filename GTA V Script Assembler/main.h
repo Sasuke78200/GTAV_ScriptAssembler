@@ -54,7 +54,10 @@
 #include "Instructions/instruction_psetimm.h"
 #include "Instructions/instruction_pgetimm.h"
 #include "Instructions/instruction_padd.h"
+#include "Instructions/instruction_addimm.h"
+#include "Instructions/instruction_mulimm.h"
 
+#include "scr_header.h"
 #include "ysc_header.h"
 
 #include "assembler.h"

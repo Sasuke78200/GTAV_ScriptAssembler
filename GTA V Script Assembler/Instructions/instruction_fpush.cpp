@@ -14,7 +14,7 @@ InstructionfPush::~InstructionfPush()
 
 unsigned char* InstructionfPush::getByteCode()
 {
-	m_aByteCode[0] = getOpcode();
+	*this->m_aByteCode = getOpcode();
 	return m_aByteCode;
 }
 

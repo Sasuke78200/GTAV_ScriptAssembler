@@ -647,6 +647,14 @@ bool Assembler::ParseCode()
 		{
 			l_pInstruction = new InstructionPAdd();
 		}
+		else if(l_szOperation == "addimm")
+		{
+			l_pInstruction = new InstructionAddImm();
+		}
+		else if(l_szOperation == "mulimm")
+		{
+			l_pInstruction = new InstructionMulImm();
+		}
 		else
 		{
 			printf("Line %d : Unknown operation \"%s\". !\n", it->first, l_szOperation.c_str());

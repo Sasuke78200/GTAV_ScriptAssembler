@@ -82,6 +82,7 @@
     <ClCompile Include="commandline.cpp" />
     <ClCompile Include="disassembler.cpp" />
     <ClCompile Include="Instructions\instruction.cpp" />
+    <ClCompile Include="Instructions\instruction_addimm.cpp" />
     <ClCompile Include="Instructions\instruction_arrayget.cpp" />
     <ClCompile Include="Instructions\instruction_arraygetp.cpp" />
     <ClCompile Include="Instructions\instruction_arrayset.cpp" />
@@ -97,6 +98,7 @@
     <ClCompile Include="Instructions\instruction_getstaticp.cpp" />
     <ClCompile Include="Instructions\instruction_ipush.cpp" />
     <ClCompile Include="Instructions\instruction_jmp.cpp" />
+    <ClCompile Include="Instructions\instruction_mulimm.cpp" />
     <ClCompile Include="Instructions\instruction_native.cpp" />
     <ClCompile Include="Instructions\instruction_padd.cpp" />
     <ClCompile Include="Instructions\instruction_pgetimm.cpp" />
@@ -111,6 +113,7 @@
     <ClCompile Include="label_collector.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="native_collector.cpp" />
+    <ClCompile Include="scr_header.cpp" />
     <ClCompile Include="string_collector.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="ysc_header.cpp" />
@@ -120,6 +123,7 @@
     <ClInclude Include="commandline.h" />
     <ClInclude Include="disassembler.h" />
     <ClInclude Include="Instructions\instruction.h" />
+    <ClInclude Include="Instructions\instruction_addimm.h" />
     <ClInclude Include="Instructions\instruction_arrayget.h" />
     <ClInclude Include="Instructions\instruction_arraygetp.h" />
     <ClInclude Include="Instructions\instruction_arrayset.h" />
@@ -135,6 +139,7 @@
     <ClInclude Include="Instructions\instruction_getstaticp.h" />
     <ClInclude Include="Instructions\instruction_ipush.h" />
     <ClInclude Include="Instructions\instruction_jmp.h" />
+    <ClInclude Include="Instructions\instruction_mulimm.h" />
     <ClInclude Include="Instructions\instruction_native.h" />
     <ClInclude Include="Instructions\instruction_padd.h" />
     <ClInclude Include="Instructions\instruction_pgetimm.h" />
@@ -149,6 +154,7 @@
     <ClInclude Include="label_collector.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="native_collector.h" />
+    <ClInclude Include="scr_header.h" />
     <ClInclude Include="string_collector.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="ysc_header.h" />

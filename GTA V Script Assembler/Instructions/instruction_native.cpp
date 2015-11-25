@@ -22,7 +22,7 @@ void InstructionNative::setNativeCollector(NativeCollector* a_pNativeCollector)
 
 unsigned char* InstructionNative::getByteCode()
 {
-	m_aByteCode[0] = getOpcode();
+	*this->m_aByteCode = getOpcode();
 	return m_aByteCode;
 }
 
@@ -89,10 +89,18 @@ bool InstructionNative::Process(std::string a_szAssemblyLine)
 std::string InstructionNative::toString()
 {
 	std::stringstream l_ss;
-	// TODO: Print narive name, arg count & ret count
+	Native* l_pNative;
 	l_ss << getName() << " ";
 
-	l_ss << this->m_pNativeCollector->getNative((int)((m_aByteCode[2] << 2) + m_aByteCode[3]))->m_szName;
+	l_pNative = this->m_pNativeCollector->getNative((int)((m_aByteCode[2] << 2) + m_aByteCode[3]));
+	if(l_pNative)
+	{
+		l_ss << l_pNative->m_szName;
+	}
+	else
+	{
+		l_ss << "Can't find native " << (int)((m_aByteCode[2] << 2) + m_aByteCode[3]);
+	}
 
 	l_ss << " " <<(int)((m_aByteCode[1] >> 2) & 0x3F) << " " << (m_aByteCode[1] & 3);
 	return l_ss.str();

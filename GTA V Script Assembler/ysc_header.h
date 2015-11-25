@@ -35,7 +35,7 @@ class scrProgram
 };
 */
 
-class YscHeader
+class YscHeader : public scrHeader
 {
 public:
 
@@ -53,7 +53,7 @@ public:
 	void ReadFromFile(std::ifstream* a_pFileStream);
 
 
-	std::string getName();
+	std::string		getName();
 
 	/* Code page informations */
 	int				getCodePageCount();
@@ -63,14 +63,15 @@ public:
 	unsigned int	getByteCodeLength();
 
 	/* String page informations */
-	int getStringPageCount();
-	int getStringPageLength(unsigned int a_uiPage);
-	int getStringPageOffset(std::ifstream* a_pFileStream, int a_uiPage);
-	int getStringsLength();
+	int				getStringPageCount();
+	int				getStringPageLength(unsigned int a_uiPage);
+	int				getStringPageOffset(std::ifstream* a_pFileStream, int a_uiPage);
+	int				getStringsLength();
 
 	/* Natives informations */
-	int getNativesCount();
-	int getNativesOffset();
+	int				getNativesCount();
+	int				getNativesOffset();
+	__int64			getNativeHash(int a_iIndex);
 
 private:
 	/* scrProgram/ysc Header*/
@@ -101,6 +102,8 @@ private:
 
 
 	std::string			m_szScriptName;
+	std::vector<__int64>
+						m_NativesHashes;
 };
 
 

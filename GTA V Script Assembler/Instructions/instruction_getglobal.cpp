@@ -15,7 +15,7 @@ InstructionGetGlobal::~InstructionGetGlobal()
 
 unsigned char* InstructionGetGlobal::getByteCode()
 {
-	m_aByteCode[0] = getOpcode();
+	*this->m_aByteCode = getOpcode();
 	return m_aByteCode;
 }
 
@@ -31,13 +31,13 @@ bool InstructionGetGlobal::Process(std::string a_szAssemblyLine)
 
 	if((l_iGlobalId & 0xFFFF) == l_iGlobalId)
 	{
-		*(short*)&m_aByteCode[1] = l_iGlobalId;
+		*(unsigned short*)&m_aByteCode[1] = l_iGlobalId;
 		setOpcode(83);
 		setLength(3);
 	}
 	else
 	{
-		*(int*)m_aByteCode = _byteswap_ulong(l_iGlobalId);	
+		*(unsigned int*)m_aByteCode = l_iGlobalId << 8;	
 		setOpcode(95);
 		setLength(4);
 	}
@@ -51,11 +51,11 @@ std::string InstructionGetGlobal::toString()
 
 	if(getOpcode() == 83)
 	{
-		l_ss << *(short*)&m_aByteCode[1];
+		l_ss << *(unsigned short*)&m_aByteCode[1];
 	}
 	else
 	{
-		l_ss << (int)(_byteswap_ulong(*(int*)m_aByteCode) & 0x00FFFFFF);
+		l_ss << ((*(unsigned int*)m_aByteCode) >> 8);
 	}
 
 	return l_ss.str();

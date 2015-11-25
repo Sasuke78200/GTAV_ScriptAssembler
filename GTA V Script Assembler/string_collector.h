@@ -1,21 +1,13 @@
 #ifndef __STRING_COLLECTOR_H__
 #define __STRING_COLLECTOR_H__
 
-class YscHeader;
+class scrHeader;
 
 class StringCollector
 {
 public:
 	StringCollector();
 	~StringCollector();
-	/*
-	int			addString(std::string a_szString);
-	int			getStringId(std::string a_szString);
-	int			getStringsLength();
-	int			getStringPageCount();
-	char**		constructStringsPage();
-	void		importStringPage(YscHeader* a_pYscHeader, std::ifstream* a_pFileStream);
-	*/
 	
 	int			addString(char* a_szString);
 	char*		getString(int a_uiId);
@@ -23,7 +15,7 @@ public:
 	int			getStringPageLength();
 	char**		getStringPages();
 	void		freePages();
-	void		importFromBinary(YscHeader* a_pYscHeader, std::ifstream* a_pFileStream);	
+	void		importFromBinary(scrHeader* a_pScrHeader, std::ifstream* a_pFileStream);	
 
 private:
 

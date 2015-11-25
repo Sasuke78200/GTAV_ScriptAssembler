@@ -177,6 +177,7 @@ void YscHeader::WriteToFile(std::ofstream* a_pFileStream, unsigned char** a_pByt
 
 void YscHeader::ReadFromFile(std::ifstream* a_pFileStream)
 {
+	int i;
 	a_pFileStream->seekg(0);
 
 	// Read the header
@@ -218,6 +219,19 @@ void YscHeader::ReadFromFile(std::ifstream* a_pFileStream)
 	a_pFileStream->seekg(this->m_uiScriptNameOffset);
 	m_szScriptName.resize(64);
 	a_pFileStream->read(&m_szScriptName[0], 64);
+
+	// read the natives hashes
+	this->m_NativesHashes.clear();
+	a_pFileStream->seekg(getNativesOffset());
+
+	for(i = 0; i < getNativesCount(); i++)
+	{
+		__int64 l_iNativeHash;
+		a_pFileStream->read((char*)&l_iNativeHash, sizeof(l_iNativeHash));
+		l_iNativeHash = _rotl64(l_iNativeHash, (getByteCodeLength() + i));
+
+		this->m_NativesHashes.push_back(l_iNativeHash);
+	}
 }
 
 std::string YscHeader::getName()
@@ -297,4 +311,13 @@ int YscHeader::getNativesCount()
 int YscHeader::getNativesOffset()
 {
 	return this->m_uiNativesOffset;
+}
+
+__int64 YscHeader::getNativeHash(int a_iIndex)
+{
+	if(a_iIndex < getNativesCount())
+	{
+		return this->m_NativesHashes[a_iIndex];
+	}
+	return -1;
 }
