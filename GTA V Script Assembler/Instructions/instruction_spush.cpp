@@ -86,6 +86,7 @@ bool InstructionsPush::Process(unsigned char* a_aByteCode)
 
 void InstructionsPush::setIndex(int a_iIndex)
 {
+	this->m_StringIndexInstruction.setAddress(getAddress());
 	this->m_StringIndexInstruction.setValue(a_iIndex);
 
 	memcpy(m_aByteCode, this->m_StringIndexInstruction.getByteCode(), this->m_StringIndexInstruction.getLength());

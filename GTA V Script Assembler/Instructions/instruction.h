@@ -14,8 +14,8 @@ public:
 	unsigned char				getOpcode();
 
 
-	unsigned char				getLength();
-	void						setLength(unsigned char a_byLength);
+	int							getLength();
+	void						setLength(int a_iLength);
 
 	void						setName(std::string a_szName);
 	std::string					getName();
@@ -33,7 +33,7 @@ public:
 protected:
 
 	unsigned char	m_byOpcode;
-	unsigned char	m_byLength;
+	unsigned int	m_iLength;
 	std::string		m_szName;
 	int				m_iAddress;	// address of this instruction in the program
 };

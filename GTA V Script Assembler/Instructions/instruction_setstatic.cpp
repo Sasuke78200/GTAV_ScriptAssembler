@@ -72,7 +72,7 @@ void InstructionSetStatic::setIndex(int a_iIndex)
 	{
 		setOpcode(81);
 		setLength(2);
-		*(unsigned short*)m_aByteCode[1] = a_iIndex & 0xFFFF;
+		*(unsigned short*)&m_aByteCode[1] = a_iIndex & 0xFFFF;
 		printf("Index2 words\n");
 	}	
 }
@@ -86,5 +86,5 @@ int InstructionSetStatic::getIndex()
 	}
 	
 	// 81 word
-	return *(unsigned short*)m_aByteCode[1];
+	return *(unsigned short*)&m_aByteCode[1];
 }

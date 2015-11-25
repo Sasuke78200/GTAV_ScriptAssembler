@@ -72,7 +72,7 @@ void InstructionGetStaticP::setIndex(int a_iIndex)
 	{
 		setOpcode(79);
 		setLength(2);
-		*(short*)m_aByteCode[1] = a_iIndex & 0xFFFF;
+		*(unsigned short*)&m_aByteCode[1] = a_iIndex & 0xFFFF;
 	}	
 }
 
@@ -85,5 +85,5 @@ int InstructionGetStaticP::getIndex()
 	}
 	
 	// 79 word
-	return *(unsigned short*)m_aByteCode[1];
+	return *(unsigned short*)&m_aByteCode[1];
 }

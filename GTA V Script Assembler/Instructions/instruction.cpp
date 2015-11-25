@@ -5,7 +5,7 @@
 Instruction::Instruction()
 {	
 	m_byOpcode	= 0xFF;
-	m_byLength	= 0xFF;
+	m_iLength	= -1;
 	m_szName	= "instruction";
 	m_iAddress	= -1;
 }
@@ -24,14 +24,14 @@ unsigned char Instruction::getOpcode()
 	return this->m_byOpcode;
 }
 
-unsigned char Instruction::getLength()
+int Instruction::getLength()
 {
-	return this->m_byLength;
+	return this->m_iLength;
 }
 
-void Instruction::setLength(unsigned char a_byLength)
+void Instruction::setLength(int a_iLength)
 {
-	this->m_byLength = a_byLength;
+	this->m_iLength = a_iLength;
 }
 
 void Instruction::setName(std::string a_szName)

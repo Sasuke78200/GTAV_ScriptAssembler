@@ -105,6 +105,22 @@ void Disassembler::ConvertToInstructions()
 	{
 		l_bOpcode = m_aByteCode[l_uiBytecodeAddr / 0x4000][l_uiBytecodeAddr % 0x4000];
 	
+		if(l_bOpcode == 38 || l_bOpcode == 39)
+		{
+			InstructioniPush** l_iPushes = new InstructioniPush*[l_bOpcode - 36];
+			for(int i = 0; i < l_bOpcode - 36; i++)
+			{
+				l_iPushes[i] = new InstructioniPush();
+				l_iPushes[i]->setAddress(l_uiBytecodeAddr);
+				l_iPushes[i]->setValue(m_aByteCode[(l_uiBytecodeAddr + i + 1) / 0x4000][(l_uiBytecodeAddr + i + 1) % 0x4000]);
+				this->m_Instructions.push_back(l_iPushes[i]);
+			}
+			// 38 is ipush byte byte (len 3 bytes)
+			// 39 is ipush byte byte byte (len 4 bytes)
+			l_uiBytecodeAddr += l_bOpcode - 35;
+			continue;
+		}
+
 		l_pInstruction = Instruction::allocFromOpcode(l_bOpcode);
 
 		if(l_pInstruction)
@@ -141,15 +157,15 @@ void Disassembler::ProcessInstructions()
 		if((*it)->getOpcode() == 99)		// string push
 		{
 			InstructioniPush* l_piPush;
-			InstructionsPush* l_pJmp;
+			InstructionsPush* l_psPush;
 			std::vector<Instruction*>::iterator previous_it = it - 1;
 			while((*previous_it)->getName() != "ipush") previous_it--;
 
 			l_piPush = (InstructioniPush*)*previous_it;
 
-			l_pJmp = (InstructionsPush*)*it;
-			l_pJmp->setStringCollector(&this->m_stringCollector);
-			l_pJmp->setIndex(l_piPush->getValue());
+			l_psPush = (InstructionsPush*)*it;
+			l_psPush->setStringCollector(&this->m_stringCollector);
+			l_psPush->setIndex(l_piPush->getValue());
 			
 			*previous_it = new InstructionBasic();
 			(*previous_it)->setAddress(l_piPush->getAddress());

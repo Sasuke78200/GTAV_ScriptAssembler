@@ -13,7 +13,7 @@ InstructionSwitch::InstructionSwitch()
 
 InstructionSwitch::~InstructionSwitch()
 {
-	if(this->m_pByteCode)
+	if(this->m_pByteCode != nullptr)
 		delete [] this->m_pByteCode;
 	this->m_pByteCode = nullptr;
 }
@@ -77,11 +77,11 @@ bool InstructionSwitch::Process(std::string a_szAssemblyLine)
 bool InstructionSwitch::Process(unsigned char* a_pByteCode)
 {
 	int i;
-	//setOpcode(*a_pByteCode);
+	setOpcode(*a_pByteCode);
 	setLength(a_pByteCode[1] * 6 + 2);
 
 	freeCases();
-	if(this->m_pByteCode)
+	if(this->m_pByteCode != nullptr)
 		delete [] this->m_pByteCode;
 
 	this->m_pByteCode = new unsigned char[getLength()];
@@ -91,7 +91,7 @@ bool InstructionSwitch::Process(unsigned char* a_pByteCode)
 	{
 		std::stringstream l_ss;
 		l_ss << "label_" << std::setfill('0') << std::setw(4) << std::hex << getCaseJmpAddress(i);
-		if(addCase(this->m_pByteCode[2 + i * 6], l_ss.str()) == false) return false;
+		if(addCase(*(int*)&this->m_pByteCode[2 + i * 6], l_ss.str()) == false) return false;
 	}
 	return true;
 }
