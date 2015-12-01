@@ -4,6 +4,8 @@ InstructionsPush::InstructionsPush()
 {
 	setOpcode(99);
 	setName("spush");
+	setPushCount(1);
+	setPopCount(0); // should be 1, but we're folding the ipush before to be processed directly by the string collector
 
 	this->m_pStringCollector = 0;
 }
@@ -75,7 +77,7 @@ bool InstructionsPush::Process(std::string a_szAssemblyLine)
 
 std::string InstructionsPush::toString()
 {
-	return getName() + " \"" + this->m_pStringCollector->getString(this->m_StringIndexInstruction.getValue()) + "\"";
+	return getName() + " \"" + getString() + "\"";
 }
 
 bool InstructionsPush::Process(unsigned char* a_aByteCode)
@@ -93,4 +95,9 @@ void InstructionsPush::setIndex(int a_iIndex)
 	m_aByteCode[this->m_StringIndexInstruction.getLength()] = getOpcode();
 
 	setLength(this->m_StringIndexInstruction.getLength() + 1);
+}
+
+std::string InstructionsPush::getString()
+{
+	return this->m_pStringCollector->getString(this->m_StringIndexInstruction.getValue());
 }

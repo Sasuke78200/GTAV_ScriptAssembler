@@ -5,6 +5,8 @@ InstructioniPush::InstructioniPush()
 {
 	memset(m_aByteCode, 0, sizeof(m_aByteCode));
 	setName("ipush");
+	setPushCount(1);
+	setPopCount(0);
 }
 
 InstructioniPush::~InstructioniPush()

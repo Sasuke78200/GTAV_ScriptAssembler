@@ -23,6 +23,12 @@ public:
 	void						setAddress(int a_iAddress);
 	int							getAddress();
 
+	int							getPushCount();
+	void						setPushCount(int a_iCount);
+	
+	int							getPopCount();
+	void						setPopCount(int a_iCount);
+
 	virtual	unsigned char*		getByteCode() = 0;
 	virtual bool				Process(std::string a_szAssemblyLine) = 0;
 	virtual bool				Process(unsigned char* a_pByteCode) = 0;
@@ -36,6 +42,8 @@ protected:
 	unsigned int	m_iLength;
 	std::string		m_szName;
 	int				m_iAddress;	// address of this instruction in the program
+	int				m_iPushCount;
+	int				m_iPopCount;
 };
 
 

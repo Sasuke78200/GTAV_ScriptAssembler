@@ -25,6 +25,7 @@
 #include "label_collector.h"
 #include "native_collector.h"
 #include "string_collector.h"
+#include "function_collector.h"
 
 // all the instruction
 #include "Instructions/instruction.h"
@@ -57,11 +58,15 @@
 #include "Instructions/instruction_addimm.h"
 #include "Instructions/instruction_mulimm.h"
 
+// decompiler files
+#include "Decompiler/BasicBlock.h"
+
 #include "scr_header.h"
 #include "ysc_header.h"
 
 #include "assembler.h"
 #include "disassembler.h"
+#include "decompiler.h"
 
 #include "commandline.h"
 

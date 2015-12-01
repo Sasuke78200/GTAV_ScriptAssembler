@@ -82,7 +82,10 @@
   <ItemGroup>
     <ClCompile Include="assembler.cpp" />
     <ClCompile Include="commandline.cpp" />
+    <ClCompile Include="decompiler.cpp" />
+    <ClCompile Include="Decompiler\BasicBlock.cpp" />
     <ClCompile Include="disassembler.cpp" />
+    <ClCompile Include="function_collector.cpp" />
     <ClCompile Include="Instructions\instruction.cpp" />
     <ClCompile Include="Instructions\instruction_addimm.cpp" />
     <ClCompile Include="Instructions\instruction_arrayget.cpp" />
@@ -123,7 +126,10 @@
   <ItemGroup>
     <ClInclude Include="assembler.h" />
     <ClInclude Include="commandline.h" />
+    <ClInclude Include="decompiler.h" />
+    <ClInclude Include="Decompiler\BasicBlock.h" />
     <ClInclude Include="disassembler.h" />
+    <ClInclude Include="function_collector.h" />
     <ClInclude Include="Instructions\instruction.h" />
     <ClInclude Include="Instructions\instruction_addimm.h" />
     <ClInclude Include="Instructions\instruction_arrayget.h" />

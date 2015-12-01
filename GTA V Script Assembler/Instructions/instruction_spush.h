@@ -16,6 +16,8 @@ public:
 	bool				Process(unsigned char* a_aByteCode);
 	void				setIndex(int a_iIndex);
 
+	std::string			getString();
+
 private:
 
 	// 1~5 bytes for the string index

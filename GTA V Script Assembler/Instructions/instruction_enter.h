@@ -15,6 +15,9 @@ public:
 	std::string			toString();
 	bool				Process(unsigned char* a_aByteCode);
 
+	int					getArgCount();
+	int					getStackAllocCount();
+
 private:
 
 	// 1 byte	- opcode

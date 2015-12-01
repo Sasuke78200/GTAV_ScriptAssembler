@@ -4,10 +4,12 @@
 
 Instruction::Instruction()
 {	
-	m_byOpcode	= 0xFF;
-	m_iLength	= -1;
-	m_szName	= "instruction";
-	m_iAddress	= -1;
+	m_byOpcode		= 0xFF;
+	m_iLength		= -1;
+	m_szName		= "instruction";
+	m_iAddress		= -1;
+	m_iPushCount	= 0;
+	m_iPopCount		= 0;
 }
 
 Instruction::~Instruction()
@@ -172,4 +174,24 @@ void Instruction::setAddress(int a_iAddress)
 int Instruction::getAddress()
 {
 	return this->m_iAddress;
+}
+
+int Instruction::getPushCount()
+{
+	return this->m_iPushCount;
+}
+
+void Instruction::setPushCount(int a_iCount)
+{
+	this->m_iPushCount = a_iCount;
+}
+	
+int Instruction::getPopCount()
+{
+	return this->m_iPopCount;
+}
+
+void Instruction::setPopCount(int a_iCount)
+{
+	this->m_iPopCount = a_iCount;
 }

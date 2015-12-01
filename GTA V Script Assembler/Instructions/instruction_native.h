@@ -16,6 +16,9 @@ public:
 	std::string			toString();
 	bool				Process(unsigned char* a_aByteCode);	
 
+	int					getArgCount();
+	int					getReturnCount();
+
 private:
 	// 1 byte	- opcode
 	// 1 byte	- arg count + return count

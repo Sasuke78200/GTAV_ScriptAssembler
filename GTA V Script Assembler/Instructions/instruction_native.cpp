@@ -83,6 +83,8 @@ bool InstructionNative::Process(std::string a_szAssemblyLine)
 	m_aByteCode[1]				= (l_byArgCount << 2) | (l_byReturnCount&3);
 	m_aByteCode[2]				= (l_iNativeId >> 8) & 0xFF;
 	m_aByteCode[3]				= l_iNativeId & 0xFF;
+	setPushCount(l_byReturnCount);
+	setPopCount(l_byArgCount);
 	return true;
 }
 
@@ -102,7 +104,7 @@ std::string InstructionNative::toString()
 		l_ss << "Can't find native " << (int)((m_aByteCode[2] << 2) + m_aByteCode[3]);
 	}
 
-	l_ss << " " <<(int)((m_aByteCode[1] >> 2) & 0x3F) << " " << (m_aByteCode[1] & 3);
+	l_ss << " " << getArgCount() << " " << getReturnCount();
 	return l_ss.str();
 }
 
@@ -110,5 +112,17 @@ bool InstructionNative::Process(unsigned char* a_aByteCode)
 {
 	setOpcode(*a_aByteCode);
 	memcpy(this->m_aByteCode, a_aByteCode, getLength());
+	setPushCount(getReturnCount());
+	setPopCount(getArgCount());
 	return true;
+}
+
+int InstructionNative::getArgCount()
+{
+	return (m_aByteCode[1] >> 2) & 0x3F;
+}
+
+int InstructionNative::getReturnCount()
+{
+	return m_aByteCode[1] & 3;
 }

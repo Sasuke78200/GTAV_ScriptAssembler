@@ -10,6 +10,7 @@ void ShowHelp()
 	printf("USAGE : -i input_path -o output_path [-n] [-v]\n\n");
 	printf("Options :\n");
 	printf("    -d\t\tDisassemble a compiled script\n");
+	printf("    -hl\t\tDecompile a compiled script\n");
 	printf("    -n\t\tInternal script name, by default it takes the output file name\n");
 	printf("    -ns\t\tPrint natives namespace when disassembling.\n");
 	printf("    -v\t\tNative functions hashes\n");
@@ -56,6 +57,7 @@ int main(int a_iArgCount, char** a_pszArgs)
 	CommandLine*	l_pCommandLine;	
 	Assembler*		l_pAssembler;
 	Disassembler*	l_pDisassembler;
+	Decompiler*		l_pDecompiler;
 	std::string*	l_pInput;
 	std::string*	l_pOutput;
 	std::string*	l_pScriptName;
@@ -107,6 +109,12 @@ int main(int a_iArgCount, char** a_pszArgs)
 			l_pDisassembler = new Disassembler();
 			l_pDisassembler->DisassembleFile((char*)l_pInput->c_str(), (char*)l_pOutput->c_str());
 			delete l_pDisassembler;
+		}
+		else if(l_pCommandLine->getVal("-hl") != 0)
+		{
+			l_pDecompiler = new Decompiler();
+			l_pDecompiler->DecompileFile((char*)l_pInput->c_str(), (char*)l_pOutput->c_str());
+			delete l_pDecompiler;
 		}
 		else
 		{

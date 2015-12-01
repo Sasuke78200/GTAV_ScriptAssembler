@@ -15,10 +15,13 @@ public:
 	std::string			toString();
 	bool				Process(unsigned char* a_aByteCode);
 
+	int					getReturnCount();
+	int					getPopStackCount();
+
 private:
 	// 1 byte	- opcode
 	// 1 byte	- return count
-	// 1 bytes	- pop stack
+	// 1 byte	- pop stack
 	unsigned char	m_aByteCode[3];
 
 

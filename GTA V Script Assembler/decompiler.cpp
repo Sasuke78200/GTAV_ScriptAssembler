@@ -2,7 +2,7 @@
 
 
 
-Disassembler::Disassembler()
+Decompiler::Decompiler()
 {
 	int l_iPlateform;
 	m_aByteCode = 0;
@@ -27,13 +27,13 @@ Disassembler::Disassembler()
 
 }
 
-Disassembler::~Disassembler()
+Decompiler::~Decompiler()
 {
 	// TODO: Free 'm_aByteCode'
 }
 
 
-bool Disassembler::DisassembleFile(char* a_szBinaryPath, char* a_szOutputPath)
+bool Decompiler::DecompileFile(char* a_szBinaryPath, char* a_szOutputPath)
 {
 	m_pBinaryFile = new std::ifstream(a_szBinaryPath, std::ifstream::in |std::ifstream::binary);
 
@@ -53,7 +53,7 @@ bool Disassembler::DisassembleFile(char* a_szBinaryPath, char* a_szOutputPath)
 	
 	m_pScrHeader->ReadFromFile(m_pBinaryFile);
 		
-	printf("Disassembling script \"%s\" ...\n", m_pScrHeader->getName().c_str());
+	printf("Decompiling script \"%s\" ...\n", m_pScrHeader->getName().c_str());
 
 	ReadByteCode();
 
@@ -63,8 +63,9 @@ bool Disassembler::DisassembleFile(char* a_szBinaryPath, char* a_szOutputPath)
 		m_nativeCollector.importFromBinary(this->m_pScrHeader);
 		ConvertToInstructions();
 		ProcessInstructions();
-		PrintInstructionsToFile(a_szOutputPath);
-		printf("Script disassembled !\n");
+		CollectFunctions();
+		BuildAST();
+		printf("Script decompiled !\n");
 	}
 	else
 	{
@@ -75,7 +76,7 @@ bool Disassembler::DisassembleFile(char* a_szBinaryPath, char* a_szOutputPath)
 	return true;
 }
 
-void Disassembler::ReadByteCode()
+void Decompiler::ReadByteCode()
 {
 	int i;
 
@@ -89,7 +90,7 @@ void Disassembler::ReadByteCode()
 	}
 }
 
-void Disassembler::ConvertToInstructions()
+void Decompiler::ConvertToInstructions()
 {
 	int				l_uiByteCodeLength;
 	int				l_uiBytecodeAddr;
@@ -141,14 +142,14 @@ void Disassembler::ConvertToInstructions()
 			l_pInstruction->setAddress(l_uiBytecodeAddr);
 			this->m_Instructions.push_back(l_pInstruction);
 
-			//printf("Disassembler::ConvertToInstructions() -> Unk opcode %d\n", l_bOpcode);
+			//printf("Decompiler::ConvertToInstructions() -> Unk opcode %d\n", l_bOpcode);
 		}
 
 		l_uiBytecodeAddr += getOpcodeLenByAddr(l_uiBytecodeAddr);
 	}
 }
 
-void Disassembler::ProcessInstructions()
+void Decompiler::ProcessInstructions()
 {
 	std::vector<Instruction*>::iterator it;
 
@@ -166,12 +167,12 @@ void Disassembler::ProcessInstructions()
 			l_psPush = (InstructionsPush*)*it;
 			l_psPush->setStringCollector(&this->m_stringCollector);
 			l_psPush->setIndex(l_piPush->getValue());
-			
+
 			*previous_it = new InstructionBasic();
 			(*previous_it)->setAddress(l_piPush->getAddress());
-			(*previous_it)->setName("DummyInstruction"); // that's a hack I know
-			delete l_piPush;
-			
+			(*previous_it)->setName("DummyInstruction"); // that's a hack, I know
+
+			delete l_piPush;			
 			//it = this->m_Instructions.erase(previous_it);
 		}
 		else if((*it)->getOpcode() >= 85 && (*it)->getOpcode() <= 92)	// any jump
@@ -213,50 +214,217 @@ void Disassembler::ProcessInstructions()
 				l_ss << "label_" << std::setfill('0') << std::setw(4) << std::hex << l_pSwitch->getCaseJmpAddress(i);
 				this->m_labelCollector.AddLabel(l_ss.str(), l_pSwitch->getCaseJmpAddress(i));
 			}
-		}
+		}		
 	}
-
 }
 
-void Disassembler::PrintInstructionsToFile(char* a_szOutputPath)
+void Decompiler::CollectFunctions()
 {
 	std::vector<Instruction*>::iterator it;
-	std::ofstream l_OutputFile(a_szOutputPath);
 
 	for(it = this->m_Instructions.begin(); it != this->m_Instructions.end(); it++)
 	{
-		if((*it)->getName() == "enter" && (*it)->getAddress() != 0) // function starting, let's print a new line
+		if((*it)->getName() == "enter")
 		{
-			l_OutputFile.write("\n", 1);
+			m_functionCollector.NewFunction();
+			//printf("Function at -> 0x%08X\n", (*it)->getAddress());
 		}
-
-		/* TODO: I could do better than that*/
-		std::stringstream l_ss;
-		l_ss << "label_" << std::setfill('0') << std::setw(4) << std::hex << (*it)->getAddress();
-		
-		if(this->m_labelCollector.getAddress(l_ss.str()) != 0xFFFFFFFF) // if the label exists
-		{
-			l_ss << "\n";
-			l_OutputFile.write((":" + l_ss.str()).c_str(), l_ss.str().length()+1);
-		}
-
-		if((*it)->getName() == "DummyInstruction") continue; // this dummy instruction is there only to print labels that point to an unused instruction that we can't remove
-
-
-#ifdef _DEBUG
-		std::stringstream l_AssemblyLine;
-		l_AssemblyLine << "- "<< std::hex << std::setfill('0') << std::setw(4) << (*it)->getAddress() << "\t" << (*it)->toString() << "\n";
-		l_OutputFile.write(l_AssemblyLine.str().c_str(), l_AssemblyLine.str().length());
-#else
-		std::string l_AssemblyLine = "\t\t" + (*it)->toString() + "\n";
-		l_OutputFile.write(l_AssemblyLine.c_str(), l_AssemblyLine.length());
-#endif
+		m_functionCollector.AddInstruction(*it);
 	}
-	l_OutputFile.close();
 }
 
 
-bool Disassembler::ValidateBinary()
+bool Decompiler::BuildAST()
+{
+	int l_iFunctionCount;
+	int i;
+
+
+	l_iFunctionCount = m_functionCollector.getCount();
+
+	// we're only going to decompile the first function
+	l_iFunctionCount = 1;
+
+	for(i = 0; i < l_iFunctionCount; i++)
+	{
+		if(BuildAstForFunction(i) == false)
+			return false;
+	}
+	return true;
+}
+
+std::vector<BasicBlock*> 
+	Decompiler::generateBasicBlocks(std::vector<Instruction*>* a_pFunction)
+{
+	std::vector<BasicBlock*>				l_BasicBlocks;
+	std::vector<std::pair<int, int>>		l_Addresses;
+	std::vector<Instruction*>::iterator		it;
+	std::vector<int>						m_labels;
+	int										l_iCurrentAddress;
+	unsigned int							i;
+
+	for(it = a_pFunction->begin(); it != a_pFunction->end(); it++)
+	{
+		if((*it)->getOpcode() >= 85 && (*it)->getOpcode() <= 92)
+		{
+			m_labels.push_back(((InstructionJmp*)*it)->getJumpAddress());
+		}		
+	}
+	std::sort(m_labels.begin(), m_labels.end());
+
+	// function entry point address
+	l_iCurrentAddress = (*a_pFunction->begin())->getAddress();	
+	it = a_pFunction->begin();
+	i = 0;
+
+
+	while(l_iCurrentAddress < (a_pFunction->back())->getAddress() + getOpcodeLen(a_pFunction->back()->getOpcode()))
+	{
+		int l_iLabelAddr = -1, l_iJmpAddr = -1;
+
+		while(i < m_labels.size())
+		{
+			if(m_labels[i] > l_iCurrentAddress)
+			{
+				l_iLabelAddr = m_labels[i];
+				break;
+			}
+			i++;
+		}
+
+		while(it != a_pFunction->end())
+		{
+			if((*it)->getAddress() >= l_iCurrentAddress)
+			{
+				if((*it)->getOpcode() >= 85 && (*it)->getOpcode() <= 92 || (*it)->getOpcode() == 46) // jmp or ret
+				{
+					 l_iJmpAddr = (*it)->getAddress();
+					 break;
+				}
+			}
+			it++;
+		}
+
+		if(l_iLabelAddr < l_iJmpAddr && l_iLabelAddr != -1)
+		{
+			l_Addresses.push_back(std::pair<int, int>(l_iCurrentAddress, l_iLabelAddr));
+			//printf("Block start %08X\n", l_iCurrentAddress);
+			//printf("Block end %08X\n", l_iLabelAddr);
+			l_iCurrentAddress = l_iLabelAddr;
+		}
+		else if(l_iJmpAddr != -1)
+		{
+			l_Addresses.push_back(std::pair<int, int>(l_iCurrentAddress, l_iJmpAddr + getOpcodeLenByAddr(l_iJmpAddr)));
+			//printf("Block start %08X\n", l_iCurrentAddress);
+			//printf("Block end %08X\n", l_iJmpAddr + getOpcodeLenByAddr(l_iJmpAddr));
+			l_iCurrentAddress = l_iJmpAddr + getOpcodeLenByAddr(l_iJmpAddr);
+		}
+	}
+
+
+	for(i = 0; i < l_Addresses.size(); i++)
+	{
+		BasicBlock* l_pBlock = new BasicBlock();
+
+		for(it = a_pFunction->begin(); it != a_pFunction->end(); it++)
+		{
+			if((*it)->getAddress() >= l_Addresses[i].second) break;
+			if((*it)->getAddress() >= l_Addresses[i].first)
+			{
+				l_pBlock->addInstruction(*it);
+			}
+		}
+		l_BasicBlocks.push_back(l_pBlock);
+	}
+
+	std::vector<BasicBlock*>::iterator block_it;
+	std::vector<BasicBlock*>::iterator block_start;
+
+	// TODO: Optimize this
+
+	for(block_it = l_BasicBlocks.begin(); block_it != l_BasicBlocks.end(); block_it++)
+	{
+		Instruction* l_pFirst, *l_pLast;
+		BasicBlock* l_pBlock = *block_it;
+		
+		l_pFirst	= l_pBlock->getInstructions()->front();
+		l_pLast		= l_pBlock->getInstructions()->back();
+
+		if(l_pBlock->hasJmp())
+		{
+			for(i = 0; i < l_BasicBlocks.size(); i++)
+			{
+				
+				// jump location
+				if(((InstructionJmp*)l_pLast)->getJumpAddress() == l_BasicBlocks[i]->getInstructions()->front()->getAddress())
+				{
+					l_pBlock->addSuccessor(l_BasicBlocks[i]);
+					l_BasicBlocks[i]->setPredecessor(l_pBlock);
+				}
+				
+				// not jumping locatation
+				if(l_pBlock->hasUnconditionnalJmp() == false)
+				{
+					if(l_BasicBlocks[i]->getInstructions()->front()->getAddress() == (l_pLast->getAddress() + getOpcodeLen(l_pLast->getOpcode())))
+					{
+						l_BasicBlocks[i]->setPredecessor(l_pBlock);
+						l_pBlock->addSuccessor(l_BasicBlocks[i]);
+					}
+				}
+			}
+		}
+		else
+		{
+			if(block_it != l_BasicBlocks.end() - 1)
+			{
+				l_pBlock->addSuccessor(*(block_it + 1));
+				(*(block_it + 1))->setPredecessor(l_pBlock);
+			}			
+		}
+	}
+
+	//TODO: Free those basic blocks !
+	return l_BasicBlocks;
+}
+
+bool Decompiler::BuildAstForFunction(int a_iIndex)
+{
+	std::vector<Instruction*>*				l_pFunction = m_functionCollector.getFunction(a_iIndex);	
+
+
+	std::vector<BasicBlock*> l_BasicBlocks = generateBasicBlocks(l_pFunction);
+
+
+	for(unsigned int i = 0; i < l_BasicBlocks.size(); i++)
+	{
+		BasicBlock* l_pBlock = l_BasicBlocks[i];
+
+		printf("Block at %X\n", l_pBlock->getInstructions()->front()->getAddress());
+
+		for(unsigned int j = 0; j < l_pBlock->getSuccessors()->size(); j ++)
+		{
+			printf("\t- Block at %X\n", l_pBlock->getSuccessors()->at(j)->getInstructions()->front()->getAddress());
+		}
+	}
+
+
+
+
+
+
+
+	if((*l_pFunction->begin())->getName() != "enter" && l_pFunction->back()->getName() != "ret")
+	{
+		// we can't compute the function
+		return false;
+	}
+
+
+
+	return true;
+}
+
+bool Decompiler::ValidateBinary()
 {
 	unsigned int	l_uiByteCodeLength;
 	unsigned int	l_uiBytecodeAddr;
@@ -285,7 +453,7 @@ bool Disassembler::ValidateBinary()
 	return l_uiBytecodeAddr == l_uiByteCodeLength;
 }
 
-int Disassembler::getOpcodeLen(unsigned char a_bOpcode)
+int Decompiler::getOpcodeLen(unsigned char a_bOpcode)
 {
 	int l_aOpcodeLen[256] =	
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,	// 0                  
@@ -306,7 +474,7 @@ int Disassembler::getOpcodeLen(unsigned char a_bOpcode)
 	return l_aOpcodeLen[a_bOpcode];
 }
 
-int Disassembler::getOpcodeLenByAddr(unsigned int a_uiAddress)
+int Decompiler::getOpcodeLenByAddr(unsigned int a_uiAddress)
 {
 	unsigned char l_bOpcode;
 

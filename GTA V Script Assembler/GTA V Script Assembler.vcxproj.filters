@@ -98,6 +98,11 @@
       <Filter>Instructions</Filter>
     </ClCompile>
     <ClCompile Include="scr_header.cpp" />
+    <ClCompile Include="decompiler.cpp" />
+    <ClCompile Include="Decompiler\BasicBlock.cpp">
+      <Filter>Decompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="function_collector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -197,10 +202,18 @@
       <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="scr_header.h" />
+    <ClInclude Include="decompiler.h" />
+    <ClInclude Include="Decompiler\BasicBlock.h">
+      <Filter>Decompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="function_collector.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Instructions">
       <UniqueIdentifier>{f22e2b45-f439-4427-bb6b-dbd285d8b6d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Decompiler">
+      <UniqueIdentifier>{306178ab-1cc0-436c-820a-deda07b26784}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

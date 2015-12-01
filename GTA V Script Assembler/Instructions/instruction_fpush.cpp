@@ -5,6 +5,8 @@ InstructionfPush::InstructionfPush()
 	setOpcode(-1);
 	setLength(-1);
 	setName("fpush");
+	setPushCount(1);
+	setPopCount(0);
 }
 
 InstructionfPush::~InstructionfPush()
