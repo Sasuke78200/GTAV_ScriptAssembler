@@ -110,7 +110,7 @@ bool NativeCollector::retrieveHashes()
 	fclose(l_pNativeJsonFile);
 	return true;
 }
-
+/*
 void NativeCollector::translateHash(int a_iVersion)
 {
 	std::vector<Native*>::iterator	it;
@@ -146,12 +146,50 @@ void NativeCollector::translateHash(int a_iVersion)
 	}
 	fclose(l_pNativeJsonFile);
 }
+*/
+
+void NativeCollector::translateHash(int a_iVersion)
+{
+	std::vector<Native*>::iterator it;
+	int i, j;
+	unsigned int l_iNativesCount;
+	// we're reading 335 hashes, so we don't need to translate them.
+	if(a_iVersion == 0) return;
+
+	l_iNativesCount = this->m_natives.size();
+
+//	unsigned __int64 follow = 0xa9b6c2a8f9fe269a;
+
+	for(i = a_iVersion; i >= 0; i--)
+	{
+		unsigned int l_iNativePasses = 0;
+		for(j = 0; j < (sizeof(g_ullNativesHashTranslationTable[i])/2) / sizeof(unsigned __int64) && l_iNativesCount != l_iNativePasses; j++)
+		{
+			for(it = this->m_natives.begin(); it != this->m_natives.end(); it++)
+			{
+				if((*it)->m_ullNativeHash == g_ullNativesHashTranslationTable[i][j][1])
+				{
+//					if(follow == (*it)->m_ullNativeHash)
+//					{
+//						printf("0x%llX -> 0x%llX\n", follow, g_ullNativesHashTranslationTable[i][j][0]);
+//						follow = g_ullNativesHashTranslationTable[i][j][0];
+//					}
+					(*it)->m_ullNativeHash = g_ullNativesHashTranslationTable[i][j][0];
+					l_iNativePasses++;
+					break;
+				}
+			}
+		}
+	}
+}
+
 
 void NativeCollector::importFromBinary(scrHeader* a_pScrHeader)
 {
 	int i;
 	int l_iNativeCount;
-	
+	int l_iNativeVersion;
+
 	freeNatives();
 
 	l_iNativeCount = a_pScrHeader->getNativesCount();
@@ -165,6 +203,15 @@ void NativeCollector::importFromBinary(scrHeader* a_pScrHeader)
 		l_pNative = getNative(addNative(l_ss.str()));
 		l_pNative->m_ullNativeHash = a_pScrHeader->getNativeHash(i);
 	}
+
+	// Get which version of natives hashes we want to use
+	l_iNativeVersion = atoi(CommandLine::Instance()->getVal("-v")->c_str());
+
+	if(l_iNativeVersion > 0)
+	{
+		translateHash(l_iNativeVersion - 1);
+	}	
+
 
 	retrieveNames();
 }

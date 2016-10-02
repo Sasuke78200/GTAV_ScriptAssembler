@@ -5,7 +5,7 @@ InstructionArraySet::InstructionArraySet()
 {
 	setLength(-1);
 	setOpcode(-1);
-	setName("arrayget");
+	setName("arrayset");
 }
 
 InstructionArraySet::~InstructionArraySet()

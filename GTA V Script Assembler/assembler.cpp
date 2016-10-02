@@ -168,9 +168,6 @@ bool Assembler::CollectNativesHashes()
 
 	if(l_iNativeVersion > 0)
 	{
-		//m_NativeCollector.TranslateHash(0);		// 335 -> 350
-		//m_NativeCollector.TranslateHash(1);		// 350 -> 372
-		//m_NativeCollector.TranslateHash(2);		// 372 -> 393
 		m_NativeCollector.translateHash(l_iNativeVersion - 1);
 	}
 	return true;

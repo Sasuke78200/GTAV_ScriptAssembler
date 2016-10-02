@@ -103,6 +103,7 @@
       <Filter>Decompiler</Filter>
     </ClCompile>
     <ClCompile Include="function_collector.cpp" />
+    <ClCompile Include="natives_translation_tables.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -207,6 +208,7 @@
       <Filter>Decompiler</Filter>
     </ClInclude>
     <ClInclude Include="function_collector.h" />
+    <ClInclude Include="natives_translation_tables.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Instructions">

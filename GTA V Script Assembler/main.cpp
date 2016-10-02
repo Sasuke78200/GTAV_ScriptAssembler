@@ -14,10 +14,11 @@ void ShowHelp()
 	printf("    -n\t\tInternal script name, by default it takes the output file name\n");
 	printf("    -ns\t\tPrint natives namespace when disassembling.\n");
 	printf("    -v\t\tNative functions hashes\n");
-	printf("      \t\t0 for build 335\n");
-	printf("      \t\t1 for build 350\n");
-	printf("      \t\t2 for build 372\n");
-	printf("      \t\t3 for build 393 (default)\n");
+	printf("      \t\t\t0 for build 335\t1 for build 350\n");
+	printf("      \t\t\t2 for build 372\t3 for build 393\n");
+	printf("      \t\t\t4 for build 463\t5 for build 505\n");
+	printf("      \t\t\t6 for build 573\t7 for build 617\n");
+	printf("      \t\t\t8 for build 678\t9 for build 757 (default)");
 	printf("    -p\t\tScript plateform.\n");
 	printf("      \t\t0 for PC (default)\n");
 	printf("      \t\t1 for PS3\n");
@@ -96,7 +97,7 @@ int main(int a_iArgCount, char** a_pszArgs)
 
 		if(l_pCommandLine->getVal("-v") == 0)
 		{
-			l_pCommandLine->setVal("-v", "3");
+			l_pCommandLine->setVal("-v", "9");
 		}
 
 		if(l_pCommandLine->getVal("-p") == 0)

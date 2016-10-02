@@ -117,6 +117,7 @@
     <ClCompile Include="Instructions\instruction_switch.cpp" />
     <ClCompile Include="label_collector.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="natives_translation_tables.cpp" />
     <ClCompile Include="native_collector.cpp" />
     <ClCompile Include="scr_header.cpp" />
     <ClCompile Include="string_collector.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Instructions\instruction_switch.h" />
     <ClInclude Include="label_collector.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="natives_translation_tables.h" />
     <ClInclude Include="native_collector.h" />
     <ClInclude Include="scr_header.h" />
     <ClInclude Include="string_collector.h" />

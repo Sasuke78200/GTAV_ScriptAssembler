@@ -223,6 +223,9 @@ void Disassembler::PrintInstructionsToFile(char* a_szOutputPath)
 	std::vector<Instruction*>::iterator it;
 	std::ofstream l_OutputFile(a_szOutputPath);
 
+	l_OutputFile.write("// Disassembled by Sasuke78200\n", 31);
+
+
 	for(it = this->m_Instructions.begin(); it != this->m_Instructions.end(); it++)
 	{
 		if((*it)->getName() == "enter" && (*it)->getAddress() != 0) // function starting, let's print a new line

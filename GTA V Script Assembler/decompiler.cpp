@@ -227,7 +227,6 @@ void Decompiler::CollectFunctions()
 		if((*it)->getName() == "enter")
 		{
 			m_functionCollector.NewFunction();
-			//printf("Function at -> 0x%08X\n", (*it)->getAddress());
 		}
 		m_functionCollector.AddInstruction(*it);
 	}
@@ -243,7 +242,7 @@ bool Decompiler::BuildAST()
 	l_iFunctionCount = m_functionCollector.getCount();
 
 	// we're only going to decompile the first function
-	l_iFunctionCount = 1;
+	return BuildAstForFunction(1);
 
 	for(i = 0; i < l_iFunctionCount; i++)
 	{
@@ -253,139 +252,169 @@ bool Decompiler::BuildAST()
 	return true;
 }
 
-std::vector<BasicBlock*> 
+std::vector<BasicBlock*>
 	Decompiler::generateBasicBlocks(std::vector<Instruction*>* a_pFunction)
 {
-	std::vector<BasicBlock*>				l_BasicBlocks;
-	std::vector<std::pair<int, int>>		l_Addresses;
-	std::vector<Instruction*>::iterator		it;
-	std::vector<int>						m_labels;
-	int										l_iCurrentAddress;
-	unsigned int							i;
+	std::vector<BasicBlock*>			l_BasicBlocks;
+	std::vector<int>					l_JmpDest;
+	std::vector<Instruction*>::iterator it;
+
+	if(!a_pFunction)
+		return l_BasicBlocks;
+
+	
 
 	for(it = a_pFunction->begin(); it != a_pFunction->end(); it++)
 	{
 		if((*it)->getOpcode() >= 85 && (*it)->getOpcode() <= 92)
 		{
-			m_labels.push_back(((InstructionJmp*)*it)->getJumpAddress());
+			int l_iDestAddr = ((InstructionJmp*)*it)->getJumpAddress();
+
+			if(std::find(l_JmpDest.begin(), l_JmpDest.end(), l_iDestAddr) == l_JmpDest.end())
+			{
+				l_JmpDest.push_back(l_iDestAddr);
+			}
 		}		
 	}
-	std::sort(m_labels.begin(), m_labels.end());
+	
 
-	// function entry point address
-	l_iCurrentAddress = (*a_pFunction->begin())->getAddress();	
-	it = a_pFunction->begin();
-	i = 0;
-
-
-	while(l_iCurrentAddress < (a_pFunction->back())->getAddress() + getOpcodeLen(a_pFunction->back()->getOpcode()))
-	{
-		int l_iLabelAddr = -1, l_iJmpAddr = -1;
-
-		while(i < m_labels.size())
-		{
-			if(m_labels[i] > l_iCurrentAddress)
-			{
-				l_iLabelAddr = m_labels[i];
-				break;
-			}
-			i++;
-		}
-
-		while(it != a_pFunction->end())
-		{
-			if((*it)->getAddress() >= l_iCurrentAddress)
-			{
-				if((*it)->getOpcode() >= 85 && (*it)->getOpcode() <= 92 || (*it)->getOpcode() == 46) // jmp or ret
-				{
-					 l_iJmpAddr = (*it)->getAddress();
-					 break;
-				}
-			}
-			it++;
-		}
-
-		if(l_iLabelAddr < l_iJmpAddr && l_iLabelAddr != -1)
-		{
-			l_Addresses.push_back(std::pair<int, int>(l_iCurrentAddress, l_iLabelAddr));
-			//printf("Block start %08X\n", l_iCurrentAddress);
-			//printf("Block end %08X\n", l_iLabelAddr);
-			l_iCurrentAddress = l_iLabelAddr;
-		}
-		else if(l_iJmpAddr != -1)
-		{
-			l_Addresses.push_back(std::pair<int, int>(l_iCurrentAddress, l_iJmpAddr + getOpcodeLenByAddr(l_iJmpAddr)));
-			//printf("Block start %08X\n", l_iCurrentAddress);
-			//printf("Block end %08X\n", l_iJmpAddr + getOpcodeLenByAddr(l_iJmpAddr));
-			l_iCurrentAddress = l_iJmpAddr + getOpcodeLenByAddr(l_iJmpAddr);
-		}
-	}
-
-
-	for(i = 0; i < l_Addresses.size(); i++)
-	{
-		BasicBlock* l_pBlock = new BasicBlock();
-
-		for(it = a_pFunction->begin(); it != a_pFunction->end(); it++)
-		{
-			if((*it)->getAddress() >= l_Addresses[i].second) break;
-			if((*it)->getAddress() >= l_Addresses[i].first)
-			{
-				l_pBlock->addInstruction(*it);
-			}
-		}
-		l_BasicBlocks.push_back(l_pBlock);
-	}
-
-	std::vector<BasicBlock*>::iterator block_it;
-	std::vector<BasicBlock*>::iterator block_start;
-
-	// TODO: Optimize this
-
-	for(block_it = l_BasicBlocks.begin(); block_it != l_BasicBlocks.end(); block_it++)
-	{
-		Instruction* l_pFirst, *l_pLast;
-		BasicBlock* l_pBlock = *block_it;
-		
-		l_pFirst	= l_pBlock->getInstructions()->front();
-		l_pLast		= l_pBlock->getInstructions()->back();
-
-		if(l_pBlock->hasJmp())
-		{
-			for(i = 0; i < l_BasicBlocks.size(); i++)
-			{
-				
-				// jump location
-				if(((InstructionJmp*)l_pLast)->getJumpAddress() == l_BasicBlocks[i]->getInstructions()->front()->getAddress())
-				{
-					l_pBlock->addSuccessor(l_BasicBlocks[i]);
-					l_BasicBlocks[i]->setPredecessor(l_pBlock);
-				}
-				
-				// not jumping locatation
-				if(l_pBlock->hasUnconditionnalJmp() == false)
-				{
-					if(l_BasicBlocks[i]->getInstructions()->front()->getAddress() == (l_pLast->getAddress() + getOpcodeLen(l_pLast->getOpcode())))
-					{
-						l_BasicBlocks[i]->setPredecessor(l_pBlock);
-						l_pBlock->addSuccessor(l_BasicBlocks[i]);
-					}
-				}
-			}
-		}
-		else
-		{
-			if(block_it != l_BasicBlocks.end() - 1)
-			{
-				l_pBlock->addSuccessor(*(block_it + 1));
-				(*(block_it + 1))->setPredecessor(l_pBlock);
-			}			
-		}
-	}
-
-	//TODO: Free those basic blocks !
 	return l_BasicBlocks;
 }
+
+
+//std::vector<BasicBlock*> 
+//	Decompiler::generateBasicBlocks(std::vector<Instruction*>* a_pFunction)
+//{
+//	std::vector<BasicBlock*>				l_BasicBlocks;
+//	std::vector<std::pair<int, int>>		l_Addresses;
+//	std::vector<Instruction*>::iterator		it;
+//	std::vector<int>						m_labels;
+//	int										l_iCurrentAddress;
+//	unsigned int							i;
+//
+//	for(it = a_pFunction->begin(); it != a_pFunction->end(); it++)
+//	{
+//		if((*it)->getOpcode() >= 85 && (*it)->getOpcode() <= 92)
+//		{
+//			m_labels.push_back(((InstructionJmp*)*it)->getJumpAddress());
+//		}		
+//	}
+//	std::sort(m_labels.begin(), m_labels.end());
+//
+//	// function entry point address
+//	l_iCurrentAddress = (*a_pFunction->begin())->getAddress();	
+//	it = a_pFunction->begin();
+//	i = 0;
+//
+//
+//	while(l_iCurrentAddress < (a_pFunction->back())->getAddress() + getOpcodeLen(a_pFunction->back()->getOpcode()))
+//	{
+//		int l_iLabelAddr = -1, l_iJmpAddr = -1;
+//
+//		while(i < m_labels.size())
+//		{
+//			if(m_labels[i] > l_iCurrentAddress)
+//			{
+//				l_iLabelAddr = m_labels[i];
+//				break;
+//			}
+//			i++;
+//		}
+//
+//		while(it != a_pFunction->end())
+//		{
+//			if((*it)->getAddress() >= l_iCurrentAddress)
+//			{
+//				if((*it)->getOpcode() >= 85 && (*it)->getOpcode() <= 92 || (*it)->getOpcode() == 46) // jmp or ret
+//				{
+//					 l_iJmpAddr = (*it)->getAddress();
+//					 break;
+//				}
+//			}
+//			it++;
+//		}
+//
+//		if(l_iLabelAddr < l_iJmpAddr && l_iLabelAddr != -1)
+//		{
+//			l_Addresses.push_back(std::pair<int, int>(l_iCurrentAddress, l_iLabelAddr));
+//			//printf("Block start %08X\n", l_iCurrentAddress);
+//			//printf("Block end %08X\n", l_iLabelAddr);
+//			l_iCurrentAddress = l_iLabelAddr;
+//		}
+//		else if(l_iJmpAddr != -1)
+//		{
+//			l_Addresses.push_back(std::pair<int, int>(l_iCurrentAddress, l_iJmpAddr + getOpcodeLenByAddr(l_iJmpAddr)));
+//			//printf("Block start %08X\n", l_iCurrentAddress);
+//			//printf("Block end %08X\n", l_iJmpAddr + getOpcodeLenByAddr(l_iJmpAddr));
+//			l_iCurrentAddress = l_iJmpAddr + getOpcodeLenByAddr(l_iJmpAddr);
+//		}
+//	}
+//
+//
+//	for(i = 0; i < l_Addresses.size(); i++)
+//	{
+//		BasicBlock* l_pBlock = new BasicBlock();
+//
+//		for(it = a_pFunction->begin(); it != a_pFunction->end(); it++)
+//		{
+//			if((*it)->getAddress() >= l_Addresses[i].second) break;
+//			if((*it)->getAddress() >= l_Addresses[i].first)
+//			{
+//				l_pBlock->addInstruction(*it);
+//			}
+//		}
+//		l_BasicBlocks.push_back(l_pBlock);
+//	}
+//
+//	std::vector<BasicBlock*>::iterator block_it;
+//	std::vector<BasicBlock*>::iterator block_start;
+//
+//	// TODO: Optimize this
+//
+//	for(block_it = l_BasicBlocks.begin(); block_it != l_BasicBlocks.end(); block_it++)
+//	{
+//		Instruction* l_pFirst, *l_pLast;
+//		BasicBlock* l_pBlock = *block_it;
+//		
+//		l_pFirst	= l_pBlock->getInstructions()->front();
+//		l_pLast		= l_pBlock->getInstructions()->back();
+//
+//		if(l_pBlock->hasJmp())
+//		{
+//			for(i = 0; i < l_BasicBlocks.size(); i++)
+//			{
+//				
+//				// jump location
+//				if(((InstructionJmp*)l_pLast)->getJumpAddress() == l_BasicBlocks[i]->getBlockAddress())
+//				{
+//					l_pBlock->addSuccessor(l_BasicBlocks[i]);
+//					l_BasicBlocks[i]->setPredecessor(l_pBlock);
+//				}
+//				
+//				// not jumping locatation
+//				if(l_pBlock->hasUnconditionnalJmp() == false)
+//				{
+//					if(l_BasicBlocks[i]->getBlockAddress() == (l_pLast->getAddress() + getOpcodeLen(l_pLast->getOpcode())))
+//					{
+//						l_BasicBlocks[i]->setPredecessor(l_pBlock);
+//						l_pBlock->addSuccessor(l_BasicBlocks[i]);
+//					}
+//				}
+//			}
+//		}
+//		else
+//		{
+//			if(block_it != l_BasicBlocks.end() - 1)
+//			{
+//				l_pBlock->addSuccessor(*(block_it + 1));
+//				(*(block_it + 1))->setPredecessor(l_pBlock);
+//			}			
+//		}
+//	}
+//
+//	//TODO: Free those basic blocks !
+//	return l_BasicBlocks;
+//}
 
 bool Decompiler::BuildAstForFunction(int a_iIndex)
 {
@@ -399,28 +428,35 @@ bool Decompiler::BuildAstForFunction(int a_iIndex)
 	{
 		BasicBlock* l_pBlock = l_BasicBlocks[i];
 
-		printf("Block at %X\n", l_pBlock->getInstructions()->front()->getAddress());
+		printf("Block at %X - edges %d\n", l_pBlock->getBlockAddress(), l_pBlock->getEdgesCount());
 
-		for(unsigned int j = 0; j < l_pBlock->getSuccessors()->size(); j ++)
+		for(unsigned int j = 0; j < l_pBlock->getEdgesCount(); j ++)
 		{
-			printf("\t- Block at %X\n", l_pBlock->getSuccessors()->at(j)->getInstructions()->front()->getAddress());
+			printf("\t- Successor at %X\n", l_pBlock->getSuccessors()->at(j)->getBlockAddress());
 		}
 	}
 
+	// Now we do some control flow
 
+	for(unsigned int i = 0; i < l_BasicBlocks.size(); i++)
+	{
+		BasicBlock* l_pBlock = l_BasicBlocks[i];
 
+		if(l_pBlock->getEdgesCount() == 2)
+		{
+			if(l_pBlock->getSuccessors()->at(0)->getEdgesCount() == 1 && 
+			l_pBlock->getSuccessors()->at(1)->getEdgesCount())
+			{
 
-
-
+			}
+		}
+	}
 
 	if((*l_pFunction->begin())->getName() != "enter" && l_pFunction->back()->getName() != "ret")
 	{
 		// we can't compute the function
 		return false;
 	}
-
-
-
 	return true;
 }
 

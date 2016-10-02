@@ -21,6 +21,9 @@
 #include "rapidjson/filereadstream.h"
 
 
+// translation tables for natives
+#include "natives_translation_tables.h"
+
 // collectors
 #include "label_collector.h"
 #include "native_collector.h"

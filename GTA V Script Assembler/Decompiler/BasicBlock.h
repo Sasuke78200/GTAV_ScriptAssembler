@@ -21,6 +21,9 @@ public:
 	void						setIsVisited(bool a_bVisited);
 	bool						hasBeenVisited();
 
+	int							getBlockAddress();
+	int							getEdgesCount();
+
 private:
 
 	BasicBlock*					m_pPredecessor;

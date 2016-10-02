@@ -66,3 +66,13 @@ bool BasicBlock::hasBeenVisited()
 {
 	return this->m_bVisited;
 }
+
+int BasicBlock::getBlockAddress()
+{
+	return this->m_Instructions.front()->getAddress();
+}
+
+int BasicBlock::getEdgesCount()
+{
+	return this->m_Successors.size();
+}
