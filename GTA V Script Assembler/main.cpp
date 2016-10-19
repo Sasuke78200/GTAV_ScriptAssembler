@@ -18,7 +18,8 @@ void ShowHelp()
 	printf("      \t\t\t2 for build 372\t3 for build 393\n");
 	printf("      \t\t\t4 for build 463\t5 for build 505\n");
 	printf("      \t\t\t6 for build 573\t7 for build 617\n");
-	printf("      \t\t\t8 for build 678\t9 for build 757 (default)");
+	printf("      \t\t\t8 for build 678\t9 for build 757");
+	printf("      \t\t\t10 for build 791\t11 for build 877 (default)");
 	printf("    -p\t\tScript plateform.\n");
 	printf("      \t\t0 for PC (default)\n");
 	printf("      \t\t1 for PS3\n");
@@ -97,7 +98,7 @@ int main(int a_iArgCount, char** a_pszArgs)
 
 		if(l_pCommandLine->getVal("-v") == 0)
 		{
-			l_pCommandLine->setVal("-v", "9");
+			l_pCommandLine->setVal("-v", "11");
 		}
 
 		if(l_pCommandLine->getVal("-p") == 0)

@@ -430,7 +430,7 @@ bool Decompiler::BuildAstForFunction(int a_iIndex)
 
 		printf("Block at %X - edges %d\n", l_pBlock->getBlockAddress(), l_pBlock->getEdgesCount());
 
-		for(unsigned int j = 0; j < l_pBlock->getEdgesCount(); j ++)
+		for(unsigned int j = 0; j < (unsigned int)l_pBlock->getEdgesCount(); j ++)
 		{
 			printf("\t- Successor at %X\n", l_pBlock->getSuccessors()->at(j)->getBlockAddress());
 		}
