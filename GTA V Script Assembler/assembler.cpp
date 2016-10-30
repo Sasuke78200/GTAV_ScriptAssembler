@@ -168,7 +168,7 @@ bool Assembler::CollectNativesHashes()
 
 	if(l_iNativeVersion > 0)
 	{
-		m_NativeCollector.translateHash(l_iNativeVersion - 1);
+		m_NativeCollector.translateHashForward(l_iNativeVersion - 1);
 	}
 	return true;
 }

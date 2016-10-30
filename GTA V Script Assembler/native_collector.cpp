@@ -148,7 +148,7 @@ void NativeCollector::translateHash(int a_iVersion)
 }
 */
 
-void NativeCollector::translateHash(int a_iVersion)
+void NativeCollector::translateHashBackward(int a_iVersion)
 {
 	std::vector<Native*>::iterator it;
 	int i, j;
@@ -157,8 +157,6 @@ void NativeCollector::translateHash(int a_iVersion)
 	if(a_iVersion == 0) return;
 
 	l_iNativesCount = this->m_natives.size();
-
-//	unsigned __int64 follow = 0xa9b6c2a8f9fe269a;
 
 	for(i = a_iVersion; i >= 0; i--)
 	{
@@ -169,11 +167,6 @@ void NativeCollector::translateHash(int a_iVersion)
 			{
 				if((*it)->m_ullNativeHash == g_ullNativesHashTranslationTable[i][j][1])
 				{
-//					if(follow == (*it)->m_ullNativeHash)
-//					{
-//						printf("0x%llX -> 0x%llX\n", follow, g_ullNativesHashTranslationTable[i][j][0]);
-//						follow = g_ullNativesHashTranslationTable[i][j][0];
-//					}
 					(*it)->m_ullNativeHash = g_ullNativesHashTranslationTable[i][j][0];
 					l_iNativePasses++;
 					break;
@@ -181,6 +174,36 @@ void NativeCollector::translateHash(int a_iVersion)
 			}
 		}
 	}
+}
+
+void NativeCollector::translateHashForward(int a_iVersion)
+{
+	std::vector<Native*>::iterator it;
+	int i, j;
+	unsigned int l_iNativesCount;
+	// we're reading 335 hashes, so we don't need to translate them.
+	if(a_iVersion == 0) return;
+
+	l_iNativesCount = this->m_natives.size();
+
+	for(i = 0; i < a_iVersion; i++)
+	{
+		unsigned int l_iNativePasses = 0;
+		for(j = 0; j < (sizeof(g_ullNativesHashTranslationTable[i])/2) / sizeof(unsigned __int64) && l_iNativesCount != l_iNativePasses; j++)
+		{
+			for(it = this->m_natives.begin(); it != this->m_natives.end(); it++)
+			{
+				if((*it)->m_ullNativeHash == g_ullNativesHashTranslationTable[i][j][0])
+				{
+					
+					(*it)->m_ullNativeHash = g_ullNativesHashTranslationTable[i][j][1];
+					l_iNativePasses++;
+					break;
+				}
+			}
+		}
+	}
+	
 }
 
 
@@ -209,7 +232,7 @@ void NativeCollector::importFromBinary(scrHeader* a_pScrHeader)
 
 	if(l_iNativeVersion > 0)
 	{
-		translateHash(l_iNativeVersion - 1);
+		translateHashBackward(l_iNativeVersion - 1);
 	}	
 
 

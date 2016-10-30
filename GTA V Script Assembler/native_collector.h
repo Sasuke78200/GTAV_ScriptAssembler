@@ -33,7 +33,8 @@ public:
 	Native*				getNative(int a_iIndex);
 	int					getCount();
 	bool				retrieveHashes();
-	void				translateHash(int a_iVersion);
+	void				translateHashBackward(int a_iVersion);
+	void				translateHashForward(int a_iVersion);
 	void				importFromBinary(scrHeader* a_pScrHeader);
 	void				retrieveNames();
 
