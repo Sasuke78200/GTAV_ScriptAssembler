@@ -20,7 +20,7 @@ void ShowHelp()
 	printf("      \t\t\t6 for build 573\t7 for build 617\n");
 	printf("      \t\t\t8 for build 678\t9 for build 757");
 	printf("      \t\t\t10 for build 791\t11 for build 877");
-	printf("      \t\t\t12 for build 944");
+	printf("      \t\t\t12 for build 944\t13 for build 1011 (default)");
 	printf("    -p\t\tScript plateform.\n");
 	printf("      \t\t0 for PC (default)\n");
 	printf("      \t\t1 for PS3\n");
@@ -99,7 +99,7 @@ int main(int a_iArgCount, char** a_pszArgs)
 
 		if(l_pCommandLine->getVal("-v") == 0)
 		{
-			l_pCommandLine->setVal("-v", "12");
+			l_pCommandLine->setVal("-v", "13");
 		}
 
 		if(l_pCommandLine->getVal("-p") == 0)
